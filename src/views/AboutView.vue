@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1 className="text-3xl font-bold underline">Hello world!</h1>
+    <h1 className="text-3xl font-bold underline">你好世界!</h1>
   </div>
 </template>
 
