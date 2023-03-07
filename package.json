@@ -12,6 +12,7 @@
   "dependencies": {
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
+    "material-icons": "^1.13.2",
     "pinia": "^2.0.32",
     "vite-plugin-eslint": "^1.8.1",
     "vue": "^3.2.47",
