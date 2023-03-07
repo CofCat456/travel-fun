@@ -13,7 +13,7 @@ module.exports = {
         'cc-other-5': '#D4D4D4',
         'cc-other-6': '#E9E9E9',
         'cc-other-7': '#F7F7F7',
-        'cc-other-8': '#181818/80'
+        'cc-other-8': 'rgba(24, 24, 24, 0.8);'
       }
     }
   },
