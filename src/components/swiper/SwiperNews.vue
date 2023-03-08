@@ -32,8 +32,8 @@ const modules = [Navigation];
         :slides-per-view="3"
         :space-between="24"
         :navigation="{
-          prevEl: '.swiper-custom-prev',
-          nextEl: '.swiper-custom-next'
+          prevEl: '.swiper-news-custom-prev',
+          nextEl: '.swiper-news-custom-next'
         }"
         loop
       >
@@ -41,7 +41,7 @@ const modules = [Navigation];
           <NewCard v-bind="item" />
         </SwiperSlide>
       </Swiper>
-      <CustomNavigation />
+      <CustomNavigation classkey="news" />
     </div>
   </div>
 </template>

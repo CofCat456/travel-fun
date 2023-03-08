@@ -1,8 +1,23 @@
+<script setup>
+const props = defineProps({
+  classkey: {
+    type: String,
+    default: ''
+  }
+});
+</script>
+
 <template>
-  <button class="swiper-btn swiper-btn-shadow swiper-custom-prev group left-0 -translate-x-full">
+  <button
+    class="swiper-btn swiper-btn-shadow group left-0 -translate-x-full"
+    :class="`swiper-${props.classkey}-custom-prev`"
+  >
     <img src="/icons/left-arrow.svg" alt="left-arrow-icon" class="icon-hover mx-auto" />
   </button>
-  <button class="swiper-btn swiper-btn-shadow swiper-custom-next group right-0 translate-x-full">
+  <button
+    class="swiper-btn swiper-btn-shadow group right-0 translate-x-full"
+    :class="`swiper-${props.classkey}-custom-next`"
+  >
     <img src="/icons/right-arrow.svg" alt="left-arrow-icon" class="icon-hover mx-auto" />
   </button>
 </template>
