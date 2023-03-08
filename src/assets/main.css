@@ -33,16 +33,19 @@
 
 @layer components {
   .text-title {
-    @apply font-serif text-[28px] font-bold leading-[1.2] sm:text-5xl;
+    @apply text-[28px] font-bold leading-[1.2] sm:text-5xl;
   }
   .text-sec-title {
-    @apply font-serif text-base font-bold leading-[1.2] sm:text-[28px];
+    @apply text-base font-bold leading-[1.2] sm:text-[28px];
   }
   .text-area-title {
     @apply text-lg leading-normal;
   }
   .icon-hover {
-    @apply cursor-pointer transition-transform duration-300 hover:scale-110;
+    @apply cursor-pointer transition-transform duration-300 hover:scale-110 group-hover:scale-110;
+  }
+  .swiper-btn {
+    @apply absolute top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-white text-cc-other-9;
   }
 }
 
@@ -50,6 +53,7 @@ body {
   letter-spacing: 0.125rem;
   font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
     Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  color: #181818;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

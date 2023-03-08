@@ -5,11 +5,11 @@ import Search from './Search.vue';
 <template>
   <!-- TODO: 裁減圖片 -->
   <div
-    class="relative h-[360px] w-full bg-cover bg-top px-3 py-8 flex items-end"
+    class="relative mb-[104px] flex h-[360px] w-full items-end bg-cover bg-top px-3 py-8"
     style="background-image: url(/images/banner.png)"
   >
     <div
-      class="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center text-white"
+      class="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center font-serif text-white"
     >
       <h1 class="text-title mb-4 flex flex-col justify-center sm:flex-row lg:gap-6">
         <span>旅遊趣</span>

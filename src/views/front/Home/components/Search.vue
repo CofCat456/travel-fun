@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="search-shadow sm:absolute sm:left-1/2 flex w-full sm:-translate-x-1/2 items-center rounded-[5px] bg-white py-3 px-5 sm:bottom-0 sm:max-w-[640px] sm:translate-y-1/2"
+    class="search-shadow flex w-full items-center rounded-[5px] bg-white py-3 px-5 sm:absolute sm:left-1/2 sm:bottom-0 sm:max-w-[640px] sm:-translate-x-1/2 sm:translate-y-1/2"
   >
     <input
       type="text"
