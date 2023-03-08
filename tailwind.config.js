@@ -18,6 +18,9 @@ module.exports = {
         'cc-other-7': '#F7F7F7',
         'cc-other-8': 'rgba(24, 24, 24, 0.8);',
         'cc-other-9': '#32302C'
+      },
+      borderRadius: {
+        m: '5px'
       }
     }
   },
