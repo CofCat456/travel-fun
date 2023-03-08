@@ -33,10 +33,10 @@
 
 @layer components {
   .text-title {
-    @apply text-5xl font-bold leading-[1.2];
+    @apply font-serif text-[28px] font-bold leading-[1.2] sm:text-5xl;
   }
   .text-sec-title {
-    @apply text-[28px] font-bold leading-[1.2];
+    @apply font-serif text-base font-bold leading-[1.2] sm:text-[28px];
   }
   .text-area-title {
     @apply text-lg leading-normal;
