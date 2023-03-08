@@ -5,8 +5,8 @@ import Search from './Search.vue';
 <template>
   <!-- TODO: 裁減圖片 -->
   <div
-    class="relative mb-[104px] flex h-[360px] w-full items-end bg-cover bg-top px-3 py-8"
-    style="background-image: url(/images/banner.png)"
+    class="relative mb-[104px] flex h-[360px] w-full items-end bg-cover px-3 py-8"
+    style="background-image: url(/images/banner.jpg); background-position: center -100px"
   >
     <div
       class="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center font-serif text-white"
