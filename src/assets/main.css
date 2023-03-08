@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -33,10 +33,10 @@
 
 @layer components {
   .text-title {
-    @apply text-5xl leading-[1.2];
+    @apply text-5xl font-bold leading-[1.2];
   }
   .text-sec-title {
-    @apply text-[28px] leading-[1.2];
+    @apply text-[28px] font-bold leading-[1.2];
   }
   .text-area-title {
     @apply text-lg leading-normal;

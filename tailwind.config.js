@@ -3,6 +3,9 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,vue}'],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['Noto Serif TC', 'serif']
+      },
       colors: {
         'cc-primary': '#0F4BB4',
         'cc-accent': '#EE5220',
