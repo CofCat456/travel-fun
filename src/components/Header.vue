@@ -11,7 +11,7 @@ import HamburgerBtn from './HamburgerBtn.vue';
   >
     <div class="flex w-full justify-between px-3 lg:max-w-[1296px] lg:px-2">
       <HamburgerBtn />
-      <div class="flex items-center justify-between gap-8 lg:w-[526px]">
+      <div class="flex items-center gap-8 lg:w-[526px]">
         <Logo />
         <ul class="hidden h-full flex-1 items-center gap-1 lg:flex">
           <li class="h-full flex-1">

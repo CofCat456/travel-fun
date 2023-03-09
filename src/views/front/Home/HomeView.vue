@@ -5,6 +5,7 @@ import SwiperNewProduct from '@/components/swiper/SwiperNewProduct.vue';
 
 import Banner from './components/Banner.vue';
 import HotCity from './components/HotCity.vue';
+import Member from './components/Member.vue';
 
 import { mockNews, mockTop10, mockNewProducts, mockHotCitys } from './_Context';
 </script>
@@ -27,5 +28,6 @@ import { mockNews, mockTop10, mockNewProducts, mockHotCitys } from './_Context';
     <div class="bg-cc-other-7 pb-20 pt-12">
       <HotCity :hot-citys="mockHotCitys" />
     </div>
+    <Member />
   </main>
 </template>

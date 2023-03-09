@@ -3,9 +3,8 @@ import Search from './Search.vue';
 </script>
 
 <template>
-  <!-- TODO: 裁減圖片 -->
   <div
-    class="relative mb-[104px] flex h-[360px] w-full items-end bg-cover px-3 py-8"
+    class="relative mb-[104px] flex h-[360px] w-full items-end bg-cover bg-no-repeat px-3 py-8"
     style="background-image: url(/images/banner.jpg); background-position: center -100px"
   >
     <div
