@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps({
+defineProps({
   shopCartNum: {
     type: Number,
     default: 0
@@ -13,7 +13,7 @@ const props = defineProps({
     <div
       class="absolute -right-3 -top-3 m-0 h-full w-full rounded-full bg-cc-accent p-0 text-center text-white"
     >
-      {{ props.shopCartNum }}
+      {{ shopCartNum }}
     </div>
   </div>
 </template>

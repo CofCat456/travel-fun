@@ -5,7 +5,7 @@ import App from './App.vue';
 import router from './router';
 
 import './assets/main.css';
-import 'material-icons/iconfont/material-icons.css';
+import 'material-icons/iconfont/outlined.css';
 
 const app = createApp(App);
 
