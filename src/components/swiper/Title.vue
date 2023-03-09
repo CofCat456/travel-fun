@@ -2,11 +2,11 @@
 const props = defineProps({
   title: {
     type: String,
-    default: '最新旅遊優惠'
+    default: ''
   },
   secTitle: {
     type: String,
-    default: '旅行變得更簡單！我們提供最新的旅遊優惠，讓您輕鬆規劃完美的旅程！'
+    default: ''
   }
 });
 </script>

@@ -13,10 +13,10 @@ import Container from '@/Layout/Container.vue';
 
 import Title from './Title.vue';
 import CustomNavigation from './CustomNavigation.vue';
-import NewCard from '../card/NewCard.vue';
+import ProductCard from '../card/ProductCard.vue';
 
 const props = defineProps({
-  news: {
+  top10: {
     type: Array,
     default: () => []
   }
@@ -27,26 +27,29 @@ const modules = [Navigation];
 
 <template>
   <Container>
-    <Title
-      title="最新旅遊優惠"
-      sec-title="旅行變得更簡單！我們提供最新的旅遊優惠，讓您輕鬆規劃完美的旅程！"
-    />
+    <Title title="Top 10 商品" sec-title="尋找最受歡迎的商品嗎？別再猶豫，立刻挑選！" />
     <div class="relative px-4">
       <Swiper
         :modules="modules"
-        :slides-per-view="3"
+        :slides-per-view="6"
         :space-between="24"
         :navigation="{
-          prevEl: '.swiper-news-custom-prev',
-          nextEl: '.swiper-news-custom-next'
+          prevEl: '.swiper-top10-custom-prev',
+          nextEl: '.swiper-top10-custom-next'
         }"
         loop
       >
-        <SwiperSlide v-for="item in props.news" :key="item.title">
-          <NewCard v-bind="item" />
+        <SwiperSlide v-for="(item, index) in props.top10" :key="item.title">
+          <ProductCard v-bind="item" :ranking="index + 1" />
         </SwiperSlide>
       </Swiper>
-      <CustomNavigation classkey="news" />
-    </div> </Container
-  >t
+      <CustomNavigation classkey="top10" />
+    </div>
+  </Container>
 </template>
+
+<style scoped>
+:deep .swiper-btn {
+  top: calc(50% - (120px + 8px) / 2);
+}
+</style>

@@ -9,15 +9,15 @@ const props = defineProps({
 
 <template>
   <button
-    class="swiper-btn swiper-btn-shadow group left-0 -translate-x-full"
+    class="swiper-btn swiper-btn-shadow left-0 -translate-x-full"
     :class="`swiper-${props.classkey}-custom-prev`"
   >
-    <img src="/icons/left-arrow.svg" alt="left-arrow-icon" class="icon-hover mx-auto" />
+    <img src="/icons/left-arrow.svg" alt="left-arrow-icon" class="mx-auto" />
   </button>
   <button
-    class="swiper-btn swiper-btn-shadow group right-0 translate-x-full"
+    class="swiper-btn swiper-btn-shadow right-0 translate-x-full"
     :class="`swiper-${props.classkey}-custom-next`"
   >
-    <img src="/icons/right-arrow.svg" alt="left-arrow-icon" class="icon-hover mx-auto" />
+    <img src="/icons/right-arrow.svg" alt="left-arrow-icon" class="mx-auto" />
   </button>
 </template>

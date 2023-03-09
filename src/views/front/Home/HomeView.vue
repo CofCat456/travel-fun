@@ -1,18 +1,22 @@
 <script setup>
-import Container from '@/Layout/Container.vue';
 import SwiperNews from '@/components/swiper/SwiperNews.vue';
+import SwiperTop10 from '@/components/swiper/SwiperTop10.vue';
 
 import Banner from './components/Banner.vue';
 
-import { mockNews } from './_Context';
+import { mockNews, mockTop10 } from './_Context';
 </script>
 
 <template>
   <main class="min-h-[200vh] bg-cc-other-7">
     <Banner />
-    <Container>
-      <SwiperNews :news="mockNews" />
-    </Container>
-    <img src="/images/home-bg.png" alt="travel world fun" class="-z-10 -translate-y-8" />
+    <SwiperNews :news="mockNews" />
+    <img
+      src="/images/travel-the-world.png"
+      alt="travel world fun"
+      class="-z-10 -translate-y-8 mb-4"
+    />
+    <SwiperTop10 :top10="mockTop10" />
+    <img src="/images/home-bg.png" alt="home bg" class="mt-[50px] mb-[65px]" loading="lazy" />
   </main>
 </template>
