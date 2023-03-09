@@ -4,8 +4,8 @@ import Search from './Search.vue';
 
 <template>
   <div
-    class="relative mb-[104px] flex h-[360px] w-full items-end bg-cover bg-no-repeat px-3 py-8"
-    style="background-image: url(/images/banner.jpg); background-position: center -100px"
+    class="relative mb-12 flex h-[360px] w-full items-end bg-cover bg-center bg-no-repeat px-3 py-8 md:mb-[104px] lg:bg-[center_-100px]"
+    style="background-image: url(/images/banner.jpg)"
   >
     <div
       class="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center font-serif text-white"

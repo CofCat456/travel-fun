@@ -2,7 +2,6 @@
 import { currency } from '@/utlis/global';
 
 import FavouriteIcon from '../icons/FavouriteIcon.vue';
-import LocationIcon from '../icons/LocationIcon.vue';
 import FullStarIcon from '../icons/FullStarIcon.vue';
 
 defineProps({
@@ -57,10 +56,15 @@ defineProps({
     <div class="absolute top-[10px] right-[10px] text-white">
       <FavouriteIcon :status="collectStatus" />
     </div>
-    <div class="mb-2 aspect-square w-full" :style="`background-image: url(${image})`"></div>
+    <div
+      class="mb-2 aspect-square w-full bg-cover bg-center"
+      :style="`background-image: url(${image})`"
+    />
     <div class="flex h-[120px] w-full flex-col gap-1 px-1">
       <div class="inline-flex gap-[6px] text-sm text-cc-other-4">
-        <LocationIcon />
+        <template>
+          <span class="material-icons-outlined icon-hover"> location_on </span>
+        </template>
         {{ location }}
       </div>
       <p class="flex-1 text-sm leading-normal line-clamp-2">{{ title }}</p>

@@ -121,24 +121,6 @@ export const mockTop10 = [
     price: 1200,
     originprice: 1800,
     image: '/images/top-10/top10_4.png'
-  },
-  {
-    title: '2023 澎湖花火節 限定花火船',
-    location: '澎湖',
-    evaluate: 5,
-    evaluateTotal: 23,
-    price: 399,
-    originprice: 599,
-    image: '/images/top-10/top10_5.png'
-  },
-  {
-    title: '桃園 Xpark 水族館門票',
-    location: '桃園',
-    evaluate: 4,
-    evaluateTotal: 23,
-    price: 399,
-    originprice: 599,
-    image: '/images/top-10/top10_6.png'
   }
 ];
 
@@ -232,24 +214,6 @@ export const mockNewProducts = [
     price: 1200,
     originprice: 1800,
     image: '/images/top-10/top10_4.png'
-  },
-  {
-    title: '2023 澎湖花火節 限定花火船',
-    location: '澎湖',
-    evaluate: 5,
-    evaluateTotal: 23,
-    price: 399,
-    originprice: 599,
-    image: '/images/top-10/top10_5.png'
-  },
-  {
-    title: '桃園 Xpark 水族館門票',
-    location: '桃園',
-    evaluate: 4,
-    evaluateTotal: 23,
-    price: 399,
-    originprice: 599,
-    image: '/images/top-10/top10_6.png'
   }
 ];
 

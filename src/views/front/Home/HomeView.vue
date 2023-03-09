@@ -13,21 +13,26 @@ import { mockNews, mockTop10, mockNewProducts, mockHotCitys } from './_Context';
 <template>
   <main>
     <Banner />
-    <SwiperNews :news="mockNews" />
+    <div class="mb-[48px] md:mb-0">
+      <SwiperNews :news="mockNews" />
+    </div>
     <img
       src="/images/travel-the-world.png"
       alt="travel world fun"
-      class="-z-10 mb-4 -translate-y-8"
+      class="-z-10 mb-4 hidden -translate-y-8 md:block"
     />
     <SwiperTop10Product :top10="mockTop10" />
-    <img src="/images/home-bg.png" alt="home bg" class="mt-[50px] mb-[65px]" loading="lazy" />
+    <img
+      src="/images/home-bg.png"
+      alt="home bg"
+      class="my-[48px] md:mt-[50px] md:mb-[65px]"
+      loading="lazy"
+    />
     <SwiperNewProduct :new-products="mockNewProducts" />
     <div class="text-center">
-      <button type="button" class="btn my-[50px]">查看更多</button>
+      <button type="button" class="btn my-6 md:my-[50px]">查看更多</button>
     </div>
-    <div class="bg-cc-other-7 pb-20 pt-12">
-      <HotCity :hot-citys="mockHotCitys" />
-    </div>
+    <HotCity :hot-citys="mockHotCitys" />
     <Member />
   </main>
 </template>
