@@ -1,4 +1,5 @@
 <script setup>
+// TODO: icon hover kkday
 const props = defineProps({
   classkey: {
     type: String,
@@ -21,3 +22,9 @@ const props = defineProps({
     <img src="/icons/right-arrow.svg" alt="left-arrow-icon" class="mx-auto" />
   </button>
 </template>
+
+<style scoped>
+.swiper-btn-shadow {
+  box-shadow: 0px 0px 4px 0px #0000001f;
+}
+</style>

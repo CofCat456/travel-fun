@@ -142,7 +142,7 @@ export const mockTop10 = [
   }
 ];
 
-export const mockNewProduct = [
+export const mockNewProducts = [
   {
     title: '【台灣南部最大動物園】高雄壽山動物園門票',
     location: '高雄',
@@ -250,6 +250,34 @@ export const mockNewProduct = [
     price: 399,
     originprice: 599,
     image: '/images/top-10/top10_6.png'
+  }
+];
+
+export const mockHotCitys = [
+  {
+    name: '高雄',
+    enName: 'Kaohsiung',
+    image: '/images/city/city_kaohsiung.jpg'
+  },
+  {
+    name: '台南',
+    enName: 'Tainan',
+    image: '/images/city/city_tainan.jpg'
+  },
+  {
+    name: '台中',
+    enName: 'Taichung',
+    image: '/images/city/city_taichung.jpg'
+  },
+  {
+    name: '澎湖',
+    enName: 'Penghu',
+    image: '/images/city/city_penghu.jpg'
+  },
+  {
+    name: '嘉義',
+    enName: 'Chiayi',
+    image: '/images/city/city_chiayi.jpg'
   }
 ];
 

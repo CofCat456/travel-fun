@@ -7,7 +7,7 @@ import HamburgerBtn from './HamburgerBtn.vue';
 
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-10 flex justify-center bg-black/30 py-3 text-white backdrop-blur-[25px]"
+    class="fixed top-0 left-0 right-0 z-50 flex justify-center bg-black/30 py-3 text-white backdrop-blur-[25px]"
   >
     <div class="flex w-full justify-between px-3 lg:max-w-[1296px] lg:px-2">
       <HamburgerBtn />
