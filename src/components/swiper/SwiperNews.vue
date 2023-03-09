@@ -15,7 +15,7 @@ import Title from './Title.vue';
 import CustomNavigation from './CustomNavigation.vue';
 import NewCard from '../card/NewCard.vue';
 
-const props = defineProps({
+defineProps({
   news: {
     type: Array,
     default: () => []
@@ -42,7 +42,7 @@ const modules = [Navigation];
         }"
         loop
       >
-        <SwiperSlide v-for="item in props.news" :key="item.title">
+        <SwiperSlide v-for="item in news" :key="item.title">
           <NewCard v-bind="item" />
         </SwiperSlide>
       </Swiper>

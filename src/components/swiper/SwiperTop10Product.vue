@@ -15,7 +15,7 @@ import Title from './Title.vue';
 import CustomNavigation from './CustomNavigation.vue';
 import ProductCard from '../card/ProductCard.vue';
 
-const props = defineProps({
+defineProps({
   top10: {
     type: Array,
     default: () => []
@@ -39,7 +39,7 @@ const modules = [Navigation];
         }"
         loop
       >
-        <SwiperSlide v-for="(item, index) in props.top10" :key="item.title">
+        <SwiperSlide v-for="(item, index) in top10" :key="item.title">
           <ProductCard v-bind="item" :ranking="index + 1" />
         </SwiperSlide>
       </Swiper>
