@@ -1,6 +1,6 @@
 <script setup>
 import SwiperNews from '@/components/swiper/SwiperNews.vue';
-import SwiperTop10 from '@/components/swiper/SwiperTop10.vue';
+import SwiperTop10Product from '@/components/swiper/SwiperTop10Product.vue';
 
 import Banner from './components/Banner.vue';
 
@@ -16,7 +16,7 @@ import { mockNews, mockTop10 } from './_Context';
       alt="travel world fun"
       class="-z-10 -translate-y-8 mb-4"
     />
-    <SwiperTop10 :top10="mockTop10" />
+    <SwiperTop10Product :top10="mockTop10" />
     <img src="/images/home-bg.png" alt="home bg" class="mt-[50px] mb-[65px]" loading="lazy" />
   </main>
 </template>
