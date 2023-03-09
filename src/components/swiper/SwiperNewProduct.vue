@@ -61,12 +61,6 @@ const onSlideChange = (swiper) => {
             slidesPerGroup: 1,
             speed: 300
           },
-          '@0.50': {
-            slidesPerView: 3,
-            spaceBetween: 24,
-            slidesPerGroup: 3,
-            speed: 600
-          },
           '@0.75': {
             slidesPerView: 4,
             spaceBetween: 24,
