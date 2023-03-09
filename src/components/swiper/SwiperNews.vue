@@ -47,6 +47,6 @@ const modules = [Navigation];
         </SwiperSlide>
       </Swiper>
       <CustomNavigation classkey="news" />
-    </div> </Container
-  >t
+    </div>
+  </Container>
 </template>

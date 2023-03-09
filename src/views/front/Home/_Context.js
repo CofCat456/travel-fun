@@ -142,4 +142,115 @@ export const mockTop10 = [
   }
 ];
 
+export const mockNewProduct = [
+  {
+    title: '【台灣南部最大動物園】高雄壽山動物園門票',
+    location: '高雄',
+    evaluate: 5,
+    evaluateTotal: 23,
+    price: 399,
+    originprice: 599,
+    image: '/images/top-10/top10_1.png'
+  },
+  {
+    title: '日月潭 SUP立式划槳體驗',
+    location: '南投',
+    evaluate: 5,
+    evaluateTotal: 23,
+    price: 399,
+    originprice: 599,
+    image: '/images/top-10/top10_2.png'
+  },
+  {
+    title: '台北 101 觀景台門票',
+    location: '台北',
+    evaluate: 3.5,
+    evaluateTotal: 23,
+    price: 420,
+    originprice: 420,
+    image: '/images/top-10/top10_3.png'
+  },
+  {
+    title: '墾丁南勇潛水中心｜潛水體驗課程',
+    location: '屏東',
+    evaluate: 5,
+    evaluateTotal: 23,
+    price: 1200,
+    originprice: 1800,
+    image: '/images/top-10/top10_4.png'
+  },
+  {
+    title: '2023 澎湖花火節 限定花火船',
+    location: '澎湖',
+    evaluate: 5,
+    evaluateTotal: 23,
+    price: 399,
+    originprice: 599,
+    image: '/images/top-10/top10_5.png'
+  },
+  {
+    title: '桃園 Xpark 水族館門票',
+    location: '桃園',
+    evaluate: 4,
+    evaluateTotal: 23,
+    price: 399,
+    originprice: 599,
+    image: '/images/top-10/top10_6.png'
+  },
+  {
+    title: '【台灣南部最大動物園】高雄壽山動物園門票',
+    location: '高雄',
+    evaluate: 5,
+    evaluateTotal: 23,
+    price: 399,
+    originprice: 599,
+    image: '/images/top-10/top10_1.png'
+  },
+  {
+    title: '日月潭 SUP立式划槳體驗',
+    location: '南投',
+    evaluate: 5,
+    evaluateTotal: 23,
+    price: 399,
+    originprice: 599,
+    image: '/images/top-10/top10_2.png'
+  },
+  {
+    title: '台北 101 觀景台門票',
+    location: '台北',
+    evaluate: 3.5,
+    evaluateTotal: 23,
+    price: 420,
+    originprice: 420,
+    image: '/images/top-10/top10_3.png'
+  },
+  {
+    title: '墾丁南勇潛水中心｜潛水體驗課程',
+    location: '屏東',
+    evaluate: 5,
+    evaluateTotal: 23,
+    price: 1200,
+    originprice: 1800,
+    image: '/images/top-10/top10_4.png'
+  },
+  {
+    title: '2023 澎湖花火節 限定花火船',
+    location: '澎湖',
+    evaluate: 5,
+    evaluateTotal: 23,
+    price: 399,
+    originprice: 599,
+    image: '/images/top-10/top10_5.png'
+  },
+  {
+    title: '桃園 Xpark 水族館門票',
+    location: '桃園',
+    evaluate: 4,
+    evaluateTotal: 23,
+    price: 399,
+    originprice: 599,
+    image: '/images/top-10/top10_6.png'
+  }
+];
+
 export default {};
