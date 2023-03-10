@@ -2,11 +2,11 @@
 
 <template>
   <div
-    class="search-shadow flex w-full items-center rounded-m bg-white py-3 md:px-5 px-3 md:absolute md:left-1/2 md:bottom-0 md:max-w-[640px] md:-translate-x-1/2 md:translate-y-1/2"
+    class="search-shadow flex w-full items-center gap-2 rounded-m bg-white py-3 px-3 md:absolute md:left-1/2 md:bottom-0 md:max-w-[640px] md:-translate-x-1/2 md:translate-y-1/2 md:px-5"
   >
     <input
       type="text"
-      class="flex-1 focus-visible:outline-none"
+      class="w-0 flex-1 focus-visible:outline-none"
       placeholder="搜尋你想去的目的地 / 城市"
     />
     <button type="button" class="rounded-m bg-cc-accent px-6 py-[10.5px] text-white">搜尋</button>

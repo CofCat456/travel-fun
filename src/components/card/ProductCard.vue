@@ -82,7 +82,7 @@ defineProps({
 </template>
 
 <style scoped>
-:deep .material-icons-outlined {
+:deep(.material-icons-outlined) {
   font-size: 20px;
 }
 </style>

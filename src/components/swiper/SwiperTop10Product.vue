@@ -90,7 +90,7 @@ const onSlideChange = (swiper) => {
 </template>
 
 <style scoped>
-:deep .swiper-btn {
+:deep(.swiper-btn) {
   top: calc(50% - (120px + 8px) / 2);
 }
 </style>
