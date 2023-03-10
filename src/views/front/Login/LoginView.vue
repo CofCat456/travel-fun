@@ -1,27 +1,42 @@
 <script setup>
+import { useField, useForm } from 'vee-validate';
+import { computed, ref } from 'vue';
+import * as yup from 'yup';
+
 import Container from '@/Layout/Container.vue';
 
-import { useField, useForm } from 'vee-validate';
-import { computed } from 'vue';
-import * as yup from 'yup';
+import { apiUserSignin } from '@/utlis/api';
 
 const { handleSubmit, errors } = useForm({
   validationSchema: yup.object({
-    user: yup.object({
-      account: yup.string().email('請輸入正確的 Email 格式 ㅍ_ㅍ!!').required('請輸入 Email !!'),
-      password: yup.string('').min(6, '密碼長度不得小於 6').required('請輸入密碼!!')
-    })
+    username: yup.string().email('請輸入正確的 Email 格式 ㅍ_ㅍ!!').required('請輸入 Email !!'),
+    password: yup.string('').min(6, '密碼長度不得小於 6').required('請輸入密碼!!')
   })
 });
 
-const { value: account } = useField('user.account');
-const { value: password } = useField('user.password');
+const { value: username } = useField('username');
+const { value: password } = useField('password');
+const isRememberMe = ref(false);
 
-const isAcoountError = computed(() => Object.hasOwn(errors.value, 'user.account'));
-const isPasswordError = computed(() => Object.hasOwn(errors.value, 'user.password'));
+const isUserNameError = computed(() => Object.hasOwn(errors.value, 'username'));
+const isPasswordError = computed(() => Object.hasOwn(errors.value, 'password'));
 
 const onSubmit = handleSubmit((values) => {
-  console.log(values);
+  apiUserSignin({ ...values })
+    .then((res) => {
+      const {
+        data: { success, token, expired }
+      } = res;
+
+      console.log(res);
+
+      if (success && isRememberMe.value) {
+        document.cookie = `token=${token};expires=${new Date(expired)};`;
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 </script>
 
@@ -57,21 +72,21 @@ const onSubmit = handleSubmit((values) => {
                       </svg>
                     </div>
                     <input
-                      id="email-input"
+                      id="username-input"
                       type="email"
                       class="border-1 relative block w-full rounded-m p-2.5 pl-10 ring-1 ring-inset focus:z-10 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-[1.5]"
                       :class="
-                        isAcoountError
+                        isUserNameError
                           ? 'border-red-500 text-red-900 placeholder-red-700 ring-red-500 focus:border-red-500 focus:ring-red-500'
                           : 'border-transparent ring-cc-other-5 placeholder:text-cc-other-4 focus:ring-cc-primary'
                       "
                       placeholder="name@google.com"
-                      v-model="account"
+                      v-model="username"
                     />
                   </div>
                   <p class="mt-2 text-red-600">
                     <span class="text-sm font-medium leading-normal">
-                      {{ errors['user.account'] }}</span
+                      {{ errors['username'] }}</span
                     >
                   </p>
                 </div>
@@ -112,7 +127,7 @@ const onSubmit = handleSubmit((values) => {
                   </div>
                   <p class="mt-2 text-red-600">
                     <span class="text-sm font-medium leading-normal">
-                      {{ errors['user.password'] }}</span
+                      {{ errors['password'] }}</span
                     >
                   </p>
                 </div>
@@ -124,6 +139,7 @@ const onSubmit = handleSubmit((values) => {
                   type="checkbox"
                   name="remember-me"
                   class="h-4 w-4 rounded border-cc-other-3 text-cc-primary focus:ring-cc-primary"
+                  v-model="isRememberMe"
                 />
                 <label for="remember-me" class="ml-2 block text-sm text-gray-900">記住我</label>
               </div>
