@@ -31,7 +31,6 @@ const isBeginning = ref(true);
 const isEnd = ref(false);
 
 const onSwiper = (swiper) => {
-  console.log(swiper);
   isBeginning.value = swiper.isBeginning;
   isEnd.value = swiper.isEnd;
 };

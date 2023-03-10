@@ -19,7 +19,7 @@ import { socialMedia } from '../utlis/context';
         </li>
       </ul>
     </div>
-    <p class="text-sm text-center text-cc-other-3">
+    <p class="text-center text-sm text-cc-other-3">
       此網站僅做為前端 Side Project 作品練習，不做商業用途，請勿用於商業用途，謝謝！
     </p>
   </footer>

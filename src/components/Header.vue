@@ -1,18 +1,31 @@
 <script setup>
+import { computed } from 'vue';
+import { RouterLink, useRouter, useRoute } from 'vue-router';
+
 import Logo from './Logo.vue';
 import FavouriteIcon from './icons/FavouriteIcon.vue';
 import ShopCartIcon from './icons/ShopCartIcon.vue';
 import HamburgerBtn from './HamburgerBtn.vue';
+
+const route = useRoute();
+const router = useRouter();
+
+const goLogin = () => router.push({ name: 'Login' });
+
+const isHome = computed(() => route.name === 'Home');
 </script>
 
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-50 flex justify-center bg-black/30 px-6 py-3 text-white backdrop-blur-[25px] lg:px-2"
+    class="top-0 z-50 flex justify-center bg-black/30 px-6 py-3 text-white backdrop-blur-[25px]"
+    :class="isHome ? 'fixed left-0 right-0' : 'sticky'"
   >
     <div class="flex w-full justify-between lg:max-w-[1296px]">
       <HamburgerBtn />
       <div class="flex items-center gap-8 lg:w-[526px]">
-        <Logo />
+        <RouterLink :to="{ name: 'Home' }">
+          <Logo />
+        </RouterLink>
         <ul class="hidden h-full flex-1 items-center gap-1 lg:flex">
           <li class="h-full flex-1">
             <button type="button" class="h-full w-28 rounded-[100px] border border-white">
@@ -36,6 +49,7 @@ import HamburgerBtn from './HamburgerBtn.vue';
         <button
           type="button"
           class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-other-8 px-4 py-2 text-base transition-colors duration-300 hover:bg-cc-accent lg:flex"
+          @click="goLogin()"
         >
           <span class="material-icons-outlined h-6 w-6"> person_filled </span>
           登入 / 註冊
