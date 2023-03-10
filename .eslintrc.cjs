@@ -26,6 +26,12 @@ module.exports = {
   },
   plugins: ['vue'],
   rules: {
+    'no-param-reassign': [
+      'error',
+      {
+        ignorePropertyModificationsFor: ['config']
+      }
+    ],
     semi: ['error', 'always'],
     'vue/multi-word-component-names': 'off'
   }

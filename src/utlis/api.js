@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+import { token } from './global';
+
 const { VITE_URL } = import.meta.env;
 
-const userRequest = axios.create({
+const request = axios.create({
   baseURL: VITE_URL
 });
 
@@ -31,18 +33,32 @@ export const errorMsg = (title, text) =>
     text
   });
 
-userRequest.interceptors.response.use(
+request.interceptors.request.use(
+  async (config) => {
+    if (token) {
+      config.headers.Authorization = token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+request.interceptors.response.use(
   (res) => {
     switch (res.status) {
       default:
-        successMsg(res?.data?.message);
+        if (res?.data?.message) {
+          successMsg(res?.data?.message);
+        }
         return Promise.resolve(res);
     }
   },
   (error) => {
     switch (error.response.status) {
       default:
-        errorMsg(error?.response);
+        errorMsg(error?.response?.data?.message);
         return Promise.reject(error);
     }
   }
@@ -50,10 +66,12 @@ userRequest.interceptors.response.use(
 
 const api = {
   user: {
-    login: '/admin/signin'
+    sigin: '/admin/signin',
+    checkSigin: '/api/user/check'
   }
 };
 
-export const apiUserSignin = (data) => userRequest.post(api.user.login, data);
+export const apiUserSignin = (data) => request.post(api.user.sigin, data);
+export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
 
 export default {};

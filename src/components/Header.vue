@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { RouterLink, useRouter, useRoute } from 'vue-router';
 
+import { useUserStore } from '@/stores/user';
+
 import Logo from './Logo.vue';
 import FavouriteIcon from './icons/FavouriteIcon.vue';
 import ShopCartIcon from './icons/ShopCartIcon.vue';
@@ -9,6 +11,8 @@ import HamburgerBtn from './HamburgerBtn.vue';
 
 const route = useRoute();
 const router = useRouter();
+
+const user = useUserStore();
 
 const goLogin = () => router.push({ name: 'Login' });
 
@@ -47,6 +51,16 @@ const isHome = computed(() => route.name === 'Home');
           <FavouriteIcon />
         </div>
         <button
+          v-if="user.loginStatus"
+          type="button"
+          class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-accent px-4 py-2 text-base lg:flex"
+          @click="goLogin()"
+        >
+          <span class="material-icons-outlined h-6 w-6"> person_filled </span>
+          會員專區
+        </button>
+        <button
+          v-else
           type="button"
           class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-other-8 px-4 py-2 text-base transition-colors duration-300 hover:bg-cc-accent lg:flex"
           @click="goLogin()"
