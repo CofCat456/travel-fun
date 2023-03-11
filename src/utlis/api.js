@@ -58,7 +58,9 @@ request.interceptors.response.use(
   (error) => {
     switch (error.response.status) {
       default:
-        errorMsg(error?.response?.data?.message);
+        if (error?.response?.data?.message) {
+          errorMsg(error?.response?.data?.message);
+        }
         return Promise.reject(error);
     }
   }
