@@ -47,10 +47,10 @@ const onSubmit = handleSubmit((values) => {
 </script>
 
 <template>
-  <Container>
+  <Container center>
     <div class="flex h-full items-center justify-center">
       <div
-        class="flex w-full flex-1 justify-center shadow-lg sm:rounded-lg border border-cc-other-5"
+        class="flex w-full flex-1 justify-center border border-cc-other-5 shadow-lg sm:rounded-lg"
       >
         <div class="p-6 sm:p-12 lg:w-1/2 xl:w-5/12">
           <img src="@/assets/logo.svg" class="mx-auto w-10" />
@@ -158,7 +158,7 @@ const onSubmit = handleSubmit((values) => {
               >
                 <svg
                   v-if="isLoading"
-                  class="animate-spin h-6 w-6 py-1 text-white"
+                  class="h-6 w-6 animate-spin py-1 text-white"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"

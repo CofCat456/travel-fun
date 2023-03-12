@@ -6,7 +6,7 @@
   >
     <input
       type="text"
-      class="w-0 border-0 ring-0 flex-1 focus:outline-0 focus:ring-0 focus-visible:outline-none"
+      class="w-0 flex-1 border-0 ring-0 focus:outline-0 focus:ring-0 focus-visible:outline-none"
       placeholder="搜尋你想去的目的地 / 城市"
     />
     <button type="button" class="rounded-m bg-cc-accent px-6 py-[10.5px] text-white">搜尋</button>

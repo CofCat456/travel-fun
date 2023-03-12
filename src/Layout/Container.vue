@@ -1,7 +1,14 @@
-<script setup></script>
+<script setup>
+defineProps({
+  center: {
+    type: Boolean,
+    default: false
+  }
+});
+</script>
 
 <template>
-  <div class="mx-auto h-full w-full px-3 md:px-4 lg:max-w-[1328px] xl:px-0">
+  <div class="mx-auto w-full px-3 md:px-4 lg:max-w-[1296px] xl:px-0" :class="center && 'h-full'">
     <slot></slot>
   </div>
 </template>

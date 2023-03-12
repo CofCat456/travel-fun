@@ -11,7 +11,6 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import Container from '@/Layout/Container.vue';
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
 import Title from './Title.vue';
@@ -19,6 +18,10 @@ import CustomNavigation from './CustomNavigation.vue';
 import ProductCard from '../card/ProductCard.vue';
 
 defineProps({
+  secTitle: {
+    type: String,
+    default: ''
+  },
   top10: {
     type: Array,
     default: () => []
@@ -41,9 +44,9 @@ const onSlideChange = (swiper) => {
 </script>
 
 <template>
-  <Container>
-    <Title title="Top 10 商品" sec-title="尋找最受歡迎的商品嗎？別再猶豫，立刻挑選！" />
-    <SwiperLayout>
+  <SwiperLayout>
+    <Title title="Top 10 商品" :sec-title="secTitle" />
+    <template v-slot:swiper>
       <Swiper
         :modules="modules"
         :slides-per-view="6"
@@ -85,8 +88,8 @@ const onSlideChange = (swiper) => {
         </SwiperSlide>
       </Swiper>
       <CustomNavigation classkey="top10" :is-beginning="isBeginning" :is-end="isEnd" />
-    </SwiperLayout>
-  </Container>
+    </template>
+  </SwiperLayout>
 </template>
 
 <style scoped>

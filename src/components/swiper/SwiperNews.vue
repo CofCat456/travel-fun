@@ -11,7 +11,6 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import Container from '@/Layout/Container.vue';
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
 import Title from './Title.vue';
@@ -41,12 +40,13 @@ const onSlideChange = (swiper) => {
 </script>
 
 <template>
-  <Container>
+  <SwiperLayout>
     <Title
       title="最新旅遊優惠"
       sec-title="旅行變得更簡單！我們提供最新的旅遊優惠，讓您輕鬆規劃完美的旅程！"
     />
-    <SwiperLayout>
+
+    <template v-slot:swiper>
       <Swiper
         :modules="modules"
         :slides-per-view="3"
@@ -89,8 +89,8 @@ const onSlideChange = (swiper) => {
         </SwiperSlide>
       </Swiper>
       <CustomNavigation classkey="news" :is-beginning="isBeginning" :is-end="isEnd" />
-    </SwiperLayout>
-  </Container>
+    </template>
+  </SwiperLayout>
 </template>
 
 <style scoped>

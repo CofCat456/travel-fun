@@ -16,7 +16,7 @@ const props = defineProps({
     <div class="mt-2 h-2 w-2 bg-cc-primary" />
     <div>
       <h3 class="mb-2 font-bold">{{ props.title }}</h3>
-      <h6 class="break-all text-cc-other-4">{{ props.secTitle }}</h6>
+      <h6 v-if="secTitle" class="break-all text-cc-other-4">{{ props.secTitle }}</h6>
     </div>
   </div>
 </template>

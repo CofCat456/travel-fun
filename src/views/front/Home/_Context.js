@@ -42,7 +42,7 @@ export const mockTop10 = [
     image: '/images/top-10/top10_1.png'
   },
   {
-    title: '日月潭 SUP立式划槳體驗',
+    title: '日月潭 SUP 立式划槳體驗',
     location: '南投',
     evaluate: 5,
     evaluateTotal: 23,

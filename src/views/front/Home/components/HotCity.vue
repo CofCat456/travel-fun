@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 import Container from '@/Layout/Container.vue';
 import Title from '@/components/swiper/Title.vue';
@@ -11,6 +12,8 @@ const props = defineProps({
   }
 });
 
+const router = useRouter();
+
 // TODO: 資料來源
 
 const mainCity = computed(() => {
@@ -20,6 +23,8 @@ const mainCity = computed(() => {
 const otherCity = computed(() => {
   return props.hotCitys.slice(1);
 });
+
+const goCity = (cityName) => router.push(`/city/${cityName.toLowerCase()}`);
 </script>
 
 <template>
@@ -27,7 +32,10 @@ const otherCity = computed(() => {
     <Container>
       <Title title="熱門城市" sec-title="探索最熱門的城市，發現更多令人驚嘆的旅程！" />
       <div v-if="hotCitys" class="grid grid-rows-2 gap-3 md:grid-flow-col md:gap-6">
-        <div class="relative col-span-2 row-span-2 overflow-hidden rounded">
+        <div
+          class="relative col-span-2 row-span-2 overflow-hidden rounded"
+          @click="goCity(mainCity.enName)"
+        >
           <img
             :src="mainCity.image"
             :alt="mainCity.name"
