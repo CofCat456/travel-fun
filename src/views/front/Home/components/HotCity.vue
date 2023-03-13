@@ -53,7 +53,6 @@ const goCity = (cityName) => router.push(`/city/${cityName.toLowerCase()}`);
             class="h-full w-full cursor-pointer object-cover transition-transform duration-500"
             loading="lazy"
           />
-
           <div class="absolute left-3 bottom-3 font-bold text-white">
             <p class="text-area-title mb-1">{{ city.name }}</p>
             <p class="text-sm">{{ city.enName }}</p>

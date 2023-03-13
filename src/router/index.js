@@ -21,6 +21,11 @@ const router = createRouter({
           path: 'city/:cityName',
           name: 'City',
           component: () => import('../views/front/City/CityView.vue')
+        },
+        {
+          path: 'product/:productId',
+          name: 'Product',
+          component: () => import('../views/front/Product/ProductView.vue')
         }
       ]
     }

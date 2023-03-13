@@ -75,5 +75,7 @@ const api = {
 
 export const apiUserSignin = (data) => request.post(api.user.sigin, data);
 export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
+export const apiCityData = () =>
+  axios.get('https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json');
 
 export default {};

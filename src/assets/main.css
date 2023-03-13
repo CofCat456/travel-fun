@@ -41,6 +41,9 @@
   .text-area-title {
     @apply text-lg leading-normal;
   }
+  .text-sm-content {
+    @apply text-sm leading-normal;
+  }
   .icon-hover {
     @apply cursor-pointer transition-transform duration-300 hover:scale-110;
   }
@@ -49,6 +52,12 @@
   }
   .btn {
     @apply rounded-m bg-cc-primary px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-cc-accent;
+  }
+  .product-map-card {
+    @apply relative z-10 min-w-full overflow-hidden rounded-m transition-opacity duration-300 hover:opacity-80;
+  }
+  .img {
+    @apply w-full object-cover object-center;
   }
 }
 

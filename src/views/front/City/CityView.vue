@@ -18,6 +18,7 @@ const getName = computed(() => cityMap.get(cityName));
 const getProducts = computed(() =>
   mockProducts.filter((product) => product.location === getName.value)
 );
+
 const getBreadcrumbs = computed(() => [
   {
     title: '首頁',
@@ -40,5 +41,5 @@ const getBreadcrumbs = computed(() => [
     <Breadcrumbs :breadcrumbs="getBreadcrumbs" />
   </Container>
   <div class="mt-12 mb-6"><SwiperTop10Product :top10="getProducts" /></div>
-  <KnowCity :city-name="getName" />
+  <KnowCity :city-name="getName" :products="getProducts" />
 </template>

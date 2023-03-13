@@ -49,7 +49,7 @@ defineProps({
     class="group relative flex cursor-pointer flex-col items-start transition-all duration-300 hover:brightness-[.8]"
   >
     <div
-      class="absolute left-0 top-0 h-[25px] w-[25px] rounded-br-m bg-cc-accent text-center text-sm leading-normal text-white"
+      class="text-sm-content absolute left-0 top-0 h-[25px] w-[25px] rounded-br-m bg-cc-accent text-center text-white"
     >
       {{ ranking }}
     </div>
@@ -67,13 +67,13 @@ defineProps({
         </template>
         {{ location }}
       </div>
-      <p class="flex-1 text-sm leading-normal line-clamp-2">{{ title }}</p>
+      <p class="text-sm-content flex-1 line-clamp-2">{{ title }}</p>
       <FullStarIcon :evaluate="evaluate" :evaluate-total="evaluateTotal" />
       <div class="inline-flex items-center gap-1">
         <h6>
           {{ currency(price, 'NT$ ') }}
         </h6>
-        <p class="text-sm leading-normal text-cc-other-4 line-through">
+        <p class="text-sm-content text-cc-other-4 line-through">
           {{ currency(price, '$') }}
         </p>
       </div>
