@@ -22,7 +22,7 @@ const isHome = computed(() => ['Home', 'City'].includes(route.name));
 
 <template>
   <header
-    class="top-0 z-50 flex justify-center bg-black/30 px-6 py-3 text-white backdrop-blur-[25px]"
+    class="top-0 z-20 flex justify-center bg-black/30 px-6 py-3 text-white backdrop-blur-[25px]"
     :class="isHome ? 'fixed left-0 right-0' : 'sticky'"
   >
     <Container>
