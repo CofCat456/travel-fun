@@ -1,13 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 
-// import Swiper core and required modules
 import { Navigation } from 'swiper';
 
-// Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 

@@ -34,7 +34,7 @@ const addMapMarker = (x, y, product) => {
   L.marker([x, y], {
     icon
   })
-    .addTo(map.value)
+    .addTo(toRaw(map.value))
     .bindPopup(
       `
             <a
@@ -65,7 +65,7 @@ const addMapMarker = (x, y, product) => {
               </div>
             </a>
 `,
-      { closeButton: false, maxWidth: 375 }
+      { closeButton: false, minWidth: 375 }
     );
 };
 
@@ -108,7 +108,7 @@ const penTo = (x, y, product) => {
               </div>
             </a>
 `,
-      { closeButton: false, maxWidth: 375 }
+      { closeButton: false, minWidth: 375 }
     )
     .openPopup();
 };
@@ -157,7 +157,7 @@ onMounted(() => {
                 penTo(product.geometry.coordinates[0], product.geometry.coordinates[1], product)
               "
             >
-              <div class="w-[120px] overflow-hidden">
+              <div class="aspect-square w-[120px] overflow-hidden">
                 <img :src="product.image" class="img" loading="lazy" :alt="product.title" />
               </div>
               <div class="flex min-w-0 flex-1 flex-col p-[10px]">

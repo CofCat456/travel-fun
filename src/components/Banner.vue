@@ -7,6 +7,10 @@ defineProps({
   center: {
     type: Boolean,
     default: true
+  },
+  multiply: {
+    type: Boolean,
+    default: false
   }
 });
 </script>
@@ -14,7 +18,7 @@ defineProps({
 <template>
   <div
     class="relative mb-12 flex h-[360px] w-full items-end bg-cover bg-center bg-no-repeat px-3 py-8 md:mb-5"
-    :class="!center && 'lg:bg-[center_-100px]'"
+    :class="[!center && 'lg:bg-[center_-100px]', multiply && 'bg-black/20 bg-blend-multiply']"
     :style="`background-image: url(${bgUrl})`"
   >
     <div

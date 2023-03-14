@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <nav class="flex" aria-label="Breadcrumb">
+  <nav class="mb-6 flex" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1">
       <li
         v-for="({ title, pathName }, index) in breadcrumbs"

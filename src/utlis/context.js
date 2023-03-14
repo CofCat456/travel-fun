@@ -18,7 +18,7 @@ export const socialMedia = [
 export const cityMap = new Map()
   .set('taipei', '台北')
   .set('keelung', '基隆')
-  .set('new-taipei', '新北')
+  .set('new-taipei', '新北市')
   .set('taoyuan', '桃園')
   .set('hsinchu', '新竹')
   .set('miaoli', '苗栗')
@@ -33,16 +33,7 @@ export const cityMap = new Map()
   .set('yilan', '宜蘭')
   .set('hualien', '花蓮')
   .set('taitung', '台東')
-  .set('penghu', '澎湖')
-  .set('kinmen', '金門')
-  .set('matsu', '馬祖')
-  .set('tamsui', '淡水')
-  .set('jiufen', '九份')
-  .set('pingxi', '平溪')
-  .set('ruifang', '瑞芳')
-  .set('alishan', '阿里山')
-  .set('kenting', '墾丁')
-  .set('taroko', '太魯閣');
+  .set('penghu', '澎湖');
 
 export const iconsConfig = {};
 

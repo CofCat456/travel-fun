@@ -57,7 +57,7 @@
     @apply relative z-10 min-w-full overflow-hidden rounded-m transition-opacity duration-300 hover:opacity-80;
   }
   .img {
-    @apply w-full object-cover object-center;
+    @apply h-full w-full object-cover object-center;
   }
 }
 

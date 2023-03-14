@@ -61,10 +61,8 @@ defineProps({
       :style="`background-image: url(${image})`"
     />
     <div class="flex h-[120px] w-full flex-col gap-1 px-1">
-      <div class="inline-flex gap-[6px] text-sm text-cc-other-4">
-        <template>
-          <span class="material-icons-outlined icon-hover"> location_on </span>
-        </template>
+      <div class="inline-flex gap-1 text-sm text-cc-other-4">
+        <span class="material-icons-outlined icon-hover"> location_on </span>
         {{ location }}
       </div>
       <p class="text-sm-content flex-1 line-clamp-2">{{ title }}</p>

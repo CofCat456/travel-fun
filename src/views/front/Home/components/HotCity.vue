@@ -33,7 +33,7 @@ const goCity = (cityName) => router.push(`/city/${cityName.toLowerCase()}`);
       <Title title="熱門城市" sec-title="探索最熱門的城市，發現更多令人驚嘆的旅程！" />
       <div v-if="hotCitys" class="grid grid-rows-2 gap-3 md:grid-flow-col md:gap-6">
         <div
-          class="relative col-span-2 row-span-2 overflow-hidden rounded"
+          class="relative col-span-2 row-span-2 overflow-hidden rounded-m"
           @click="goCity(mainCity.enName)"
         >
           <img
@@ -46,7 +46,12 @@ const goCity = (cityName) => router.push(`/city/${cityName.toLowerCase()}`);
             <p>{{ mainCity.enName }}</p>
           </div>
         </div>
-        <div v-for="city in otherCity" :key="city.name" class="relative overflow-hidden rounded">
+        <div
+          v-for="city in otherCity"
+          :key="city.name"
+          class="relative overflow-hidden rounded-m"
+          @click="goCity(city.enName)"
+        >
           <img
             :src="city.image"
             :alt="city.name"
