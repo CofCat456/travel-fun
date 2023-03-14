@@ -67,7 +67,9 @@ const onSlideChange = (swiper) => {
 
 <template>
   <SwiperLayout>
-    <Title :title="title" :sec-title="secTitle" />
+    <div class="mx-4">
+      <Title :title="title" :sec-title="secTitle" />
+    </div>
     <template v-slot:swiper>
       <Swiper
         :modules="modules"

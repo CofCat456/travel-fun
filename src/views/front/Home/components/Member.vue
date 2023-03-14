@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import { RouterLink } from 'vue-router';
+</script>
 
 <template>
   <div
@@ -16,7 +18,7 @@
       <p class="mb-4 text-center text-sm leading-5">
         當人們去旅行時，他們不僅僅是去看風景，更是去體驗不同的文化和風土人情，開拓視野和擴大人脈，旅行可以帶給人們豐富的體驗和回憶
       </p>
-      <button type="button" class="btn">成為會員</button>
+      <RouterLink :to="{ name: 'Login' }" class="btn">成為會員</RouterLink>
     </div>
   </div>
 </template>
