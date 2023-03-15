@@ -16,6 +16,7 @@ const router = useRouter();
 const user = useUserStore();
 
 const goLogin = () => router.push({ name: 'Login' });
+const goAdmin = () => router.push({ name: 'AdminHome' });
 
 const isHome = computed(() => ['Home', 'City'].includes(route.name));
 </script>
@@ -56,7 +57,7 @@ const isHome = computed(() => ['Home', 'City'].includes(route.name));
             v-if="user.loginStatus"
             type="button"
             class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-accent px-4 py-2 text-base lg:flex"
-            @click="goLogin()"
+            @click="goAdmin()"
           >
             <span class="material-icons-outlined h-6 w-6"> person_filled </span>
             會員專區
