@@ -1,8 +1,6 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-import { token } from './global';
-
 const { VITE_URL } = import.meta.env;
 
 const request = axios.create({
@@ -35,9 +33,11 @@ export const errorMsg = (title, text) =>
 
 request.interceptors.request.use(
   async (config) => {
-    if (token) {
-      config.headers.Authorization = token;
-    }
+    config.headers.Authorization = document.cookie.replace(
+      /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
+      '$1'
+    );
+    console.log(document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1'));
     return config;
   },
   (error) => {
@@ -68,14 +68,14 @@ request.interceptors.response.use(
 
 const api = {
   user: {
-    sigin: '/admin/signin',
+    signin: '/admin/signin',
+    logout: '/logout',
     checkSigin: '/api/user/check'
   }
 };
 
-export const apiUserSignin = (data) => request.post(api.user.sigin, data);
+export const apiUserSignin = (data) => request.post(api.user.signin, data);
+export const apiUserLogout = () => request.post(api.user.logout);
 export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
-export const apiCityData = () =>
-  axios.get('https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json');
 
 export default {};

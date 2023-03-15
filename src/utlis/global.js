@@ -6,6 +6,4 @@ export function currency(val, symbol = '') {
   return symbol + arr[0].replace(re, '$1,') + (arr.length === 2 ? `.${arr[1]}` : '');
 }
 
-export const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
-
 export default {};

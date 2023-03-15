@@ -1,6 +1,7 @@
 <script setup>
-import { useField, useForm } from 'vee-validate';
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 
 import Container from '@/Layout/Container.vue';
@@ -16,11 +17,11 @@ const { handleSubmit, errors } = useForm({
   })
 });
 
+const router = useRouter();
 const user = useUserStore();
 
 const { value: username } = useField('username');
 const { value: password } = useField('password');
-const isRememberMe = ref(false);
 const isLoading = ref(false);
 
 const isUserNameError = computed(() => Object.hasOwn(errors.value, 'username'));
@@ -34,11 +35,12 @@ const onSubmit = handleSubmit((values) => {
         data: { success, token, expired }
       } = res;
 
-      if (success && isRememberMe.value) {
+      if (success) {
         document.cookie = `token=${token};expires=${new Date(expired)};`;
       }
 
-      user.loginStatus = true;
+      router.push({ name: 'AdminHome' });
+      user.userSignin();
     })
     .finally(() => {
       isLoading.value = false;
@@ -48,7 +50,7 @@ const onSubmit = handleSubmit((values) => {
 
 <template>
   <Container center>
-    <div class="flex h-full items-center justify-center">
+    <div class="flex h-full items-center justify-center py-4">
       <div
         class="flex w-full flex-1 justify-center border border-cc-other-5 shadow-lg sm:rounded-lg"
       >
@@ -139,16 +141,17 @@ const onSubmit = handleSubmit((values) => {
                 </div>
               </div>
 
-              <div class="flex items-center">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  name="remember-me"
-                  class="h-4 w-4 rounded border-cc-other-3 text-cc-primary focus:ring-cc-primary"
-                  v-model="isRememberMe"
-                />
-                <label for="remember-me" class="ml-2 block text-sm text-gray-900">記住我</label>
-              </div>
+              <!-- <div class="flex items-center"> -->
+              <!--   <input -->
+              <!--     id="remember-me" -->
+              <!--     type="checkbox" -->
+              <!--     name="remember-me" -->
+              <!--     class="h-4 w-4 rounded border-cc-other-3 text-cc-primary focus:ring-cc-primary" -->
+              <!--     v-model="isRememberMe" -->
+              <!--   /> -->
+              <!--   <label for="remember-me" class="ml-2 block text-sm text-gray-900">記住我</label> -->
+              <!-- </div> -->
+              <!---->
 
               <button
                 type="submit"
