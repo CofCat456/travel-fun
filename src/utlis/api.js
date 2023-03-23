@@ -37,6 +37,7 @@ request.interceptors.request.use(
       /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
       '$1'
     );
+    console.log(config);
     console.log(document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1'));
     return config;
   },
@@ -71,11 +72,16 @@ const api = {
     signin: '/admin/signin',
     logout: '/logout',
     checkSigin: '/api/user/check'
+  },
+  admin: {
+    product: 'api/admin/product'
   }
 };
 
 export const apiUserSignin = (data) => request.post(api.user.signin, data);
 export const apiUserLogout = () => request.post(api.user.logout);
 export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
+
+export const apiAdminGetProducts = (page) => request.get(`${api.admin.product}s?page=${page}`);
 
 export default {};

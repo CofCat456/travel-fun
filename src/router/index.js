@@ -31,8 +31,19 @@ const router = createRouter({
     },
     {
       path: '/admin',
-      name: 'AdminHome',
-      component: () => import('../Layout/Dashboard.vue')
+      component: () => import('../Layout/Dashboard.vue'),
+      children: [
+        {
+          path: 'home',
+          name: 'AdminHome',
+          component: () => import('../views/admin/Home/AdminHome.vue')
+        },
+        {
+          path: 'products',
+          name: 'AdminProducts',
+          component: () => import('../views/admin/Products/AdminProducts.vue')
+        }
+      ]
     }
   ],
   scrollBehavior() {

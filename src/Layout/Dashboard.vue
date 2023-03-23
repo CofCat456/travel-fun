@@ -3,14 +3,17 @@ import { onMounted, provide, ref } from 'vue';
 import { useRouter, RouterView } from 'vue-router';
 
 import Header from '../components/admin/Header.vue';
+import Loading from '../components/Loading.vue';
+
 import { useUserStore } from '../stores/user';
 import { apiUserCheckSignin, apiUserLogout } from '../utlis/api';
-import Loading from '../components/Loading.vue';
 
 const router = useRouter();
 const user = useUserStore();
 
 const loading = ref(null);
+
+provide('loading', loading);
 
 const logout = async () => {
   loading.value.show();
@@ -46,12 +49,22 @@ const checkLogin = async () => {
 
 onMounted(() => {
   checkLogin();
-  provide('loading', loading);
 });
 </script>
 
 <template>
-  <Header @logout="logout" />
-  <RouterView />
+  <section class="flex h-full w-full">
+    <aside class="w-56">
+      <Header @logout="logout" />
+    </aside>
+    <main class="flex-1 bg-cc-other-7">
+      <div class="border-b py-6 px-10">
+        <h3>儀表板</h3>
+      </div>
+      <div class="py-6 px-10">
+        <RouterView v-if="user.loginStatus" />
+      </div>
+    </main>
+  </section>
   <Loading ref="loading" />
 </template>

@@ -6,8 +6,6 @@ import * as yup from 'yup';
 
 import Container from '@/Layout/Container.vue';
 
-import { useUserStore } from '@/stores/user';
-
 import { apiUserSignin } from '@/utlis/api';
 
 const { handleSubmit, errors } = useForm({
@@ -18,7 +16,6 @@ const { handleSubmit, errors } = useForm({
 });
 
 const router = useRouter();
-const user = useUserStore();
 
 const { value: username } = useField('username');
 const { value: password } = useField('password');
@@ -40,7 +37,6 @@ const onSubmit = handleSubmit((values) => {
       }
 
       router.push({ name: 'AdminHome' });
-      user.userSignin();
     })
     .finally(() => {
       isLoading.value = false;
@@ -58,9 +54,9 @@ const onSubmit = handleSubmit((values) => {
           <img src="@/assets/logo.svg" class="mx-auto w-10" />
           <div class="space-y-4 p-6 sm:p-8 md:space-y-6">
             <h3 class="text-center font-bold">登入您的帳戶</h3>
-            <form class="mt-8 space-y-6" @submit="onSubmit">
+            <form class="mt-8 space-y-4" @submit="onSubmit">
               <div class="-space-y-px rounded-md">
-                <div class="mb-6">
+                <div class="mb-3">
                   <label for="email-input" class="mb-2 block text-sm font-medium">您的帳號</label>
                   <div class="relative">
                     <div
@@ -92,14 +88,14 @@ const onSubmit = handleSubmit((values) => {
                       v-model="username"
                     />
                   </div>
-                  <p class="mt-2 text-red-600">
+                  <p class="h-6 pb-3 text-red-600">
                     <span class="text-sm font-medium leading-normal">
                       {{ errors['username'] }}</span
                     >
                   </p>
                 </div>
 
-                <div class="mb-6">
+                <div class="mb-3">
                   <label for="email-input" class="mb-2 block text-sm font-medium">您的密碼</label>
                   <div class="relative">
                     <div
@@ -133,30 +129,16 @@ const onSubmit = handleSubmit((values) => {
                       v-model="password"
                     />
                   </div>
-                  <p class="mt-2 text-red-600">
+                  <p class="mt-2 h-6 text-red-600">
                     <span class="text-sm font-medium leading-normal">
                       {{ errors['password'] }}</span
                     >
                   </p>
                 </div>
               </div>
-
-              <!-- <div class="flex items-center"> -->
-              <!--   <input -->
-              <!--     id="remember-me" -->
-              <!--     type="checkbox" -->
-              <!--     name="remember-me" -->
-              <!--     class="h-4 w-4 rounded border-cc-other-3 text-cc-primary focus:ring-cc-primary" -->
-              <!--     v-model="isRememberMe" -->
-              <!--   /> -->
-              <!--   <label for="remember-me" class="ml-2 block text-sm text-gray-900">記住我</label> -->
-              <!-- </div> -->
-              <!---->
-
               <button
                 type="submit"
-                class="btn group relative flex w-full items-center justify-center gap-2"
-                :class="isLoading && 'cursor-not-allowed'"
+                class="btn group relative flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed"
                 :disabled="isLoading"
               >
                 <svg
