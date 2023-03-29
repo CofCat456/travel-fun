@@ -9,6 +9,10 @@ const props = defineProps({
   noScroll: {
     type: Boolean,
     default: false
+  },
+  screen: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -58,8 +62,9 @@ onMounted(() => {
     <!-- Modal-Window -->
     <div
       :class="[
-        'h-full w-full overflow-hidden rounded-md bg-white',
+        'overflow-hidden rounded-md bg-white',
         showed ? 'scale-100' : 'scale-0',
+        screen ? 'h-full w-full' : '',
         'transition-all duration-300'
       ]"
     >

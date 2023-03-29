@@ -2,6 +2,8 @@
 import { inject, onMounted, ref } from 'vue';
 
 import Pagination from '@/components/admin/Pagination.vue';
+import Add from '@/components/admin/Add.vue';
+import ProductModal from '@/components/Modal/ProductModal.vue';
 
 import { apiAdminGetProducts } from '@/utlis/api';
 
@@ -9,6 +11,7 @@ const loading = inject('loading');
 
 const products = ref([]);
 const pagination = ref({});
+const showed = ref(false);
 
 const getProducts = async (page = 1) => {
   loading.value.show();
@@ -26,6 +29,10 @@ const getProducts = async (page = 1) => {
     loading.value.hide();
   }
 };
+
+function openModal() {
+  showed.value = true;
+}
 
 onMounted(() => {
   getProducts();
@@ -109,5 +116,7 @@ onMounted(() => {
       </tbody>
     </table>
     <Pagination v-bind="pagination" />
+    <Add @click="openModal" />
+    <ProductModal no-scroll :showModal="showed" @closing="showed = false" />
   </div>
 </template>

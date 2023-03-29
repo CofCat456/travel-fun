@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 
 import Container from '@/Layout/Container.vue';
 
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/Modal/Modal.vue';
 import ProductMap from '@/components/ProductMap.vue';
 
 const props = defineProps({
@@ -65,7 +65,7 @@ function openModal() {
         </div>
       </div>
     </Container>
-    <Modal no-scroll :showModal="showed" @closing="showed = false">
+    <Modal no-scroll screen :showModal="showed" @closing="showed = false">
       <template v-slot:content>
         <ProductMap :products="products" />
       </template>
