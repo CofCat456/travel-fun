@@ -1,22 +1,35 @@
 <script setup>
-defineProps({
-  currentPage: {
+const props = defineProps({
+  current_page: {
     type: Number,
     default: 1
   },
-  hasNext: {
+  has_next: {
     type: Boolean,
-    default: true
+    default: false
   },
-  hasPre: {
+  has_pre: {
     type: Boolean,
-    default: true
+    default: false
   },
-  totalPages: {
+  total_pages: {
     type: Number,
     default: 1
   }
 });
+
+const emit = defineEmits(['changePage']);
+
+const goPrev = () => {
+  if (!props.has_pre) return;
+  emit('changePage', props.current_page - 1);
+};
+
+const goNext = () => {
+  if (!props.has_next) return;
+  console.log('click');
+  emit('change-page', props.current_page + 1);
+};
 </script>
 
 <template>
@@ -27,16 +40,16 @@ defineProps({
       <div>
         <p class="text-sm text-cc-other-9">
           目前在第
-          <span class="font-medium">1</span>
+          <span class="font-medium">{{ current_page }}</span>
           頁 總共有
-          <span class="font-medium">{{ totalPages }}</span>
+          <span class="font-medium">{{ total_pages }}</span>
           頁
         </p>
       </div>
       <div>
         <nav class="isolate inline-flex gap-2 rounded-md shadow-sm" aria-label="Pagination">
-          <button :disabled="hasPre" class="btn">Previous</button>
-          <button :disabled="hasNext" class="btn">Next</button>
+          <button :disabled="!has_pre" class="btn" @click="goPrev">上一頁</button>
+          <button :disabled="!has_next" class="btn" @click="goNext">下一頁</button>
         </nav>
       </div>
     </div>

@@ -12,7 +12,7 @@ import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
 import Title from './Title.vue';
 import CustomNavigation from './CustomNavigation.vue';
-import ProductCard from '../card/ProductCard.vue';
+import ProductCard from '../Card/ProductCard.vue';
 
 defineProps({
   title: {

@@ -2,7 +2,7 @@
 import { onMounted, provide, ref } from 'vue';
 import { useRouter, RouterView } from 'vue-router';
 
-import Header from '../components/admin/Header.vue';
+import Header from '../components/Admin/Header.vue';
 import Loading from '../components/Loading.vue';
 
 import { useUserStore } from '../stores/user';

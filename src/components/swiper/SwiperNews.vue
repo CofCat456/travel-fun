@@ -12,7 +12,7 @@ import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
 import Title from './Title.vue';
 import CustomNavigation from './CustomNavigation.vue';
-import NewCard from '../card/NewCard.vue';
+import NewCard from '../Card/NewCard.vue';
 
 defineProps({
   news: {

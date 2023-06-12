@@ -14,7 +14,7 @@ import Title from './Title.vue';
 import CustomNavigation from './CustomNavigation.vue';
 
 import { cityMap } from '../../utlis/context';
-import CityCard from '../card/CityCard.vue';
+import CityCard from '../Card/CityCard.vue';
 
 const props = defineProps({
   title: {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const { VITE_URL } = import.meta.env;
+const { VITE_URL, VITE_PATH } = import.meta.env;
 
 const request = axios.create({
   baseURL: VITE_URL
@@ -37,8 +37,8 @@ request.interceptors.request.use(
       /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
       '$1'
     );
-    console.log(config);
-    console.log(document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1'));
+    // console.log(config);
+    // console.log(document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1'));
     return config;
   },
   (error) => {
@@ -74,7 +74,7 @@ const api = {
     checkSigin: '/api/user/check'
   },
   admin: {
-    product: 'api/admin/product'
+    product: `api/${VITE_PATH}/admin/product`
   }
 };
 
@@ -83,5 +83,7 @@ export const apiUserLogout = () => request.post(api.user.logout);
 export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
 
 export const apiAdminGetProducts = (page) => request.get(`${api.admin.product}s?page=${page}`);
+export const apiAdminPostProducts = (data) => request.post(api.admin.product, data);
+export const apiAdminPutProducts = (id, data) => request.put(`${api.admin.product}/${id}`, data);
 
 export default {};

@@ -1,5 +1,5 @@
 <script setup>
-import HamburgerIcon from './icons/HamburgerIcon.vue';
+import HamburgerIcon from './Icons/HamburgerIcon.vue';
 </script>
 
 <template>

@@ -50,6 +50,8 @@ export const icons = {
 
 export const categoryList = ['套票'];
 
+export const unitList = ['張'];
+
 export const mockProducts = [
   {
     title: '北海岸自行車一日遊',

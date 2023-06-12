@@ -1,6 +1,6 @@
 <script setup>
-import SwiperNews from '@/components/swiper/SwiperNews.vue';
-import SwiperProduct from '@/components/swiper/SwiperProduct.vue';
+import SwiperNews from '@/components/Swiper/SwiperNews.vue';
+import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
 import Banner from '@/components/Banner.vue';
 
 import HotCity from './components/HotCity.vue';

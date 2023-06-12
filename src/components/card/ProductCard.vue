@@ -1,8 +1,8 @@
 <script setup>
 import { currency } from '@/utlis/global';
 
-import FavouriteIcon from '../icons/FavouriteIcon.vue';
-import FullStarIcon from '../icons/FullStarIcon.vue';
+import FavouriteIcon from '../Icons/FavouriteIcon.vue';
+import FullStarIcon from '../Icons/FullStarIcon.vue';
 
 defineProps({
   title: {
