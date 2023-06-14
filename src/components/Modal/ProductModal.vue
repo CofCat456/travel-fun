@@ -62,7 +62,6 @@ const onSubmit = handleSubmit((values) => {
   const data = { data: { ...props.tempProduct, ...values } };
   const status = props.isNew ? 'addProduct' : 'updateProduct';
   emit(status, data);
-  resetForm();
 });
 
 const closeModal = () => {

@@ -85,5 +85,6 @@ export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
 export const apiAdminGetProducts = (page) => request.get(`${api.admin.product}s?page=${page}`);
 export const apiAdminPostProducts = (data) => request.post(api.admin.product, data);
 export const apiAdminPutProducts = (id, data) => request.put(`${api.admin.product}/${id}`, data);
+export const apiAdminDeleteProducts = (id) => request.delete(`${api.admin.product}/${id}`);
 
 export default {};

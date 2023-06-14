@@ -1,11 +1,17 @@
 <script setup>
 import { inject, onMounted, ref } from 'vue';
+import Swal from 'sweetalert2';
 
 import Pagination from '@/components/Admin/Pagination.vue';
 import Add from '@/components/Admin/Add.vue';
 import ProductModal from '@/components/Modal/ProductModal.vue';
 
-import { apiAdminGetProducts, apiAdminPostProducts, apiAdminPutProducts } from '@/utlis/api';
+import {
+  apiAdminGetProducts,
+  apiAdminPostProducts,
+  apiAdminPutProducts,
+  apiAdminDeleteProducts
+} from '@/utlis/api';
 import { currency } from '@/utlis/global';
 
 const loading = inject('loading');
@@ -21,7 +27,6 @@ const getProducts = async (page = 1) => {
   loading.value.show();
   try {
     const res = await apiAdminGetProducts(page);
-    console.log(res);
 
     products.value = res?.data?.products;
     pagination.value = res?.data?.pagination;
@@ -32,39 +37,80 @@ const getProducts = async (page = 1) => {
   }
 };
 
-function openProductModal(status, product = {}) {
-  showed.value = true;
-  isNew.value = status;
-  tempProduct.value = { ...product };
-}
-
 const addProduct = async (product) => {
   isLoading.value = true;
   try {
-    await apiAdminPostProducts(product);
+    const res = await apiAdminPostProducts(product);
+
+    const {
+      data: { success = false }
+    } = res;
+
+    if (success) {
+      showed.value = false;
+      getProducts();
+    }
   } catch (err) {
     throw new Error(err?.response?.data?.message);
   } finally {
     isLoading.value = false;
-    showed.value = false;
-    getProducts();
   }
 };
 
 const updateProduct = async (product) => {
   isLoading.value = true;
+
   const {
     data: { id }
   } = product;
+
   try {
-    await apiAdminPutProducts(id, product);
+    const res = await apiAdminPutProducts(id, product);
+
+    const {
+      data: { success = false }
+    } = res;
+
+    if (success) {
+      showed.value = false;
+      getProducts();
+    }
   } catch (err) {
     throw new Error(err?.response?.data?.message);
   } finally {
     isLoading.value = false;
-    showed.value = false;
+  }
+};
+
+const deleteProduct = async (id) => {
+  try {
+    await apiAdminDeleteProducts(id);
+  } catch (err) {
+    throw new Error(err?.response?.data?.message);
+  } finally {
     getProducts();
   }
+};
+
+const openProductModal = (status, product = {}) => {
+  showed.value = true;
+  isNew.value = status;
+  tempProduct.value = { ...product };
+};
+
+const openDeleteModal = (id, title) => {
+  Swal.fire({
+    title: '刪除產品',
+    text: `您正在刪除 ${title} 產品`,
+    icon: 'warning',
+    showLoaderOnConfirm: true,
+    showCancelButton: true,
+    confirmButtonColor: '#0F4BB4',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '確定刪除',
+    cancelButtonText: '取消',
+    preConfirm: () => deleteProduct(id)
+  });
 };
 
 onMounted(() => {
@@ -114,6 +160,14 @@ onMounted(() => {
               @click="openProductModal(false, product)"
             >
               編輯
+            </button>
+
+            <button
+              type="button"
+              class="ml-3 font-medium text-red-600 hover:underline"
+              @click="openDeleteModal(product.id, product.title)"
+            >
+              刪除
             </button>
           </td>
         </tr>
