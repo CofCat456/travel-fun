@@ -3,8 +3,8 @@ import { inject, onMounted, ref } from 'vue';
 import Swal from 'sweetalert2';
 
 import Pagination from '@/components/Admin/Pagination.vue';
-import Add from '@/components/Admin/Add.vue';
 import ProductModal from '@/components/Modal/ProductModal.vue';
+import AddBtn from '@/components/Admin/AddBtn.vue';
 
 import {
   apiAdminGetProducts,
@@ -120,13 +120,12 @@ onMounted(() => {
 
 <template>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="text-sm-content w-full text-left text-cc-other-3">
-      <thead class="bg-cc-other-7 text-xs uppercase text-cc-other-2">
+    <table class="text-sm-content w-full table-fixed text-left text-cc-other-3">
+      <thead class="bg-cc-other-7 text-xs text-cc-other-2">
         <tr>
-          <th v-for="item in ['產品名稱', '分類']" :key="item" scope="col" class="px-6 py-3">
-            {{ item }}
-          </th>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3">產品名稱</th>
+          <th width="10%" class="px-6 py-3">分類</th>
+          <th width="20%" class="px-6 py-3">
             <div class="flex items-center">
               售價
               <!-- <a href="#" -->
@@ -143,12 +142,12 @@ onMounted(() => {
               <!-- ></a> -->
             </div>
           </th>
-          <th scope="col" class="px-6 py-3 text-right">編輯</th>
+          <th width="15%" class="px-6 py-3 text-right">編輯</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="product in products" :key="product.id" class="border-b bg-white">
-          <th scope="row" class="whitespace-nowrap px-6 py-4 text-cc-other-2">
+          <th scope="row" class="truncate px-6 py-4 text-cc-other-2">
             {{ product.title }}
           </th>
           <td class="px-6 py-4">{{ product.category }}</td>
@@ -174,7 +173,7 @@ onMounted(() => {
       </tbody>
     </table>
     <Pagination v-bind="pagination" @changePage="getProducts" />
-    <Add @click="openProductModal(true)" />
+    <AddBtn @click="openProductModal(true)" />
     <ProductModal
       no-scroll
       :showModal="showed"
