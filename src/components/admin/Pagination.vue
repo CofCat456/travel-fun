@@ -18,16 +18,15 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['changePage']);
+const emit = defineEmits(['change-page']);
 
 const goPrev = () => {
   if (!props.has_pre) return;
-  emit('changePage', props.current_page - 1);
+  emit('change-page', props.current_page - 1);
 };
 
 const goNext = () => {
   if (!props.has_next) return;
-  console.log('click');
   emit('change-page', props.current_page + 1);
 };
 </script>
