@@ -1,7 +1,7 @@
 <script setup>
+import Banner from '@/components/Banner.vue';
 import SwiperNews from '@/components/Swiper/SwiperNews.vue';
 import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
-import Banner from '@/components/Banner.vue';
 
 import HotCity from './components/HotCity.vue';
 import Member from './components/Member.vue';

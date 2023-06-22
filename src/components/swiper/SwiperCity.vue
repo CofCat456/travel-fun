@@ -10,11 +10,11 @@ import 'swiper/css/navigation';
 
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
-import Title from './Title.vue';
+import Title from './internal/Title.vue';
 import CustomNavigation from './CustomNavigation.vue';
+import CityCard from '../Card/CityCard.vue';
 
 import { cityMap } from '../../utlis/context';
-import CityCard from '../Card/CityCard.vue';
 
 const props = defineProps({
   title: {
