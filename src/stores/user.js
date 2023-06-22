@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
-export const useUserStore = defineStore('user', () => {
+const useUserStore = defineStore('user', () => {
   const loginStatus = ref(false);
 
   function checkSigin() {
@@ -22,4 +22,4 @@ export const useUserStore = defineStore('user', () => {
   return { loginStatus, checkSigin, userSignin, userLogout };
 });
 
-export default {};
+export default useUserStore;

@@ -2,13 +2,13 @@
 import { computed } from 'vue';
 import { RouterLink, useRouter, useRoute } from 'vue-router';
 
-import { useUserStore } from '@/stores/user';
-
 import Logo from './Logo.vue';
 import FavouriteIcon from './Icons/FavouriteIcon.vue';
 import ShopCartIcon from './Icons/ShopCartIcon.vue';
 import HamburgerBtn from './HamburgerBtn.vue';
 import Container from '../Layout/Container.vue';
+
+import useUserStore from '../stores/user';
 
 const route = useRoute();
 const router = useRouter();

@@ -62,7 +62,7 @@ onMounted(() => {
     <!-- Modal-Window -->
     <div
       :class="[
-        'overflow-hidden rounded-md bg-white',
+        'overflow-hidden rounded-m bg-white',
         showed ? 'scale-100' : 'scale-0',
         screen ? 'h-full w-full' : '',
         'transition-all duration-300'

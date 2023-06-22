@@ -1,5 +1,5 @@
 <script setup>
-import { inject, onMounted, ref } from 'vue';
+import { ref, inject, onMounted } from 'vue';
 import Swal from 'sweetalert2';
 
 import Pagination from '@/components/Admin/Pagination.vue';
@@ -10,7 +10,8 @@ import {
   apiAdminGetProducts,
   apiAdminPostProducts,
   apiAdminPutProducts,
-  apiAdminDeleteProducts
+  apiAdminDeleteProducts,
+  apiAdminUploadImage
 } from '@/utlis/api';
 import { currency } from '@/utlis/global';
 
@@ -19,17 +20,25 @@ const loading = inject('loading');
 const products = ref([]);
 const pagination = ref({});
 const tempProduct = ref({});
+const tempImageUrl = ref('');
 const showed = ref(false);
 const isLoading = ref(false);
 const isNew = ref(true);
 
 const getProducts = async (page = 1) => {
   loading.value.show();
+
   try {
     const res = await apiAdminGetProducts(page);
 
-    products.value = res?.data?.products;
-    pagination.value = res?.data?.pagination;
+    const {
+      data: { success = false }
+    } = res;
+
+    if (success) {
+      products.value = res?.data?.products;
+      pagination.value = res?.data?.pagination;
+    }
   } catch (err) {
     throw new Error(err?.response?.data?.message);
   } finally {
@@ -39,6 +48,7 @@ const getProducts = async (page = 1) => {
 
 const addProduct = async (product) => {
   isLoading.value = true;
+
   try {
     const res = await apiAdminPostProducts(product);
 
@@ -92,10 +102,34 @@ const deleteProduct = async (id) => {
   }
 };
 
+const uploadImage = async (file) => {
+  loading.value.show();
+
+  try {
+    const res = await apiAdminUploadImage(file);
+
+    const {
+      data: { success = false, imageUrl = '' }
+    } = res;
+
+    if (success) {
+      tempImageUrl.value = imageUrl;
+    }
+  } catch (err) {
+    throw new Error(err?.response?.data?.message);
+  } finally {
+    loading.value.hide();
+  }
+};
+
 const openProductModal = (status, product = {}) => {
   showed.value = true;
   isNew.value = status;
   tempProduct.value = { ...product };
+};
+
+const closeProductModal = () => {
+  showed.value = false;
 };
 
 const openDeleteModal = (id, title) => {
@@ -180,9 +214,11 @@ onMounted(() => {
       :isNew="isNew"
       :isLoading="isLoading"
       :tempProduct="tempProduct"
-      @closing="showed = false"
-      @addProduct="addProduct"
-      @updateProduct="updateProduct"
+      :tempImageUrl="tempImageUrl"
+      @closing="closeProductModal"
+      @add-product="addProduct"
+      @update-product="updateProduct"
+      @upload-image="uploadImage"
     />
   </div>
 </template>

@@ -74,7 +74,8 @@ const api = {
     checkSigin: '/api/user/check'
   },
   admin: {
-    product: `api/${VITE_PATH}/admin/product`
+    product: `api/${VITE_PATH}/admin/product`,
+    upload: `api/${VITE_PATH}/admin/upload`
   }
 };
 
@@ -86,5 +87,12 @@ export const apiAdminGetProducts = (page) => request.get(`${api.admin.product}s?
 export const apiAdminPostProducts = (data) => request.post(api.admin.product, data);
 export const apiAdminPutProducts = (id, data) => request.put(`${api.admin.product}/${id}`, data);
 export const apiAdminDeleteProducts = (id) => request.delete(`${api.admin.product}/${id}`);
+
+export const apiAdminUploadImage = (formData) =>
+  request.post(api.admin.upload, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
 
 export default {};

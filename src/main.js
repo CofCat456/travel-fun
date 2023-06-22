@@ -7,7 +7,7 @@ import router from './router';
 import './assets/main.css';
 import 'material-icons/iconfont/outlined.css';
 
-import { useUserStore } from './stores/user';
+import useUserStore from './stores/user';
 
 const app = createApp(App);
 

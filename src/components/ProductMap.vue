@@ -5,7 +5,7 @@ import { useRouter, RouterLink } from 'vue-router';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import FullStarIcon from './icons/FullStarIcon.vue';
+import FullStarIcon from './Icons/FullStarIcon.vue';
 
 import { icons } from '../utlis/context';
 import { currency } from '../utlis/global';

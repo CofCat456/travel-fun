@@ -48,7 +48,7 @@ export const icons = {
   })
 };
 
-export const categoryList = ['套票'];
+export const categoryList = ['套票', '門票'];
 
 export const unitList = ['張'];
 

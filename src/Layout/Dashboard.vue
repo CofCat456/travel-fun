@@ -5,8 +5,9 @@ import { useRouter, RouterView } from 'vue-router';
 import Header from '../components/Admin/Header.vue';
 import Loading from '../components/Loading.vue';
 
-import { useUserStore } from '../stores/user';
 import { apiUserCheckSignin, apiUserLogout } from '../utlis/api';
+
+import useUserStore from '../stores/user';
 
 const router = useRouter();
 const user = useUserStore();

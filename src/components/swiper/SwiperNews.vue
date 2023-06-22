@@ -10,8 +10,8 @@ import 'swiper/css/navigation';
 
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
-import Title from './Title.vue';
 import CustomNavigation from './CustomNavigation.vue';
+import Title from './internal/Title.vue';
 import NewCard from '../Card/NewCard.vue';
 
 defineProps({

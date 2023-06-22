@@ -27,7 +27,7 @@
     @apply text-base leading-normal;
   }
   button {
-    @apply text-sm leading-normal;
+    @apply text-sm leading-normal disabled:cursor-not-allowed disabled:opacity-60 [&:disabled>*]:cursor-not-allowed;
   }
 }
 
@@ -45,13 +45,13 @@
     @apply text-sm leading-normal;
   }
   .icon-hover {
-    @apply cursor-pointer transition-transform duration-300 hover:scale-110;
+    @apply cursor-pointer transition-transform duration-300 hover:scale-125;
   }
   .swiper-btn {
     @apply absolute top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-white text-cc-other-9;
   }
   .btn {
-    @apply inline-block rounded-m bg-cc-primary px-6 py-3 text-sm font-bold leading-normal text-white transition-colors duration-300 hover:bg-cc-accent disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-cc-primary;
+    @apply inline-block rounded-m bg-cc-primary px-6 py-3 text-sm font-bold leading-normal text-white transition-colors duration-300 hover:bg-cc-accent disabled:hover:bg-cc-primary;
   }
   .product-map-card {
     @apply relative z-10 min-w-full overflow-hidden rounded-m transition-opacity duration-300 hover:opacity-80;

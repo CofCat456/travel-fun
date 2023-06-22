@@ -5,8 +5,8 @@ import { useRoute } from 'vue-router';
 import Container from '@/Layout/Container.vue';
 import Banner from '@/components/Banner.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import SwiperProduct from '@/components/swiper/SwiperProduct.vue';
-import SwiperCity from '@/components/swiper/SwiperCity.vue';
+import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
+import SwiperCity from '@/components/Swiper/SwiperCity.vue';
 
 import { cityMap, mockProducts } from '@/utlis/context';
 import KnowCity from './KnowCity.vue';
