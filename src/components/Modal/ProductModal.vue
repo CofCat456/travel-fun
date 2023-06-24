@@ -82,15 +82,16 @@ const onSubmit = handleSubmit((values) => {
   emit(status, data);
 });
 
-const modalTitle = computed(() => `${props.isNew ? '新增' : '編輯'}產品`);
+const modalStatus = computed(() => `${props.isNew ? '新增' : '編輯'}`);
 
-const buttonText = computed(() => `${props.isNew ? '新增' : '更新'}${props.isLoading ? '中' : ''}`);
+const modalTitle = computed(() => `${modalStatus.value}產品`);
+
+const modalButtonText = computed(() => `${modalStatus.value}${props.isLoading ? '中' : ''}`);
 
 const cityList = computed(() => [...cityMap.values()]);
 
 const canUpdatePhoto = computed(() => {
-  if (activeImageIndex.value >= tempImagesUrl.value.length) return false;
-  return true;
+  return activeImageIndex.value < tempImagesUrl.value.length;
 });
 
 const closeModal = () => {
@@ -102,7 +103,7 @@ const openFileHandler = () => {
   fileInputRef.value.click();
 };
 
-const imageUploadHandle = (event) => {
+const imageUploadHandler = (event) => {
   const uploadedFile = event.target.files[0];
   if (typeof uploadedFile === 'undefined') return;
 
@@ -111,7 +112,7 @@ const imageUploadHandle = (event) => {
   emit('uploadImage', formData);
 };
 
-const updateIndexHander = (index) => {
+const updateIndexHandler = (index) => {
   activeImageIndex.value = index;
 };
 
@@ -119,16 +120,20 @@ const detailHandler = (status = false) => {
   isShowDetail.value = status;
 };
 
-const addImage = (imageUrl) => {
-  tempImagesUrl.value.splice(activeImageIndex.value, 0, imageUrl);
+const addImage = (activeIndex, imageUrl) => {
+  tempImagesUrl.value.splice(activeIndex, 0, imageUrl);
 };
 
-const changeImage = (imageUrl) => {
-  if (canUpdatePhoto.value) tempImagesUrl.value.splice(activeImageIndex.value, 1, imageUrl);
+const changeImage = (activeIndex, imageUrl) => {
+  if (!canUpdatePhoto.value) return;
+
+  tempImagesUrl.value.splice(activeIndex, 1, imageUrl);
 };
 
-const deleteImage = () => {
-  if (canUpdatePhoto.value) tempImagesUrl.value.splice(activeImageIndex.value, 1);
+const deleteImage = (activeIndex) => {
+  if (!canUpdatePhoto.value) return;
+
+  tempImagesUrl.value.splice(activeIndex, 1);
 };
 
 watch(
@@ -153,9 +158,9 @@ watch(
   () => props.tempImageUrl,
   (currTempImageUrl) => {
     if (canUpdatePhoto.value) {
-      changeImage(currTempImageUrl);
+      changeImage(activeImageIndex.value, currTempImageUrl);
     } else {
-      addImage(currTempImageUrl);
+      addImage(activeImageIndex.value, currTempImageUrl);
     }
   }
 );
@@ -192,7 +197,11 @@ watch(
                 >repeat</span
               >
             </button>
-            <button type="button" :disabled="canUpdatePhoto === false" @click="deleteImage">
+            <button
+              type="button"
+              :disabled="canUpdatePhoto === false"
+              @click="deleteImage(activeImageIndex)"
+            >
               <span class="material-icons-outlined icon-hover align-middle text-cc-other-2"
                 >close</span
               >
@@ -363,15 +372,16 @@ watch(
               <div class="grid grid-cols-2 gap-2">
                 <div class="mb-5">
                   <label for="origin-price-range" class="mb-2 block text-sm font-medium"
-                    >評價</label
-                  >
+                    >評價
+                    <span class="text-cc-primary">{{ `(${evaluate})` }}</span>
+                  </label>
                   <input
                     id="evaluate-range"
                     type="range"
                     min="0"
                     max="5"
                     step="0.5"
-                    class="mb-6 h-1 w-full cursor-pointer appearance-none rounded-lg bg-cc-other-3 accent-cc-primary"
+                    class="mb-6 h-1 w-full cursor-grab appearance-none rounded-lg bg-cc-other-3 accent-cc-primary"
                     v-model="evaluate"
                   />
                 </div>
@@ -462,18 +472,18 @@ watch(
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              {{ buttonText }}
+              {{ modalButtonText }}
             </button>
           </form>
           <SwiperPhoto
             v-else
             :images-url="tempImagesUrl"
             @open-file-input="openFileHandler"
-            @update-active-index="updateIndexHander"
+            @update-active-index="updateIndexHandler"
           />
         </transition>
       </div>
-      <input ref="fileInputRef" type="file" class="hidden" @change="imageUploadHandle" />
+      <input ref="fileInputRef" type="file" class="hidden" @change="imageUploadHandler" />
     </template>
   </Modal>
 </template>

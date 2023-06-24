@@ -25,6 +25,16 @@ const showed = ref(false);
 const isLoading = ref(false);
 const isNew = ref(true);
 
+const openProductModal = (status, product = {}) => {
+  showed.value = true;
+  isNew.value = status;
+  tempProduct.value = { ...product };
+};
+
+const closeProductModal = () => {
+  showed.value = false;
+};
+
 const getProducts = async (page = 1) => {
   loading.value.show();
 
@@ -57,7 +67,7 @@ const addProduct = async (product) => {
     } = res;
 
     if (success) {
-      showed.value = false;
+      closeProductModal();
       getProducts();
     }
   } catch (err) {
@@ -82,7 +92,7 @@ const updateProduct = async (product) => {
     } = res;
 
     if (success) {
-      showed.value = false;
+      closeProductModal();
       getProducts();
     }
   } catch (err) {
@@ -100,6 +110,21 @@ const deleteProduct = async (id) => {
   } finally {
     getProducts();
   }
+};
+
+const openDeleteModal = (id, title) => {
+  Swal.fire({
+    title: '刪除產品',
+    text: `您正在刪除 ${title} 產品`,
+    icon: 'warning',
+    showLoaderOnConfirm: true,
+    showCancelButton: true,
+    confirmButtonColor: '#0F4BB4',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '確定刪除',
+    cancelButtonText: '取消',
+    preConfirm: () => deleteProduct(id)
+  });
 };
 
 const uploadImage = async (file) => {
@@ -120,31 +145,6 @@ const uploadImage = async (file) => {
   } finally {
     loading.value.hide();
   }
-};
-
-const openProductModal = (status, product = {}) => {
-  showed.value = true;
-  isNew.value = status;
-  tempProduct.value = { ...product };
-};
-
-const closeProductModal = () => {
-  showed.value = false;
-};
-
-const openDeleteModal = (id, title) => {
-  Swal.fire({
-    title: '刪除產品',
-    text: `您正在刪除 ${title} 產品`,
-    icon: 'warning',
-    showLoaderOnConfirm: true,
-    showCancelButton: true,
-    confirmButtonColor: '#0F4BB4',
-    cancelButtonColor: '#d33',
-    confirmButtonText: '確定刪除',
-    cancelButtonText: '取消',
-    preConfirm: () => deleteProduct(id)
-  });
 };
 
 onMounted(() => {
