@@ -68,12 +68,14 @@ onMounted(() => {
         'transition-all duration-300'
       ]"
     >
-      <div class="h-full w-full">
+      <div class="h-full w-[768px] space-y-4 p-5">
+        <slot name="header" />
         <slot name="content">
           <div class="p-3">
             <slot name="text"> 這是 Modal 視窗 </slot>
           </div>
         </slot>
+        <slot name="footer" />
       </div>
     </div>
   </div>

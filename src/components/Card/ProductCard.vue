@@ -9,15 +9,15 @@ defineProps({
     type: String,
     default: '活動名稱'
   },
-  location: {
+  city: {
     type: String,
-    default: '小標題'
+    default: ''
   },
   evaluate: {
     type: Number,
     default: 0
   },
-  evaluateTotal: {
+  evaluateNum: {
     type: Number,
     default: 0
   },
@@ -33,7 +33,7 @@ defineProps({
     type: Number,
     default: 0
   },
-  image: {
+  imageUrl: {
     type: String,
     default: '/images/news/news_1.png'
   },
@@ -58,15 +58,15 @@ defineProps({
     </div>
     <div
       class="mb-2 aspect-square w-full bg-cover bg-center"
-      :style="`background-image: url(${image})`"
+      :style="`background-image: url(${imageUrl})`"
     />
     <div class="flex h-[120px] w-full flex-col gap-1 px-1">
       <div class="inline-flex gap-1 text-sm text-cc-other-4">
         <span class="material-icons-outlined icon-hover"> location_on </span>
-        {{ location }}
+        {{ city }}
       </div>
       <p class="text-sm-content flex-1 line-clamp-2">{{ title }}</p>
-      <FullStarIcon :evaluate="evaluate" :evaluate-total="evaluateTotal" />
+      <FullStarIcon :evaluate="evaluate" :evaluate-total="evaluateNum" />
       <div class="inline-flex items-center gap-1">
         <h6>
           {{ currency(price, 'NT$ ') }}

@@ -1,4 +1,10 @@
 <script setup>
+import { storeToRefs } from 'pinia';
+
+import useProductStore from '@/stores/product';
+
+import { filterProduct } from '@/utlis/global';
+
 import Banner from '@/components/Banner.vue';
 import SwiperNews from '@/components/Swiper/SwiperNews.vue';
 import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
@@ -7,7 +13,11 @@ import HotCity from './components/HotCity.vue';
 import Member from './components/Member.vue';
 import Search from './components/Search.vue';
 
-import { mockNews, mockTop10, mockNewProducts, mockHotCitys } from './_Context';
+import { mockNews, mockHotCitys } from './_Context';
+
+const product = useProductStore();
+
+const { getSortNew, getSortRate } = storeToRefs(product);
 </script>
 
 <template>
@@ -31,14 +41,14 @@ import { mockNews, mockTop10, mockNewProducts, mockHotCitys } from './_Context';
     <SwiperProduct
       title="Top 10 商品"
       sec-title="尋找最受歡迎的商品嗎？別再猶豫，立刻挑選！"
-      :products="mockTop10"
+      :products="filterProduct(getSortRate)"
     />
     <img src="/images/home-bg.png" alt="home bg" class="my-6" loading="lazy" />
     <SwiperProduct
       title="最新產品"
       sec-title="一直關注最新產品的我們，給您帶來最好的選擇和品質！"
       :btn="{ text: '查看更多' }"
-      :products="mockNewProducts"
+      :products="filterProduct(getSortNew)"
     />
     <HotCity :hot-citys="mockHotCitys" />
     <Member />

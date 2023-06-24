@@ -35,6 +35,8 @@ export const cityMap = new Map()
   .set('taitung', '台東')
   .set('penghu', '澎湖');
 
+export const categoryMap = new Map().set('tickets', '門票').set('package', '套票');
+
 export const iconsConfig = {};
 
 export const icons = {

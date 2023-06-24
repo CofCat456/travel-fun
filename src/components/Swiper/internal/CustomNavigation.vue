@@ -11,14 +11,22 @@ const props = defineProps({
   isEnd: {
     type: Boolean,
     default: false
+  },
+  isNormal: {
+    type: Boolean,
+    default: false
   }
 });
 </script>
 
 <template>
   <button
-    class="swiper-btn swiper-btn-shadow group left-0 hidden -translate-x-full xl:block"
-    :class="[`swiper-${props.classkey}-custom-prev`, isBeginning && 'xl:hidden']"
+    class="swiper-btn swiper-btn-shadow group hidden -translate-x-full md:block"
+    :class="[
+      `swiper-${props.classkey}-custom-prev`,
+      isBeginning && 'md:hidden',
+      isNormal ? '-left-5' : 'left-0'
+    ]"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -37,8 +45,12 @@ const props = defineProps({
     </svg>
   </button>
   <button
-    class="swiper-btn swiper-btn-shadow group right-0 hidden translate-x-full xl:block"
-    :class="[`swiper-${props.classkey}-custom-next`, isEnd && 'xl:hidden']"
+    class="swiper-btn swiper-btn-shadow group hidden translate-x-full md:block"
+    :class="[
+      `swiper-${props.classkey}-custom-next`,
+      isEnd && 'md:hidden',
+      isNormal ? '-right-5' : 'right-0'
+    ]"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

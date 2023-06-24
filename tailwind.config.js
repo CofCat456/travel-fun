@@ -6,6 +6,14 @@ module.exports = {
       fontFamily: {
         serif: ['Noto Serif TC', 'serif']
       },
+      maxWidth: {
+        'cc-big-width': '1328px',
+        'cc-width': '1296px'
+      },
+      width: {
+        'cc-big-width': '1328px',
+        'cc-width': '1296px'
+      },
       colors: {
         'cc-primary': '#0F4BB4',
         'cc-accent': '#EE5220',

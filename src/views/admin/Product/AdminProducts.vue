@@ -42,15 +42,13 @@ const getProducts = async (page = 1) => {
     const res = await apiAdminGetProducts(page);
 
     const {
-      data: { success = false }
+      data: { success }
     } = res;
 
     if (success) {
-      products.value = res?.data?.products;
-      pagination.value = res?.data?.pagination;
+      products.value = res.data.products;
+      pagination.value = res.data.pagination;
     }
-  } catch (err) {
-    throw new Error(err?.response?.data?.message);
   } finally {
     loading.value.hide();
   }
@@ -63,15 +61,13 @@ const addProduct = async (product) => {
     const res = await apiAdminPostProducts(product);
 
     const {
-      data: { success = false }
+      data: { success }
     } = res;
 
     if (success) {
       closeProductModal();
-      getProducts();
+      getProducts(pagination.value.current_page);
     }
-  } catch (err) {
-    throw new Error(err?.response?.data?.message);
   } finally {
     isLoading.value = false;
   }
@@ -88,27 +84,27 @@ const updateProduct = async (product) => {
     const res = await apiAdminPutProducts(id, product);
 
     const {
-      data: { success = false }
+      data: { success }
     } = res;
 
     if (success) {
       closeProductModal();
-      getProducts();
+      getProducts(pagination.value.current_page);
     }
-  } catch (err) {
-    throw new Error(err?.response?.data?.message);
   } finally {
     isLoading.value = false;
   }
 };
 
 const deleteProduct = async (id) => {
-  try {
-    await apiAdminDeleteProducts(id);
-  } catch (err) {
-    throw new Error(err?.response?.data?.message);
-  } finally {
-    getProducts();
+  const res = await apiAdminDeleteProducts(id);
+
+  const {
+    data: { success }
+  } = res;
+
+  if (success) {
+    getProducts(pagination.value.current_page);
   }
 };
 
@@ -140,8 +136,6 @@ const uploadImage = async (file) => {
     if (success) {
       tempImageUrl.value = imageUrl;
     }
-  } catch (err) {
-    throw new Error(err?.response?.data?.message);
   } finally {
     loading.value.hide();
   }
@@ -210,11 +204,11 @@ onMounted(() => {
     <AddBtn @click="openProductModal(true)" />
     <ProductModal
       no-scroll
-      :showModal="showed"
-      :isNew="isNew"
-      :isLoading="isLoading"
-      :tempProduct="tempProduct"
-      :tempImageUrl="tempImageUrl"
+      :show-modal="showed"
+      :is-new="isNew"
+      :is-loading="isLoading"
+      :temp-product="tempProduct"
+      :temp-Image-url="tempImageUrl"
       @closing="closeProductModal"
       @add-product="addProduct"
       @update-product="updateProduct"

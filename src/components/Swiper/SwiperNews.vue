@@ -10,9 +10,9 @@ import 'swiper/css/navigation';
 
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
-import CustomNavigation from './CustomNavigation.vue';
-import Title from './internal/Title.vue';
 import NewCard from '../Card/NewCard.vue';
+import Title from './internal/Title.vue';
+import CustomNavigation from './internal/CustomNavigation.vue';
 
 defineProps({
   news: {

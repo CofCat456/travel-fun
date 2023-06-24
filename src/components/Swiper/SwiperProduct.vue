@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { Navigation } from 'swiper';
 
@@ -10,9 +11,9 @@ import 'swiper/css/navigation';
 
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
-import CustomNavigation from './CustomNavigation.vue';
-import Title from './internal/Title.vue';
 import ProductCard from '../Card/ProductCard.vue';
+import Title from './internal/Title.vue';
+import CustomNavigation from './internal/CustomNavigation.vue';
 
 defineProps({
   title: {
@@ -48,6 +49,8 @@ defineProps({
   }
 });
 
+const router = useRouter();
+
 const modules = [Navigation];
 
 const isBeginning = ref(true);
@@ -63,6 +66,8 @@ const onSlideChange = (swiper) => {
   isBeginning.value = swiper.isBeginning;
   isEnd.value = swiper.isEnd;
 };
+
+const goProducts = () => router.push({ name: 'Products' });
 </script>
 
 <template>
@@ -115,7 +120,7 @@ const onSlideChange = (swiper) => {
     </template>
     <template v-slot:btn>
       <div v-if="btn.text" class="mt-6 text-center md:mb-6 md:mt-12">
-        <button type="button" class="btn">{{ btn.text }}</button>
+        <button type="button" class="btn" @click="goProducts">{{ btn.text }}</button>
       </div>
     </template>
   </SwiperLayout>

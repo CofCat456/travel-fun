@@ -23,6 +23,11 @@ const router = createRouter({
           component: () => import('../views/front/City/CityView.vue')
         },
         {
+          path: 'city/:cityName/products/:category?',
+          name: 'Products',
+          component: () => import('../views/front/Products/ProductsView.vue')
+        },
+        {
           path: 'product/:productId',
           name: 'Product',
           component: () => import('../views/front/Product/ProductView.vue')
@@ -41,7 +46,7 @@ const router = createRouter({
         {
           path: 'products',
           name: 'AdminProducts',
-          component: () => import('../views/admin/Products/AdminProducts.vue')
+          component: () => import('../views/admin/Product/AdminProducts.vue')
         }
       ]
     }

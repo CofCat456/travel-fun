@@ -12,27 +12,25 @@ import useUserStore from '../stores/user';
 const router = useRouter();
 const user = useUserStore();
 
-const loading = ref(null);
+const loadingRef = ref(null);
 
-provide('loading', loading);
+provide('loading', loadingRef);
 
 const logout = async () => {
-  loading.value.show();
+  loadingRef.value.show();
   try {
     const res = await apiUserLogout();
     if (res?.data?.success) {
       user.userLogout();
       router.push({ name: 'Home' });
     }
-  } catch (err) {
-    throw new Error(err?.response?.data?.message);
   } finally {
-    loading.value.hide();
+    loadingRef.value.hide();
   }
 };
 
 const checkLogin = async () => {
-  loading.value.show();
+  loadingRef.value.show();
 
   try {
     const res = await apiUserCheckSignin();
@@ -40,11 +38,11 @@ const checkLogin = async () => {
     if (res?.data?.success) {
       user.userSignin();
     }
-  } catch (err) {
+  } catch {
     user.userLogout();
     router.push({ name: 'Home' });
   } finally {
-    loading.value.hide();
+    loadingRef.value.hide();
   }
 };
 
@@ -67,5 +65,5 @@ onMounted(() => {
       </div>
     </main>
   </section>
-  <Loading ref="loading" />
+  <Loading ref="loadingRef" />
 </template>

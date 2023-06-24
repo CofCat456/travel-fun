@@ -22,7 +22,7 @@ const getImage = computed(() => `/images/city/city_${props.city}.jpg`);
     :to="{ name: 'City', params: { cityName: props.city } }"
   >
     <div
-      class="h-60 w-full cursor-pointer rounded-m bg-cc-other-3 bg-cover bg-center transition-transform duration-500 hover:scale-110"
+      class="clear-scale h-60 w-full cursor-pointer rounded-m bg-cc-other-3 bg-cover bg-center transition-transform duration-500"
       :style="`background-image: url(${getImage})`"
     />
     <h5 class="absolute bottom-3 left-3 font-bold text-white">{{ getName }}</h5>

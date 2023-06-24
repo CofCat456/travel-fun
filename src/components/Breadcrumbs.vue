@@ -17,7 +17,7 @@ defineProps({
   <nav class="mb-6 flex" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1">
       <li
-        v-for="({ title, pathName }, index) in breadcrumbs"
+        v-for="({ title, pathName, params = null }, index) in breadcrumbs"
         :key="title"
         class="inline-flex items-center"
       >
@@ -37,7 +37,7 @@ defineProps({
         </svg>
         <RouterLink
           v-if="pathName"
-          :to="{ name: pathName }"
+          :to="{ name: pathName, params }"
           class="inline-flex items-center text-sm text-cc-primary hover:underline"
         >
           {{ title }}

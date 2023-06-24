@@ -37,8 +37,12 @@ request.interceptors.request.use(
       /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
       '$1'
     );
-    // console.log(config);
-    // console.log(document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1'));
+    // TODO: Delete console
+    console.log('api config', config);
+    console.log(
+      'token',
+      document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')
+    );
     return config;
   },
   (error) => {
@@ -71,7 +75,8 @@ const api = {
   user: {
     signin: '/admin/signin',
     logout: '/logout',
-    checkSigin: '/api/user/check'
+    checkSigin: '/api/user/check',
+    product: `api/${VITE_PATH}/product`
   },
   admin: {
     product: `api/${VITE_PATH}/admin/product`,
@@ -82,6 +87,7 @@ const api = {
 export const apiUserSignin = (data) => request.post(api.user.signin, data);
 export const apiUserLogout = () => request.post(api.user.logout);
 export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
+export const apiUserGetProducts = () => request.get(`${api.user.product}s/all`);
 
 export const apiAdminGetProducts = (page) => request.get(`${api.admin.product}s?page=${page}`);
 export const apiAdminPostProducts = (data) => request.post(api.admin.product, data);

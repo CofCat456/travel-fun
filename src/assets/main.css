@@ -59,6 +59,9 @@
   .img {
     @apply h-full w-full object-cover object-center;
   }
+  .without-ring:focus {
+    @apply focus:border-transparent focus:outline-transparent focus:ring-0 focus:ring-offset-0;
+  }
 }
 
 html,
@@ -76,4 +79,12 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.clear-scale {
+  transform: translateZ(0);
+}
+
+.clear-scale:hover {
+  transform: translateZ(0) scale(1.1);
 }

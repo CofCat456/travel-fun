@@ -1,16 +1,29 @@
 <script setup>
+import { onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router';
 
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+import Header from '../components/Header.vue';
+import Footer from '../components/Footer.vue';
+import Loading from '../components/Loading.vue';
+
+import useProductStore from '../stores/product';
+
+const loadingRef = ref(null);
+
+const product = useProductStore();
+
+onMounted(() => {
+  product.getAllProducts(loadingRef);
+});
 </script>
 
 <template>
-  <div class="flex h-full flex-col">
+  <section class="flex h-full flex-col">
     <Header />
     <div class="flex-1">
-      <RouterView />
+      <RouterView v-if="product.isDone" />
     </div>
     <Footer />
-  </div>
+    <Loading ref="loadingRef" />
+  </section>
 </template>

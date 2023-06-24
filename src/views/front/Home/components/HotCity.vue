@@ -39,7 +39,7 @@ const goCity = (cityName) => router.push(`/city/${cityName.toLowerCase()}`);
           <img
             :src="mainCity.image"
             :alt="mainCity.name"
-            class="h-full w-full cursor-pointer object-cover transition-transform duration-500"
+            class="clear-scale h-full w-full cursor-pointer object-cover transition-transform duration-500"
           />
           <div class="absolute left-3 bottom-3 font-bold text-white">
             <h3 class="mb-1">{{ mainCity.name }}</h3>
@@ -55,7 +55,7 @@ const goCity = (cityName) => router.push(`/city/${cityName.toLowerCase()}`);
           <img
             :src="city.image"
             :alt="city.name"
-            class="h-full w-full cursor-pointer object-cover transition-transform duration-500"
+            class="clear-scale h-full w-full cursor-pointer object-cover transition-transform duration-500"
             loading="lazy"
           />
           <div class="absolute left-3 bottom-3 font-bold text-white">
@@ -67,13 +67,3 @@ const goCity = (cityName) => router.push(`/city/${cityName.toLowerCase()}`);
     </Container>
   </div>
 </template>
-
-<style scoped>
-img {
-  transform: translateZ(0);
-}
-
-img:hover {
-  transform: translateZ(0) scale(1.1);
-}
-</style>
