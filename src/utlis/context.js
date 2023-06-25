@@ -18,7 +18,7 @@ export const socialMedia = [
 export const cityMap = new Map()
   .set('taipei', '台北')
   .set('keelung', '基隆')
-  .set('new-taipei', '新北市')
+  .set('new-taipei', '新北')
   .set('taoyuan', '桃園')
   .set('hsinchu', '新竹')
   .set('miaoli', '苗栗')
@@ -37,6 +37,11 @@ export const cityMap = new Map()
 
 export const categoryMap = new Map().set('tickets', '門票').set('package', '套票');
 
+export const sortMap = new Map()
+  .set('', '熱門程度')
+  .set('sdesc', '用戶評價')
+  .set('pasc', '價格：低到高');
+
 export const iconsConfig = {};
 
 export const icons = {
@@ -49,8 +54,6 @@ export const icons = {
     shadowSize: [41, 41]
   })
 };
-
-export const categoryList = ['套票', '門票'];
 
 export const unitList = ['張'];
 

@@ -24,8 +24,8 @@ const goCategory = () => router.push({ name: 'Products', params: { category: pro
 
 <template>
   <div
-    class="flex h-16 w-full cursor-pointer items-center rounded-m bg-cc-other-1 px-3 shadow transition-colors duration-300 hover:border-cc-accent hover:text-cc-accent"
-    :class="isActive ? 'border-2 border-cc-accent text-cc-accent' : 'border border-cc-other-5'"
+    class="flex h-16 w-full cursor-pointer items-center rounded-m bg-cc-other-1 px-3 shadow transition-colors duration-300 hover:border-cc-primary hover:text-cc-primary"
+    :class="isActive ? 'border-2 border-cc-primary text-cc-primary' : 'border border-cc-other-5'"
     @click="goCategory"
   >
     <p class="text-lg font-bold">

@@ -14,7 +14,7 @@ import useProductStore from '@/stores/product';
 import { cityMap } from '@/utlis/context';
 import { filterProduct } from '@/utlis/global';
 
-// import KnowCity from './KnowCity.vue';
+import KnowCity from './KnowCity.vue';
 
 const route = useRoute();
 
@@ -57,6 +57,6 @@ const getBreadcrumbs = computed(() => [
     :btn="{ text: `查看所有${getCityName}所有活動` }"
     :products="filterProduct(getSortNew, getCityName)"
   />
-  <!-- <KnowCity :city-name="getName" :products="getProducts" /> -->
+  <KnowCity :city-name="getCityName" />
   <SwiperCity title="探索其他城市" :curr-city="getCityName" />
 </template>

@@ -62,6 +62,9 @@
   .without-ring:focus {
     @apply focus:border-transparent focus:outline-transparent focus:ring-0 focus:ring-offset-0;
   }
+  [type='checkbox'] {
+    @apply without-ring  cursor-pointer rounded-m border border-cc-other-5 text-cc-primary transition-colors duration-200 hover:border-cc-primary;
+  }
 }
 
 html,

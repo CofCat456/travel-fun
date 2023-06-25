@@ -25,7 +25,8 @@ const router = createRouter({
         {
           path: 'city/:cityName/products/:category?',
           name: 'Products',
-          component: () => import('../views/front/Products/ProductsView.vue')
+          component: () => import('../views/front/Products/ProductsView.vue'),
+          props: (route) => ({ sort: route.query.sort })
         },
         {
           path: 'product/:productId',

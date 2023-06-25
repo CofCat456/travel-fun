@@ -153,6 +153,7 @@ onMounted(() => {
         <tr>
           <th scope="col" class="px-6 py-3">產品名稱</th>
           <th width="10%" class="px-6 py-3">分類</th>
+          <th width="15%" class="px-6 py-3">地區</th>
           <th width="20%" class="px-6 py-3">
             <div class="flex items-center">
               售價
@@ -179,6 +180,7 @@ onMounted(() => {
             {{ product.title }}
           </th>
           <td class="px-6 py-4">{{ product.category }}</td>
+          <td class="px-6 py-4">{{ product.city }}</td>
           <td class="px-6 py-4">{{ currency(product.origin_price, 'NT ') }}</td>
           <td class="px-6 py-4 text-right">
             <button

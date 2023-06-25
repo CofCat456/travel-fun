@@ -21,9 +21,9 @@ const showed = ref(false);
 
 const getTitle = computed(() => `認識 ${props.cityName}`);
 
-function openModal() {
+const openModal = () => {
   showed.value = true;
-}
+};
 </script>
 
 <template>

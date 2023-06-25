@@ -29,8 +29,16 @@ const useProductStore = defineStore('product', () => {
     })
   );
 
+  const getSortRateNum = computed(() =>
+    [...allProductList.value].sort((a, b) => b.evaluateNum - a.evaluateNum)
+  );
+
   const getSortRec = computed(() =>
     [...allProductList.value].sort((a, b) => a.evaluate - b.evaluate)
+  );
+
+  const getSortPriceTo = computed(() =>
+    [...allProductList.value].sort((a, b) => a.price - b.price)
   );
 
   const getSortFeat = computed(() => [...allProductList.value].sort(() => Math.random() - 0.5));
@@ -59,7 +67,9 @@ const useProductStore = defineStore('product', () => {
     isDone,
     getSortNew,
     getSortRate,
+    getSortRateNum,
     getSortRec,
+    getSortPriceTo,
     getSortFeat,
     getAllProducts
   };

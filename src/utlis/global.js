@@ -7,11 +7,13 @@ export const currency = (val, symbol = '') => {
 };
 
 // 取出特定數量產品 or 指定程式
-export const filterProduct = (array = [], city = '', num = 10) => {
-  if (array.length === 0) return array;
-  if (city) return array.filter((item) => item.city === city).slice(0, num);
+export const filterProduct = (array = [], city = '', category = '', num = 10) => {
+  let newArray = [...array];
+  if (array.length === 0) return newArray;
+  if (city) newArray = array.filter((item) => item.city === city);
+  if (category) newArray = newArray.filter((item) => item.category === category);
 
-  return array.slice(0, num);
+  return num === 0 ? newArray : newArray.slice(0, num);
 };
 
 export default {};

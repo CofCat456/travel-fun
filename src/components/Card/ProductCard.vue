@@ -29,13 +29,17 @@ defineProps({
     type: Number,
     default: 0
   },
-  originPrice: {
+  origin_price: {
     type: Number,
     default: 0
   },
   imageUrl: {
     type: String,
     default: '/images/news/news_1.png'
+  },
+  notRanking: {
+    type: Boolean,
+    default: false
   },
   ranking: {
     type: Number,
@@ -49,6 +53,7 @@ defineProps({
     class="group relative flex cursor-pointer flex-col items-start transition-all duration-300 hover:brightness-[.8]"
   >
     <div
+      v-if="!notRanking"
       class="text-sm-content absolute left-0 top-0 h-[25px] w-[25px] rounded-br-m bg-cc-accent text-center text-white"
     >
       {{ ranking }}
@@ -72,7 +77,7 @@ defineProps({
           {{ currency(price, 'NT$ ') }}
         </h6>
         <p class="text-sm-content text-cc-other-4 line-through">
-          {{ currency(price, '$') }}
+          {{ currency(origin_price, '$') }}
         </p>
       </div>
     </div>

@@ -9,7 +9,7 @@ import SwiperPhoto from '../Swiper/SwiperPhoto.vue';
 
 import 'v-calendar/style.css';
 
-import { categoryList, cityMap, unitList } from '../../utlis/context';
+import { cityMap, categoryMap, unitList } from '../../utlis/context';
 
 const props = defineProps({
   showModal: {
@@ -354,7 +354,11 @@ watch(
                       v-model="category"
                     />
                     <datalist id="category-list">
-                      <option v-for="value in categoryList" :key="value" :value="value" />
+                      <option
+                        v-for="value in [...categoryMap.values()]"
+                        :key="value"
+                        :value="value"
+                      />
                     </datalist>
                   </div>
                 </div>
@@ -503,12 +507,7 @@ watch(
               </div>
 
               <div class="flex items-center">
-                <input
-                  id="enabled-checkbox"
-                  type="checkbox"
-                  class="without-ring h-5 w-5 rounded-m border-cc-other-5 text-cc-primary"
-                  v-model="is_enabled"
-                />
+                <input id="enabled-checkbox" type="checkbox" class="h-5 w-5" v-model="is_enabled" />
                 <label for="enabled-checkbox" class="ml-2 cursor-pointer text-sm font-medium"
                   >是否啟用</label
                 >

@@ -38,11 +38,11 @@ request.interceptors.request.use(
       '$1'
     );
     // TODO: Delete console
-    console.log('api config', config);
-    console.log(
-      'token',
-      document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')
-    );
+    // console.log('api config', config);
+    // console.log(
+    //   'token',
+    //   document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')
+    // );
     return config;
   },
   (error) => {
