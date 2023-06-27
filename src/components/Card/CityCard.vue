@@ -22,9 +22,14 @@ const getImage = computed(() => `/images/city/city_${props.city}.jpg`);
     :to="{ name: 'City', params: { cityName: props.city } }"
   >
     <div
-      class="clear-scale h-60 w-full cursor-pointer rounded-m bg-cc-other-3 bg-cover bg-center transition-transform duration-500"
+      class="clear-scale h-40 w-full cursor-pointer rounded-m bg-cc-other-3 bg-cover bg-center transition-transform duration-500 md:h-60"
       :style="`background-image: url(${getImage})`"
     />
-    <h5 class="absolute bottom-3 left-3 font-bold text-white">{{ getName }}</h5>
+    <h5
+      class="absolute bottom-3 left-3 text-sm font-bold text-white md:text-xl"
+      style="transform: translate3d(0, 0, 0)"
+    >
+      {{ getName }}
+    </h5>
   </RouterLink>
 </template>
