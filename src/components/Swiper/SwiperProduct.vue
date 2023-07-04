@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+import { v4 } from 'uuid';
 import { Navigation } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -56,7 +57,7 @@ const modules = [Navigation];
 const isBeginning = ref(true);
 const isEnd = ref(false);
 
-const btnUUID = crypto.randomUUID();
+const btnUUID = v4();
 
 const onSwiper = (swiper) => {
   isBeginning.value = swiper.isBeginning;
@@ -72,9 +73,9 @@ const goProducts = () => router.push({ name: 'Products' });
 
 <template>
   <SwiperLayout>
-    <div class="mx-4">
+    <template v-slot:title>
       <Title :title="title" :sec-title="secTitle" />
-    </div>
+    </template>
     <template v-slot:swiper>
       <Swiper
         :modules="modules"

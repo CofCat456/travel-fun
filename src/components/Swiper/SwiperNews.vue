@@ -38,12 +38,12 @@ const onSlideChange = (swiper) => {
 
 <template>
   <SwiperLayout>
-    <div class="mx-4">
+    <template v-slot:title>
       <Title
         title="最新旅遊優惠"
         sec-title="旅行變得更簡單！我們提供最新的旅遊優惠，讓您輕鬆規劃完美的旅程！"
       />
-    </div>
+    </template>
     <template v-slot:swiper>
       <Swiper
         :modules="modules"

@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 
-import { Navigation } from 'swiper';
+import { v4 } from 'uuid';
+import { FreeMode, Navigation } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
@@ -36,12 +37,12 @@ defineProps({
   }
 });
 
-const modules = [Navigation];
+const modules = [FreeMode, Navigation];
 
 const isBeginning = ref(true);
 const isEnd = ref(false);
 
-const btnUUID = crypto.randomUUID();
+const btnUUID = v4();
 
 const onSwiper = (swiper) => {
   isBeginning.value = swiper.isBeginning;
@@ -54,13 +55,14 @@ const onSlideChange = (swiper) => {
 </script>
 
 <template>
-  <SwiperLayout is-normal>
+  <SwiperLayout is-normal class="pt-0 md:pt-6">
     <template v-slot:swiper>
       <Swiper
         :modules="modules"
         :slides-per-view="slidesPerView"
         :space-between="24"
         :slides-per-group="slidesPerGroup"
+        :free-mode="true"
         :speed="1200"
         :navigation="{
           prevEl: `.swiper-${btnUUID}-custom-prev`,
@@ -68,8 +70,8 @@ const onSlideChange = (swiper) => {
         }"
         :breakpoints="{
           '@0.00': {
-            slidesPerView: 1.5,
-            slidesPerGroup: 1,
+            slidesPerView: 'auto',
+            spaceBetween: 10,
             speed: 300
           },
           '@0.75': {
@@ -92,7 +94,15 @@ const onSlideChange = (swiper) => {
         @swiper="onSwiper"
         @slideChange="onSlideChange"
       >
-        <SwiperSlide v-for="category in categorys" :key="category">
+        <SwiperSlide v-for="category in categorys" :key="category" class="max-w-fit md:max-w-full">
+          <CategoryCard :category="category" :is-active="currCategory === category" />
+        </SwiperSlide>
+
+        <SwiperSlide v-for="category in categorys" :key="category" class="max-w-fit md:max-w-full">
+          <CategoryCard :category="category" :is-active="currCategory === category" />
+        </SwiperSlide>
+
+        <SwiperSlide v-for="category in categorys" :key="category" class="max-w-fit md:max-w-full">
           <CategoryCard :category="category" :is-active="currCategory === category" />
         </SwiperSlide>
       </Swiper>

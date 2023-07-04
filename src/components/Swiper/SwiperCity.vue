@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 
+import { v4 } from 'uuid';
 import { Navigation } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -55,7 +56,7 @@ const modules = [Navigation];
 const isBeginning = ref(true);
 const isEnd = ref(false);
 
-const btnUUID = crypto.randomUUID();
+const btnUUID = v4();
 
 const onSwiper = (swiper) => {
   isBeginning.value = swiper.isBeginning;
@@ -73,9 +74,9 @@ const getCitys = computed(() =>
 
 <template>
   <SwiperLayout>
-    <div class="mx-4">
+    <template v-slot:title>
       <Title :title="title" :sec-title="secTitle" />
-    </div>
+    </template>
     <template v-slot:swiper>
       <Swiper
         :modules="modules"
@@ -83,34 +84,38 @@ const getCitys = computed(() =>
         :space-between="16"
         :slides-per-group="6"
         :speed="1200"
+        :no-swiping="true"
         :navigation="{
           prevEl: `.swiper-${btnUUID}-custom-prev`,
           nextEl: `.swiper-${btnUUID}-custom-next`
         }"
         :breakpoints="{
           '@0.00': {
-            slidesPerView: 1.5,
+            slidesPerView: 3,
             slidesPerGroup: 1,
+            spaceBetween: 12,
             speed: 300
           },
           '@0.75': {
             slidesPerView: 4,
-            slidesPerGroup: 4,
+            slidesPerGroup: 1,
+            spaceBetween: 12,
             speed: 800
           },
           '@1.00': {
             slidesPerView: 5,
-            slidesPerGroup: 5,
+            slidesPerGroup: 1,
             speed: 1000
           },
           '@1.50': {
-            slidesPerView: 6
+            slidesPerView: 6,
+            noSwiping: true
           }
         }"
         @swiper="onSwiper"
         @slideChange="onSlideChange"
       >
-        <SwiperSlide v-for="city in getCitys" :key="city">
+        <SwiperSlide v-for="city in getCitys" :key="city" class="lg:swiper-no-swiping">
           <CityCard :city="city" />
         </SwiperSlide>
       </Swiper>
