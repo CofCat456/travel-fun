@@ -20,6 +20,7 @@
     "pinia": "^2.0.32",
     "sweetalert2": "^11.7.3",
     "swiper": "^9.1.0",
+    "uuid": "^9.0.0",
     "v-calendar": "^3.0.3",
     "vee-validate": "^4.7.4",
     "vite-plugin-eslint": "^1.8.1",
