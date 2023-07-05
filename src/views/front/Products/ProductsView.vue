@@ -144,7 +144,7 @@ onBeforeRouteUpdate(async (to) => {
     <Container full no-padding>
       <div class="md:bg-cc-other-7/80">
         <h1 class="hidden text-3xl font-bold md:block">
-          {{ `${isCity ? getCityName : getCountryName} 所有活動` }}
+          {{ `${isCity ? getCityName : getCountryName} ${getCategory}` }}
         </h1>
         <SwiperCategory
           :curr-category="route.params.category"
@@ -208,7 +208,8 @@ onBeforeRouteUpdate(async (to) => {
       </div>
       <main class="flex flex-1 flex-col">
         <h6 v-if="isMobile" class="mb-4 font-medium">
-          {{ getCityName }} {{ getCategory }} {{ `(${getProductList.length})` }}
+          {{ isCity ? getCityName : getCountryName }} {{ getCategory }}
+          {{ `(${getProductList.length})` }}
         </h6>
         <Filter
           v-else
