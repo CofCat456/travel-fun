@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 import Container from '@/Layout/Container.vue';
@@ -12,17 +12,17 @@ import SwiperCity from '@/components/Swiper/SwiperCity.vue';
 import useProductStore from '@/stores/product';
 
 import { cityMap } from '@/utlis/context';
-import { filterProduct } from '@/utlis/global';
 
-import KnowCity from './KnowCity.vue';
+import KnowCity from './components/KnowCity.vue';
 
 const route = useRoute();
+const router = useRouter();
 
-const product = useProductStore();
+const productStore = useProductStore();
 
-const { getSortNew, getSortRate, getSortRec, getSortFeat } = storeToRefs(product);
+const { getByNewest, getByPopular, getByRecommended, getByPreferred } = storeToRefs(productStore);
 
-const getBackgroundUrl = computed(() => `/images/background/bg_${route.params.cityName}.jpg`);
+const getBackgroundUrl = computed(() => `/images/background/city/bg_${route.params.cityName}.jpg`);
 const getCityName = computed(() => cityMap.get(route.params.cityName));
 
 const getBreadcrumbs = computed(() => [
@@ -34,6 +34,8 @@ const getBreadcrumbs = computed(() => [
     title: getCityName.value
   }
 ]);
+
+const goProducts = () => router.push({ name: 'CityProducts' });
 </script>
 
 <template>
@@ -44,18 +46,27 @@ const getBreadcrumbs = computed(() => [
     <template v-slot:sec-title> {{ `${getCityName} 熱門旅遊景點` }} </template>
   </Banner>
   <Container>
-    <Breadcrumbs :breadcrumbs="getBreadcrumbs" />
+    <div class="mb-6">
+      <Breadcrumbs :breadcrumbs="getBreadcrumbs" />
+    </div>
   </Container>
-  <SwiperProduct title="Top 10 商品" :products="filterProduct(getSortRate, getCityName)" />
+  <SwiperProduct
+    title="Top 10 商品"
+    :products="productStore.getFilterData(getByPopular, getCityName)"
+  />
   <SwiperProduct
     :title="`精選${getCityName}活動`"
-    :products="filterProduct(getSortFeat, getCityName)"
+    :products="productStore.getFilterData(getByPreferred, getCityName)"
   />
-  <SwiperProduct title="為您推薦" :products="filterProduct(getSortRec, getCityName)" />
+  <SwiperProduct
+    title="為您推薦"
+    :products="productStore.getFilterData(getByRecommended, getCityName)"
+  />
   <SwiperProduct
     title="最新上架"
     :btn="{ text: `查看所有${getCityName}所有活動` }"
-    :products="filterProduct(getSortNew, getCityName)"
+    :products="productStore.getFilterData(getByNewest, getCityName)"
+    @btn-click="goProducts"
   />
   <KnowCity :city-name="getCityName" />
   <SwiperCity title="探索其他城市" :curr-city="getCityName" />

@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 import { v4 } from 'uuid';
 import { Navigation } from 'swiper';
@@ -50,7 +49,7 @@ defineProps({
   }
 });
 
-const router = useRouter();
+defineEmits(['btnClick']);
 
 const modules = [Navigation];
 
@@ -67,8 +66,6 @@ const onSlideChange = (swiper) => {
   isBeginning.value = swiper.isBeginning;
   isEnd.value = swiper.isEnd;
 };
-
-const goProducts = () => router.push({ name: 'Products' });
 </script>
 
 <template>
@@ -121,7 +118,7 @@ const goProducts = () => router.push({ name: 'Products' });
     </template>
     <template v-slot:btn>
       <div v-if="btn.text" class="mt-6 text-center md:mb-6 md:mt-12">
-        <button type="button" class="btn" @click="goProducts">{{ btn.text }}</button>
+        <button type="button" class="btn" @click="$emit('btnClick')">{{ btn.text }}</button>
       </div>
     </template>
   </SwiperLayout>

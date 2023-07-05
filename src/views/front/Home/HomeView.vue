@@ -1,9 +1,8 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 import useProductStore from '@/stores/product';
-
-import { filterProduct } from '@/utlis/global';
 
 import Banner from '@/components/Banner.vue';
 import SwiperNews from '@/components/Swiper/SwiperNews.vue';
@@ -15,9 +14,13 @@ import Search from './components/Search.vue';
 
 import { mockNews, mockHotCitys } from './_Context';
 
-const product = useProductStore();
+const router = useRouter();
 
-const { getSortNew, getSortRate } = storeToRefs(product);
+const productStore = useProductStore();
+
+const { getByNewest, getByPopular } = storeToRefs(productStore);
+
+const goCountry = () => router.push({ name: 'Country', params: { countryName: 'taiwan' } });
 </script>
 
 <template>
@@ -41,14 +44,15 @@ const { getSortNew, getSortRate } = storeToRefs(product);
     <SwiperProduct
       title="Top 10 商品"
       sec-title="尋找最受歡迎的商品嗎？別再猶豫，立刻挑選！"
-      :products="filterProduct(getSortRate)"
+      :products="productStore.getFilterData(getByPopular)"
     />
     <img src="/images/home-bg.png" alt="home bg" class="my-6" loading="lazy" />
     <SwiperProduct
       title="最新產品"
       sec-title="一直關注最新產品的我們，給您帶來最好的選擇和品質！"
       :btn="{ text: '查看更多' }"
-      :products="filterProduct(getSortNew)"
+      :products="productStore.getFilterData(getByNewest)"
+      @btn-click="goCountry"
     />
     <HotCity :hot-citys="mockHotCitys" />
     <Member />

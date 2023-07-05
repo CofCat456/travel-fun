@@ -15,6 +15,8 @@ export const socialMedia = [
   }
 ];
 
+export const countryMap = new Map().set('taiwan', '台灣');
+
 export const cityMap = new Map()
   .set('taipei', '台北')
   .set('keelung', '基隆')
@@ -39,8 +41,9 @@ export const categoryMap = new Map().set('tickets', '門票').set('package', '�
 
 export const sortMap = new Map()
   .set('', '熱門程度')
-  .set('sdesc', '用戶評價')
-  .set('pasc', '價格：低到高');
+  .set('userRating', '用戶評價')
+  .set('priceLowToHigh', '價格：低到高')
+  .set('newArrivals', '最新上架');
 
 export const iconsConfig = {};
 

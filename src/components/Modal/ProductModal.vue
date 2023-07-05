@@ -12,10 +12,6 @@ import 'v-calendar/style.css';
 import { cityMap, categoryMap, unitList } from '../../utlis/context';
 
 const props = defineProps({
-  showModal: {
-    type: Boolean,
-    default: false
-  },
   noScroll: {
     type: Boolean,
     default: false
@@ -38,14 +34,15 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['closing', 'addProduct', 'updateProduct', 'uploadImage']);
+const emit = defineEmits(['addProduct', 'updateProduct', 'uploadImage']);
 
-const fileInputRef = ref(null);
 const isShowDetail = ref(true);
 const tempPreferImageUrl = ref('');
 const tempImagesUrl = ref([]);
 const activeImageIndex = ref(0);
 const date = ref(new Date());
+const fileInputRef = ref(null);
+const modalRef = ref(null);
 
 const { handleSubmit, errors, resetForm } = useForm({
   validationSchema: yup.object({
@@ -112,9 +109,12 @@ const canUpdatePhoto = computed(() => {
   return activeImageIndex.value < tempImagesUrl.value.length;
 });
 
-const closeModal = () => {
-  emit('closing');
-  resetForm();
+const openModal = () => {
+  modalRef.value.show();
+};
+
+const hideModal = () => {
+  modalRef.value.hide();
 };
 
 const openFileHandler = () => {
@@ -170,11 +170,11 @@ watch(
     evaluateNum.value = currTempProduct?.evaluateNum ?? 0;
     origin_price.value = currTempProduct?.origin_price;
     price.value = currTempProduct?.price;
-    date.value = currTempProduct?.date ?? new Date();
+    date.value = currTempProduct?.date ? new Date(currTempProduct?.date) : new Date();
     description.value = currTempProduct?.description;
     tempImagesUrl.value = [...(currTempProduct?.imagesUrl ?? [])];
     tempPreferImageUrl.value = currTempProduct?.imageUrl ?? tempImagesUrl.value[0] ?? '';
-    is_enabled.value = currTempProduct?.is_enabled ?? true;
+    is_enabled.value = currTempProduct?.is_enabcurrTempProduct?.dateled ?? true;
   },
   { deep: true }
 );
@@ -189,14 +189,19 @@ watch(
     }
   }
 );
+
+defineExpose({
+  openModal,
+  hideModal
+});
 </script>
 
 <template>
-  <Modal :no-scroll="noScroll" :showModal="showModal" @closing="closeModal">
+  <Modal ref="modalRef" :no-scroll="noScroll" @hiding="resetForm()">
     <template v-slot:header>
       <div class="flex items-center justify-between">
         <h4 class="font-bold">{{ `${modalStatus}產品` }}</h4>
-        <button type="button" @click="closeModal">
+        <button type="button" @click="hideModal">
           <span class="material-icons-outlined icon-hover align-top text-cc-other-2"> close </span>
         </button>
       </div>
@@ -562,5 +567,9 @@ watch(
 input::-webkit-calendar-picker-indicator {
   display: none !important;
   -webkit-appearance: none !important;
+}
+
+:deep(.modal-window) {
+  @apply rounded-m;
 }
 </style>

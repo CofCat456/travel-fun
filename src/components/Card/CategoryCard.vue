@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
 
 import { categoryMap } from '../../utlis/context';
 
@@ -15,21 +14,23 @@ const props = defineProps({
   }
 });
 
-const router = useRouter();
-
 const getCategory = computed(() => categoryMap.get(props.category) || '所有活動');
-
-const goCategory = () => router.push({ name: 'Products', params: { category: props.category } });
 </script>
 
 <template>
-  <div
-    class="flex h-16 w-full cursor-pointer items-center rounded-m bg-cc-other-1 px-3 shadow transition-colors duration-300 hover:border-cc-primary hover:text-cc-primary"
-    :class="isActive ? 'border-2 border-cc-primary text-cc-primary' : 'border border-cc-other-5'"
-    @click="goCategory"
-  >
-    <p class="text-lg font-bold">
+  <div class="categoryCard" :class="isActive && 'active'">
+    <p class="text-base font-bold md:text-lg">
       {{ getCategory }}
     </p>
   </div>
 </template>
+
+<style scoped>
+.categoryCard {
+  @apply relative flex w-full cursor-pointer flex-wrap items-center rounded-m px-5 py-3 transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:block after:h-1 after:rounded-t-m after:bg-cc-primary hover:border-cc-primary hover:text-cc-primary md:h-16 md:border md:border-cc-other-5 md:bg-cc-other-1 md:py-0 md:shadow md:after:hidden;
+}
+
+.active {
+  @apply text-cc-primary after:w-full md:border-2 md:border-cc-primary;
+}
+</style>

@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="flex h-full flex-col">
+  <section class="flex flex-col">
     <Header />
     <div class="flex-1">
       <RouterView v-if="product.isDone" />

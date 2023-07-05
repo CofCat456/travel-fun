@@ -1,13 +1,16 @@
 <script setup>
-import FilterMenu from '@/components/FilterMenu.vue';
+import DropdownMenu from '@/components/Menu/DropdownMenu.vue';
 
 import { sortMap } from '@/utlis/context';
-import { computed } from 'vue';
 
 defineProps({
-  sort: {
+  currSort: {
     type: String,
     default: ''
+  },
+  sortArray: {
+    type: Array,
+    default: () => []
   },
   productTotal: {
     type: Number,
@@ -15,13 +18,7 @@ defineProps({
   }
 });
 
-const getFilterList = computed(() => [...sortMap.keys()]);
-
-const sortQuery = (query) => {
-  if (query) return { name: 'Products', query: { sort: query } };
-
-  return { name: 'Products' };
-};
+defineEmits(['updateSort']);
 </script>
 
 <template>
@@ -37,13 +34,20 @@ const sortQuery = (query) => {
     </p>
     <div class="inline-flex items-center gap-4">
       <span>排序方式：</span>
-      <FilterMenu :sort="sort">
+      <DropdownMenu :value="currSort">
         <template v-slot:dropdown-item>
-          <li v-for="query in getFilterList" :key="query" :class="query === sort && 'active'">
-            <RouterLink :to="sortQuery(query)">{{ sortMap.get(query) }}</RouterLink>
+          <li
+            v-for="query in sortArray"
+            :key="query"
+            :class="query === currSort && 'active'"
+            @click="$emit('updateSort', query)"
+          >
+            <p>
+              {{ sortMap.get(query) }}
+            </p>
           </li>
         </template>
-      </FilterMenu>
+      </DropdownMenu>
     </div>
   </div>
 </template>

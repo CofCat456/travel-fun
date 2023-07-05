@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-
 import { v4 } from 'uuid';
+
 import { FreeMode, Navigation } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -37,6 +37,8 @@ defineProps({
   }
 });
 
+defineEmits(['updateCategory']);
+
 const modules = [FreeMode, Navigation];
 
 const isBeginning = ref(true);
@@ -55,7 +57,7 @@ const onSlideChange = (swiper) => {
 </script>
 
 <template>
-  <SwiperLayout is-normal class="pt-0 md:pt-6">
+  <SwiperLayout is-normal no-padding class="py-0 md:py-6">
     <template v-slot:swiper>
       <Swiper
         :modules="modules"
@@ -95,15 +97,11 @@ const onSlideChange = (swiper) => {
         @slideChange="onSlideChange"
       >
         <SwiperSlide v-for="category in categorys" :key="category" class="max-w-fit md:max-w-full">
-          <CategoryCard :category="category" :is-active="currCategory === category" />
-        </SwiperSlide>
-
-        <SwiperSlide v-for="category in categorys" :key="category" class="max-w-fit md:max-w-full">
-          <CategoryCard :category="category" :is-active="currCategory === category" />
-        </SwiperSlide>
-
-        <SwiperSlide v-for="category in categorys" :key="category" class="max-w-fit md:max-w-full">
-          <CategoryCard :category="category" :is-active="currCategory === category" />
+          <CategoryCard
+            :category="category"
+            :is-active="currCategory === category"
+            @click="$emit('updateCategory', category)"
+          />
         </SwiperSlide>
       </Swiper>
       <CustomNavigation :classkey="btnUUID" :is-beginning="isBeginning" :is-end="isEnd" is-normal />

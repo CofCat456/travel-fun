@@ -18,15 +18,26 @@ const router = createRouter({
           component: () => import('../views/front/Login/LoginView.vue')
         },
         {
+          path: 'country/:countryName',
+          name: 'Country',
+          component: () => import('../views/front/Country/CountryView.vue')
+        },
+        {
           path: 'city/:cityName',
           name: 'City',
           component: () => import('../views/front/City/CityView.vue')
         },
         {
           path: 'city/:cityName/products/:category?',
-          name: 'Products',
+          name: 'CityProducts',
           component: () => import('../views/front/Products/ProductsView.vue'),
-          props: (route) => ({ sort: route.query.sort })
+          props: (route) => ({ sort: route.query.sort, mode: 'city' })
+        },
+        {
+          path: 'country/:countryName/products/:category?',
+          name: 'CountryProducts',
+          component: () => import('../views/front/Products/ProductsView.vue'),
+          props: (route) => ({ sort: route.query.sort, mode: 'country' })
         },
         {
           path: 'product/:productId',
@@ -42,7 +53,7 @@ const router = createRouter({
         {
           path: 'home',
           name: 'AdminHome',
-          component: () => import('../views/admin/Home/AdminHome.vue')
+          component: () => import('../views/admin/Home/AdminHomeView.vue')
         },
         {
           path: 'products',

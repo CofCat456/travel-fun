@@ -33,7 +33,7 @@ const isHome = computed(() => ['Home', 'City'].includes(route.name));
           <RouterLink :to="{ name: 'Home' }">
             <Logo />
           </RouterLink>
-          <ul class="hidden h-full flex-1 items-center gap-1 lg:flex">
+          <ul class="hidden h-full flex-1 items-center gap-1 md:flex">
             <li class="h-full flex-1">
               <button type="button" class="h-full w-28 rounded-[100px] border border-white">
                 選地區
@@ -50,7 +50,7 @@ const isHome = computed(() => ['Home', 'City'].includes(route.name));
           </ul>
         </div>
         <div class="flex items-center justify-between lg:w-[256px]">
-          <div class="hidden place-content-center lg:grid">
+          <div class="hidden place-content-center md:grid">
             <FavouriteIcon />
           </div>
           <button

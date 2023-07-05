@@ -7,47 +7,50 @@ const useProductStore = defineStore('product', () => {
   const isDone = ref(false);
   const allProductList = ref([]);
 
-  const getSortNew = computed(() =>
-    [...allProductList.value].sort((a, b) => (new Date(a.date) < new Date(b.date) ? 1 : -1))
-  );
+  const sortByPreferred = () => Math.random() - 0.5;
+  const sortByNewest = (a, b) => new Date(b.date) - new Date(a.date);
+  const sortByPopular = (a, b) => b.evaluate - a.evaluate || b.evaluateNum - a.evaluateNum;
+  const sortByReviewCount = (a, b) => b.evaluateNum - a.evaluateNum;
+  const sortByPrice = (a, b) => a.price - b.price;
+  const sortRecommended = (a, b) => b.evaluate - a.evaluate;
 
-  const getSortRate = computed(() =>
-    [...allProductList.value].sort((a, b) => {
-      if (a.evaluate > b.evaluate) {
-        return -1;
-      }
-      if (a.evaluate < b.evaluate) {
-        return 1;
-      }
-      if (a.evaluateNum > b.evaluateNum) {
-        return -1;
-      }
-      if (a.evaluateNum < b.evaluateNum) {
-        return 1;
-      }
-      return 0;
-    })
-  );
+  const getByNewest = computed(() => [...allProductList.value].sort(sortByNewest));
+  const getByPreferred = computed(() => [...allProductList.value].sort(sortByPreferred));
+  const getByPopular = computed(() => [...allProductList.value].sort(sortByPopular));
+  const getByReviewCount = computed(() => [...allProductList.value].sort(sortByReviewCount));
+  const getByPrice = computed(() => [...allProductList.value].sort(sortByPrice));
+  const getByRecommended = computed(() => [...allProductList.value].sort(sortRecommended));
 
-  const getSortRateNum = computed(() =>
-    [...allProductList.value].sort((a, b) => b.evaluateNum - a.evaluateNum)
-  );
+  const getSortData = (sortType) => {
+    switch (sortType) {
+      case 'popular':
+        return getByPopular.value;
+      case 'userRating':
+        return getByReviewCount.value;
+      case 'priceLowToHigh':
+        return getByPrice.value;
+      case 'newArrivals':
+        return getByNewest.value;
+      default:
+        return allProductList.value;
+    }
+  };
 
-  const getSortRec = computed(() =>
-    [...allProductList.value].sort((a, b) => a.evaluate - b.evaluate)
-  );
+  const getFilterData = (array, city = '', num = 10) => {
+    let newArray = array ? [...array] : [];
 
-  const getSortPriceTo = computed(() =>
-    [...allProductList.value].sort((a, b) => a.price - b.price)
-  );
+    if (city) {
+      newArray = newArray.filter((item) => item.city === city);
+    }
 
-  const getSortFeat = computed(() => [...allProductList.value].sort(() => Math.random() - 0.5));
+    return num === 0 ? newArray : newArray.slice(0, num);
+  };
 
-  const getAllProducts = async (loadingRef) => {
+  const getAllProducts = async (loadingRef, category = '') => {
     loadingRef.value.show();
 
     try {
-      const res = await apiUserGetProducts();
+      const res = await apiUserGetProducts(category);
 
       const {
         data: { success, products }
@@ -63,15 +66,17 @@ const useProductStore = defineStore('product', () => {
   };
 
   return {
-    allProductList,
     isDone,
-    getSortNew,
-    getSortRate,
-    getSortRateNum,
-    getSortRec,
-    getSortPriceTo,
-    getSortFeat,
-    getAllProducts
+    allProductList,
+    getAllProducts,
+    getByPreferred,
+    getByNewest,
+    getByPopular,
+    getByReviewCount,
+    getByPrice,
+    getByRecommended,
+    getSortData,
+    getFilterData
   };
 });
 

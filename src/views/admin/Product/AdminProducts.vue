@@ -17,22 +17,22 @@ import { currency } from '@/utlis/global';
 
 const loading = inject('loading');
 
+const isLoading = ref(false);
+const isNew = ref(true);
 const products = ref([]);
 const pagination = ref({});
 const tempProduct = ref({});
 const tempImageUrl = ref('');
-const showed = ref(false);
-const isLoading = ref(false);
-const isNew = ref(true);
+const productModalRef = ref(null);
 
 const openProductModal = (status, product = {}) => {
-  showed.value = true;
+  productModalRef.value.openModal();
   isNew.value = status;
   tempProduct.value = { ...product };
 };
 
 const closeProductModal = () => {
-  showed.value = false;
+  productModalRef.value.hideModal();
 };
 
 const getProducts = async (page = 1) => {
@@ -205,13 +205,12 @@ onMounted(() => {
     <Pagination v-bind="pagination" @changePage="getProducts" />
     <AddBtn @click="openProductModal(true)" />
     <ProductModal
+      ref="productModalRef"
       no-scroll
-      :show-modal="showed"
       :is-new="isNew"
       :is-loading="isLoading"
       :temp-product="tempProduct"
       :temp-Image-url="tempImageUrl"
-      @closing="closeProductModal"
       @add-product="addProduct"
       @update-product="updateProduct"
       @upload-image="uploadImage"

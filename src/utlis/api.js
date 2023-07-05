@@ -87,7 +87,13 @@ const api = {
 export const apiUserSignin = (data) => request.post(api.user.signin, data);
 export const apiUserLogout = () => request.post(api.user.logout);
 export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
-export const apiUserGetProducts = () => request.get(`${api.user.product}s/all`);
+export const apiUserGetAllProducts = () => request.get(`${api.user.product}s/all`);
+export const apiUserGetProducts = (category = '') => {
+  if (category) {
+    return request.get(`${api.user.product}s?category=${category}`);
+  }
+  return request.get(`${api.user.product}s`);
+};
 
 export const apiAdminGetProducts = (page) => request.get(`${api.admin.product}s?page=${page}`);
 export const apiAdminPostProducts = (data) => request.post(api.admin.product, data);

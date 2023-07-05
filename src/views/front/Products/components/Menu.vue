@@ -1,20 +1,25 @@
 <script setup>
-import { computed } from 'vue';
-import { cityMap } from '@/utlis/context';
+import { countryMap, cityMap } from '@/utlis/context';
 
 defineProps({
-  currEnCity: {
+  isCity: {
+    type: Boolean,
+    default: true
+  },
+  currEnTarget: {
     type: String,
     default: ''
+  },
+  array: {
+    type: Array,
+    default: () => []
   }
 });
 
-const emit = defineEmits(['updateCity']);
+const emit = defineEmits(['updateParams']);
 
-const getEnCitys = computed(() => [...cityMap.keys()]);
-
-const selectHandler = (enCity) => {
-  emit('updateCity', enCity);
+const selectHandler = (params) => {
+  return emit('updateParams', params);
 };
 </script>
 
@@ -24,14 +29,15 @@ const selectHandler = (enCity) => {
       <span class="material-icons-outlined text-cc-other-2"> local_airport </span>
       目的地
     </h6>
-    <ul v-for="enCity in getEnCitys" :key="enCity" class="flex flex-col justify-center">
+    <ul v-for="item in array" :key="item" class="flex flex-col justify-center">
       <li
         class="cursor-pointer px-8 py-3 transition-colors hover:bg-cc-other-6/40"
-        @click="selectHandler(enCity)"
+        :class="array.length === 1 && 'cursor-not-allowed opacity-60'"
+        @click="selectHandler(item)"
       >
         <div class="flex items-center gap-2">
-          <input type="checkbox" class="h-5 w-5" :checked="enCity === currEnCity" />
-          <span>{{ cityMap.get(enCity) }}市</span>
+          <input type="checkbox" class="h-5 w-5" :checked="item === currEnTarget" />
+          <span>{{ isCity ? `${cityMap.get(item)}市` : countryMap.get(item) }}</span>
         </div>
       </li>
     </ul>

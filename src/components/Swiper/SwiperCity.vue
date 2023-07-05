@@ -67,9 +67,11 @@ const onSlideChange = (swiper) => {
   isEnd.value = swiper.isEnd;
 };
 
-const getCitys = computed(() =>
-  [...cityMap.keys()].filter((city) => cityMap.get(city) !== props.currCity)
-);
+const getCitys = computed(() => {
+  if (!props.currCity) return [...cityMap.keys()];
+
+  return [...cityMap.keys()].filter((city) => cityMap.get(city) !== props.currCity);
+});
 </script>
 
 <template>

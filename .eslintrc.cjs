@@ -34,6 +34,7 @@ module.exports = {
     ],
     semi: ['error', 'always'],
     camelcase: ['off'],
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    'import/prefer-default-export': 'off'
   }
 };
