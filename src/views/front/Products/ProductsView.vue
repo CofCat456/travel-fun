@@ -127,7 +127,7 @@ onBeforeRouteUpdate(async (to) => {
     </Container>
   </div>
   <div
-    class="sticky top-16 z-30 min-h-[48px] bg-cc-other-1 shadow-[inset_0_-1px_0_0_#eaeaea] md:static md:bg-cc-other-7/80 md:shadow-none"
+    class="sticky top-16 z-20 min-h-[48px] bg-cc-other-1 shadow-[inset_0_-1px_0_0_#eaeaea] md:static md:bg-cc-other-7/80 md:shadow-none"
   >
     <Container full no-padding>
       <div class="md:bg-cc-other-7/80">
@@ -144,11 +144,12 @@ onBeforeRouteUpdate(async (to) => {
   </div>
   <MobileFilter
     v-if="isMobile"
-    :curr-en-city="route.params.cityName"
-    :city-array="getEnCitys"
+    :isCity="isCity"
+    :curr-en-target="getParams"
+    :array="isCity ? getEnCitys : getEnCountrys"
     :curr-sort="sort"
     :sort-array="getFilterList"
-    @update-city="updateParams"
+    @update-params="updateParams"
     @update-sort="updateSort"
     @open-map="mobileMapRef?.show"
   />

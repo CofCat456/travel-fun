@@ -13,7 +13,7 @@ import useProductStore from '@/stores/product';
 
 import { countryMap } from '@/utlis/context';
 
-import KnowCity from './components/KnowCity.vue';
+import KnowCountry from './components/KnowCountry.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -64,6 +64,6 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
     :products="productStore.getFilterData(getByNewest)"
     @btn-click="goProducts"
   />
-  <KnowCity :city-name="getCountryName" />
+  <KnowCountry :city-name="getCountryName" />
   <SwiperCity :title="`${getCountryName}熱門城市`" />
 </template>

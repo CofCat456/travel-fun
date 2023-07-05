@@ -1,10 +1,13 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { ref, computed } from 'vue';
+import { storeToRefs } from 'pinia';
 
 import Container from '@/Layout/Container.vue';
 
 import Modal from '@/components/Modal/Modal.vue';
 import ProductMap from '@/components/ProductMap.vue';
+
+import useDebiveStore from '@/stores/device';
 
 const props = defineProps({
   cityName: {
@@ -17,9 +20,17 @@ const props = defineProps({
   }
 });
 
-const modalRef = ref(null);
+const deviceStore = useDebiveStore();
+
+const { isMobile } = storeToRefs(deviceStore);
+
+const mapRef = ref(null);
+const mobileMapRef = ref(null);
 
 const getTitle = computed(() => `認識 ${props.cityName}`);
+
+const openMap = () => (isMobile ? mobileMapRef.value.show() : mapRef.value.show());
+const hideMap = () => (isMobile ? mobileMapRef.value.hide() : mapRef.value.hide());
 </script>
 
 <template>
@@ -40,7 +51,7 @@ const getTitle = computed(() => `認識 ${props.cityName}`);
             background-image: linear-gradient(90deg, #fff7eb, rgba(255, 247, 234, 0.2)),
               url(/images/map.jpg);
           "
-          @click="modalRef.show"
+          @click="openMap"
         >
           <div
             class="absolute bottom-1/2 left-6 translate-y-1/2 font-bold md:left-auto md:bottom-6 md:right-6 md:translate-y-0"
@@ -67,20 +78,42 @@ const getTitle = computed(() => `認識 ${props.cityName}`);
         </div>
       </div>
     </Container>
-    <Modal ref="modalRef" no-scroll screen="screen">
+    <Modal v-if="isMobile" id="mobileMap" ref="mobileMapRef" no-scroll screen="screen">
       <template v-slot:content>
-        <ProductMap :products="products" />
+        <button
+          type="button"
+          class="fixed top-4 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cc-other-1 shadow-2xl"
+          @click="hideMap"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-5 w-5"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        <ProductMap />
+      </template>
+    </Modal>
+    <Modal v-else id="map" ref="mapRef" no-scroll screen="screen">
+      <template v-slot:content>
+        <ProductMap />
       </template>
     </Modal>
   </div>
 </template>
 
 <style scoped>
-:deep(.modal-diglog) {
+#map :deep(.modal-diglog) {
   @apply p-3;
 }
 
-:deep(.modal-window) {
+#map :deep(.modal-window),
+#mobile :deep(.modal-window) {
   @apply rounded-m;
 }
 </style>

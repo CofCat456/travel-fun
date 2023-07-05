@@ -1,14 +1,18 @@
 <script setup>
 import FilterMenu from '@/components/Menu/FilterMenu.vue';
 
-import { cityMap, sortMap } from '@/utlis/context';
+import { countryMap, cityMap, sortMap } from '@/utlis/context';
 
 defineProps({
-  currEnCity: {
+  isCity: {
+    type: Boolean,
+    default: false
+  },
+  currEnTarget: {
     type: String,
     default: ''
   },
-  cityArray: {
+  array: {
     type: Array,
     default: () => []
   },
@@ -22,23 +26,26 @@ defineProps({
   }
 });
 
-defineEmits(['updateCity', 'updateSort', 'openMap']);
+defineEmits(['updateParams', 'updateSort', 'openMap']);
+
+const cityText = (city) => `${cityMap.get(city)}市`;
+const countryText = (city) => countryMap.get(city);
 </script>
 
 <template>
   <div class="sticky top-28 z-20 block bg-cc-other-1 md:hidden">
     <div class="flex h-12 items-center">
       <div class="mx-5 inline-flex flex-1 items-center gap-2 overflow-x-auto">
-        <FilterMenu title="城市">
+        <FilterMenu :title="isCity ? '城市' : '國家'">
           <li
-            v-for="city in cityArray"
-            :key="city"
+            v-for="item in array"
+            :key="item"
             class="flex cursor-pointer items-center justify-between border-t border-cc-other-5/50 px-4 py-2"
-            @click="$emit('updateCity', city)"
+            @click="$emit('updateParams', item)"
           >
-            {{ `${cityMap.get(city)}市` }}
+            {{ isCity ? cityText(item) : countryText(item) }}
             <svg
-              v-if="city === currEnCity"
+              v-if="item === currEnTarget"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
