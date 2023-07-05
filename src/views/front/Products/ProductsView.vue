@@ -96,7 +96,8 @@ const updateParams = (params) => {
 const updateCategory = (category) => {
   router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
-    params: { category }
+    params: { category },
+    query: { sort: props.sort }
   });
 };
 
