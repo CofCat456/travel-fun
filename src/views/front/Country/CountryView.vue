@@ -20,7 +20,8 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { getByNewest, getByPopular, getByRecommended, getByPreferred } = storeToRefs(productStore);
+const { getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
+  storeToRefs(productStore);
 
 const getBackgroundUrl = computed(
   () => `/images/background/country/bg_${route.params.countryName}.jpg`
@@ -52,16 +53,16 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
       <Breadcrumbs :breadcrumbs="getBreadcrumbs" />
     </div>
   </Container>
-  <SwiperProduct title="Top 10 商品" :products="productStore.getFilterData(getByPopular)" />
+  <SwiperProduct title="Top 10 商品" :products="productStore.getFilterData(getByAllPopular)" />
   <SwiperProduct
     :title="`精選${getCountryName}活動`"
-    :products="productStore.getFilterData(getByPreferred)"
+    :products="productStore.getFilterData(getByAllPreferred)"
   />
-  <SwiperProduct title="為您推薦" :products="productStore.getFilterData(getByRecommended)" />
+  <SwiperProduct title="為您推薦" :products="productStore.getFilterData(getByAllRecommended)" />
   <SwiperProduct
     title="最新上架"
     :btn="{ text: `查看所有${getCountryName}所有活動` }"
-    :products="productStore.getFilterData(getByNewest)"
+    :products="productStore.getFilterData(getByAllNewest)"
     @btn-click="goProducts"
   />
   <KnowCountry :city-name="getCountryName" />

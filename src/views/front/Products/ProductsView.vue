@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
@@ -79,9 +79,18 @@ const getProductList = computed(() =>
 );
 
 const updateParams = (params) => {
-  if (isCity.value) return router.push({ name: 'CityProducts', params: { cityName: params } });
+  if (isCity.value)
+    return router.push({
+      name: 'CityProducts',
+      params: { cityName: params, category: route.params.category },
+      query: { sort: props.sort }
+    });
 
-  return router.push({ name: 'CountryProducts', params: { countryName: params } });
+  return router.push({
+    name: 'CountryProducts',
+    params: { countryName: params, category: route.params.category },
+    query: { sort: props.sort }
+  });
 };
 
 const updateCategory = (category) => {
@@ -104,7 +113,7 @@ const updateSort = (query) => {
     return router.push({
       name: 'CountryProducts',
       params: { category: route.params.category },
-      query: { category: route.params.category, sort: query }
+      query: { sort: query }
     });
   }
 
@@ -114,9 +123,11 @@ const updateSort = (query) => {
   return router.push({ name: 'CountryProducts', params: { category: route.params.category } });
 };
 
+onMounted(() => productStore.getProducts(loadingRef));
+
 onBeforeRouteUpdate(async (to) => {
   const { category } = to.params;
-  await productStore.getAllProducts(loadingRef, categoryMap.get(category));
+  await productStore.getProducts(loadingRef, categoryMap.get(category));
 });
 </script>
 

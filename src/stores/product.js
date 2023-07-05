@@ -1,11 +1,12 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
-import { apiUserGetProducts } from '../utlis/api';
+import { apiUserGetAllProducts, apiUserGetProducts } from '../utlis/api';
 
 const useProductStore = defineStore('product', () => {
   const isDone = ref(false);
   const allProductList = ref([]);
+  const productList = ref([]);
 
   const sortByPreferred = () => Math.random() - 0.5;
   const sortByNewest = (a, b) => new Date(b.date) - new Date(a.date);
@@ -14,12 +15,17 @@ const useProductStore = defineStore('product', () => {
   const sortByPrice = (a, b) => a.price - b.price;
   const sortRecommended = (a, b) => b.evaluate - a.evaluate;
 
-  const getByNewest = computed(() => [...allProductList.value].sort(sortByNewest));
-  const getByPreferred = computed(() => [...allProductList.value].sort(sortByPreferred));
-  const getByPopular = computed(() => [...allProductList.value].sort(sortByPopular));
-  const getByReviewCount = computed(() => [...allProductList.value].sort(sortByReviewCount));
-  const getByPrice = computed(() => [...allProductList.value].sort(sortByPrice));
-  const getByRecommended = computed(() => [...allProductList.value].sort(sortRecommended));
+  const getByAllPopular = computed(() => [...allProductList.value].sort(sortByPopular));
+  const getByAllNewest = computed(() => [...allProductList.value].sort(sortByNewest));
+  const getByAllPreferred = computed(() => [...allProductList.value].sort(sortByPreferred));
+  const getByAllRecommended = computed(() => [...allProductList.value].sort(sortRecommended));
+
+  const getByPopular = computed(() => [...productList.value].sort(sortByPopular));
+  const getByNewest = computed(() => [...productList.value].sort(sortByNewest));
+  const getByPreferred = computed(() => [...productList.value].sort(sortByPreferred));
+  const getByRecommended = computed(() => [...productList.value].sort(sortRecommended));
+  const getByReviewCount = computed(() => [...productList.value].sort(sortByReviewCount));
+  const getByPrice = computed(() => [...productList.value].sort(sortByPrice));
 
   const getSortData = (sortType) => {
     switch (sortType) {
@@ -32,7 +38,7 @@ const useProductStore = defineStore('product', () => {
       case 'newArrivals':
         return getByNewest.value;
       default:
-        return allProductList.value;
+        return productList.value;
     }
   };
 
@@ -46,34 +52,51 @@ const useProductStore = defineStore('product', () => {
     return num === 0 ? newArray : newArray.slice(0, num);
   };
 
-  const getAllProducts = async (loadingRef, category = '') => {
+  const getInitialProducts = async (loadingRef) => {
     loadingRef.value.show();
 
     try {
-      const res = await apiUserGetProducts(category);
+      const [res, res1] = await Promise.all([apiUserGetAllProducts(), apiUserGetProducts()]);
 
-      const {
-        data: { success, products }
-      } = res;
+      allProductList.value = res.data.products ?? [];
+      productList.value = res1.data.products ?? [];
 
-      if (success) {
-        allProductList.value = products;
-        loadingRef.value.hide();
-      }
+      loadingRef.value.hide();
     } finally {
       isDone.value = true;
+    }
+  };
+
+  const getProducts = async (loadingRef, category = '') => {
+    loadingRef.value.show();
+
+    const res = await apiUserGetProducts(category);
+
+    const {
+      data: { success, products }
+    } = res;
+
+    if (success) {
+      productList.value = products;
+      loadingRef.value.hide();
     }
   };
 
   return {
     isDone,
     allProductList,
-    getAllProducts,
+    productList,
+    getInitialProducts,
+    getProducts,
+    getByAllPreferred,
     getByPreferred,
+    getByAllNewest,
     getByNewest,
+    getByAllPopular,
     getByPopular,
     getByReviewCount,
     getByPrice,
+    getByAllRecommended,
     getByRecommended,
     getSortData,
     getFilterData

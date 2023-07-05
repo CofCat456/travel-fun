@@ -13,7 +13,7 @@ const loadingRef = ref(null);
 const product = useProductStore();
 
 onMounted(() => {
-  product.getAllProducts(loadingRef);
+  product.getInitialProducts(loadingRef);
 });
 </script>
 

@@ -20,7 +20,8 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { getByNewest, getByPopular, getByRecommended, getByPreferred } = storeToRefs(productStore);
+const { getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
+  storeToRefs(productStore);
 
 const getBackgroundUrl = computed(() => `/images/background/city/bg_${route.params.cityName}.jpg`);
 const getCityName = computed(() => cityMap.get(route.params.cityName));
@@ -52,20 +53,20 @@ const goProducts = () => router.push({ name: 'CityProducts' });
   </Container>
   <SwiperProduct
     title="Top 10 商品"
-    :products="productStore.getFilterData(getByPopular, getCityName)"
+    :products="productStore.getFilterData(getByAllPopular, getCityName)"
   />
   <SwiperProduct
     :title="`精選${getCityName}活動`"
-    :products="productStore.getFilterData(getByPreferred, getCityName)"
+    :products="productStore.getFilterData(getByAllPreferred, getCityName)"
   />
   <SwiperProduct
     title="為您推薦"
-    :products="productStore.getFilterData(getByRecommended, getCityName)"
+    :products="productStore.getFilterData(getByAllRecommended, getCityName)"
   />
   <SwiperProduct
     title="最新上架"
     :btn="{ text: `查看所有${getCityName}所有活動` }"
-    :products="productStore.getFilterData(getByNewest, getCityName)"
+    :products="productStore.getFilterData(getByAllNewest, getCityName)"
     @btn-click="goProducts"
   />
   <KnowCity :city-name="getCityName" />

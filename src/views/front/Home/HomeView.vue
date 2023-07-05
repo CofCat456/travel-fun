@@ -18,7 +18,7 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { getByNewest, getByPopular } = storeToRefs(productStore);
+const { getByAllNewest, getByAllPopular } = storeToRefs(productStore);
 
 const goCountry = () => router.push({ name: 'Country', params: { countryName: 'taiwan' } });
 </script>
@@ -44,14 +44,14 @@ const goCountry = () => router.push({ name: 'Country', params: { countryName: 't
     <SwiperProduct
       title="Top 10 商品"
       sec-title="尋找最受歡迎的商品嗎？別再猶豫，立刻挑選！"
-      :products="productStore.getFilterData(getByPopular)"
+      :products="productStore.getFilterData(getByAllPopular)"
     />
     <img src="/images/home-bg.png" alt="home bg" class="my-6" loading="lazy" />
     <SwiperProduct
       title="最新產品"
       sec-title="一直關注最新產品的我們，給您帶來最好的選擇和品質！"
       :btn="{ text: '查看更多' }"
-      :products="productStore.getFilterData(getByNewest)"
+      :products="productStore.getFilterData(getByAllNewest)"
       @btn-click="goCountry"
     />
     <HotCity :hot-citys="mockHotCitys" />
