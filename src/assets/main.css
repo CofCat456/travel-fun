@@ -91,3 +91,12 @@ body {
 .clear-scale:hover {
   transform: translateZ(0) scale(1.1);
 }
+
+#map .modal-diglog {
+  @apply p-8;
+}
+
+#map .modal-window,
+#mobile .modal-window {
+  @apply overflow-visible rounded-m;
+}

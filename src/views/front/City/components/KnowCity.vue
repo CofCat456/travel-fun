@@ -29,8 +29,8 @@ const mobileMapRef = ref(null);
 
 const getTitle = computed(() => `認識 ${props.cityName}`);
 
-const openMap = () => (isMobile ? mobileMapRef.value.show() : mapRef.value.show());
-const hideMap = () => (isMobile ? mobileMapRef.value.hide() : mapRef.value.hide());
+const openMap = () => (isMobile.value ? mobileMapRef.value?.show() : mapRef.value?.show());
+const hideMap = () => (isMobile.value ? mobileMapRef.value?.hide() : mapRef.value?.hide());
 </script>
 
 <template>
@@ -102,18 +102,23 @@ const hideMap = () => (isMobile ? mobileMapRef.value.hide() : mapRef.value.hide(
     <Modal v-else id="map" ref="mapRef" no-scroll screen="screen">
       <template v-slot:content>
         <ProductMap />
+        <button
+          type="button"
+          class="absolute -top-3 -right-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cc-other-2 text-cc-other-1 shadow-2xl"
+          @click="hideMap"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-6 w-6"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </template>
     </Modal>
   </div>
 </template>
-
-<style scoped>
-#map :deep(.modal-diglog) {
-  @apply p-3;
-}
-
-#map :deep(.modal-window),
-#mobile :deep(.modal-window) {
-  @apply rounded-m;
-}
-</style>

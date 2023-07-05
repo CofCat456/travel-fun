@@ -109,7 +109,7 @@ defineExpose({
       <div class="modal-diglog" :class="[getScreen(screen), getSize(size), getPosition(position)]">
         <!-- Modal-Window -->
         <div class="modal-window">
-          <div class="h-full space-y-4 p-5">
+          <div class="relative h-full space-y-4 p-5">
             <div class="modal-header">
               <slot name="header" />
             </div>
