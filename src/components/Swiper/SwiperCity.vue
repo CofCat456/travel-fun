@@ -1,21 +1,18 @@
 <script setup>
-import { computed, ref } from 'vue';
-
-import { v4 } from 'uuid';
-import { Navigation } from 'swiper';
-
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import { Navigation } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { v4 } from 'uuid';
+import { computed, ref } from 'vue';
+
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
-import CityCard from '../Card/CityCard.vue';
-import Title from './internal/Title.vue';
-import CustomNavigation from './internal/CustomNavigation.vue';
-
 import { cityMap } from '../../utlis/context';
+import CityCard from '../Card/CityCard.vue';
+import Title from '../Title.vue';
+import CustomNavigation from './internal/CustomNavigation.vue';
 
 const props = defineProps({
   title: {
@@ -76,10 +73,10 @@ const getCitys = computed(() => {
 
 <template>
   <SwiperLayout>
-    <template v-slot:title>
+    <template #title>
       <Title :title="title" :sec-title="secTitle" />
     </template>
-    <template v-slot:swiper>
+    <template #swiper>
       <Swiper
         :modules="modules"
         :slides-per-view="6"
@@ -123,7 +120,7 @@ const getCitys = computed(() => {
       </Swiper>
       <CustomNavigation :classkey="btnUUID" :is-beginning="isBeginning" :is-end="isEnd" />
     </template>
-    <template v-slot:btn>
+    <template #btn>
       <div v-if="btn.text" class="mt-6 text-center md:mb-6 md:mt-12">
         <button type="button" class="btn">{{ btn.text }}</button>
       </div>

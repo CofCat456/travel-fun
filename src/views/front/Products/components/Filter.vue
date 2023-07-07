@@ -1,6 +1,5 @@
 <script setup>
-import DropdownMenu from '@/components/Menu/DropdownMenu.vue';
-
+import DropdownMenu from '@/components/Base/Menu/DropdownMenu.vue';
 import { sortMap } from '@/utlis/context';
 
 defineProps({
@@ -35,7 +34,7 @@ defineEmits(['updateSort']);
     <div class="inline-flex items-center gap-4">
       <span>排序方式：</span>
       <DropdownMenu :value="currSort">
-        <template v-slot:dropdown-item>
+        <template #dropdown-item>
           <li
             v-for="query in sortArray"
             :key="query"

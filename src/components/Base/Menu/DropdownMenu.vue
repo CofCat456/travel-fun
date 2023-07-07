@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import { sortMap } from '../../utlis/context';
+
+import { sortMap } from '@/utlis/context';
 
 defineProps({
   value: {

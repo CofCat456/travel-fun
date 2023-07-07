@@ -1,16 +1,12 @@
 <script setup>
-import { ref } from 'vue';
-import { v4 } from 'uuid';
-
-import { FreeMode, Navigation } from 'swiper';
-
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import SwiperLayout from '../../Layout/SwiperLayout.vue';
+import { FreeMode, Navigation } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { ref } from 'vue';
 
+import SwiperLayout from '../../Layout/SwiperLayout.vue';
 import CategoryCard from '../Card/CategoryCard.vue';
 import CustomNavigation from './internal/CustomNavigation.vue';
 
@@ -44,8 +40,6 @@ const modules = [FreeMode, Navigation];
 const isBeginning = ref(true);
 const isEnd = ref(false);
 
-const btnUUID = v4();
-
 const onSwiper = (swiper) => {
   isBeginning.value = swiper.isBeginning;
   isEnd.value = swiper.isEnd;
@@ -58,7 +52,7 @@ const onSlideChange = (swiper) => {
 
 <template>
   <SwiperLayout is-normal no-padding class="py-0 md:py-6">
-    <template v-slot:swiper>
+    <template #swiper>
       <Swiper
         :modules="modules"
         :slides-per-view="slidesPerView"
@@ -67,8 +61,8 @@ const onSlideChange = (swiper) => {
         :free-mode="true"
         :speed="1200"
         :navigation="{
-          prevEl: `.swiper-${btnUUID}-custom-prev`,
-          nextEl: `.swiper-${btnUUID}-custom-next`
+          prevEl: '.swiper-category-custom-prev',
+          nextEl: '.swiper-category-custom-next'
         }"
         :breakpoints="{
           '@0.00': {
@@ -104,7 +98,7 @@ const onSlideChange = (swiper) => {
           />
         </SwiperSlide>
       </Swiper>
-      <CustomNavigation :classkey="btnUUID" :is-beginning="isBeginning" :is-end="isEnd" is-normal />
+      <CustomNavigation classkey="category" :is-beginning="isBeginning" :is-end="isEnd" />
     </template>
   </SwiperLayout>
 </template>

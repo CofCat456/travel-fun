@@ -1,7 +1,6 @@
 <script setup>
-import FilterMenu from '@/components/Menu/FilterMenu.vue';
-
-import { countryMap, cityMap, sortMap } from '@/utlis/context';
+import FilterMenu from '@/components/Base/Menu/FilterMenu.vue';
+import { cityMap, countryMap, sortMap } from '@/utlis/context';
 
 defineProps({
   isCity: {

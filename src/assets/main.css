@@ -47,11 +47,8 @@
   .icon-hover {
     @apply cursor-pointer transition-transform duration-300 hover:scale-125;
   }
-  .swiper-btn {
-    @apply absolute top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-white text-cc-other-9;
-  }
   .btn {
-    @apply inline-block rounded-m bg-cc-primary px-6 py-3 text-sm font-bold leading-normal text-white transition-colors duration-300 hover:bg-cc-accent disabled:hover:bg-cc-primary;
+    @apply relative inline-flex min-h-[48px] min-w-[110px] items-center justify-center gap-2 whitespace-nowrap rounded-m bg-cc-primary px-6 py-3 text-sm font-bold leading-normal text-white transition-colors duration-300 hover:bg-cc-accent disabled:hover:bg-cc-primary;
   }
   .product-map-card {
     @apply relative z-10 min-w-full overflow-hidden rounded-m transition-opacity duration-300 hover:opacity-80;

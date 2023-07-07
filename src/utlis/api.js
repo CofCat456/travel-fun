@@ -4,7 +4,8 @@ import Swal from 'sweetalert2';
 const { VITE_URL, VITE_PATH } = import.meta.env;
 
 const request = axios.create({
-  baseURL: VITE_URL
+  baseURL: VITE_URL,
+  timeout: 5000
 });
 
 export const successMsg = (title, text) =>
@@ -37,7 +38,7 @@ request.interceptors.request.use(
       /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
       '$1'
     );
-    // TODO: Delete console
+    // FIX: 解決第一次登入時會跳出的問題
     // console.log('api config', config);
     // console.log(
     //   'token',
@@ -73,10 +74,11 @@ request.interceptors.response.use(
 
 const api = {
   user: {
-    signin: '/admin/signin',
-    logout: '/logout',
-    checkSigin: '/api/user/check',
-    product: `api/${VITE_PATH}/product`
+    signin: 'admin/signin',
+    logout: 'logout',
+    checkSigin: 'api/user/check',
+    product: `api/${VITE_PATH}/product`,
+    cart: `api/${VITE_PATH}/cart`
   },
   admin: {
     product: `api/${VITE_PATH}/admin/product`,
@@ -84,27 +86,45 @@ const api = {
   }
 };
 
-export const apiUserSignin = (data) => request.post(api.user.signin, data);
-export const apiUserLogout = () => request.post(api.user.logout);
-export const apiUserCheckSignin = () => request.post(api.user.checkSigin);
-export const apiUserGetAllProducts = () => request.get(`${api.user.product}s/all`);
-export const apiUserGetProducts = (category = '') => {
+// API USER
+const apiUserSignin = (data) => request.post(api.user.signin, data);
+const apiUserLogout = () => request.post(api.user.logout);
+const apiUserCheckSignin = () => request.post(api.user.checkSigin);
+const apiUserGetAllProducts = () => request.get(`${api.user.product}s/all`);
+const apiUserGetProducts = (category = '') => {
   if (category) {
     return request.get(`${api.user.product}s?category=${category}`);
   }
   return request.get(`${api.user.product}s`);
 };
+const apiUSerGetProduct = (id) => request.get(`${api.user.product}/${id}`);
+const apiUserGetCarts = () => request.get(api.user.cart);
+const apiUserPostCart = (data) => request.post(api.user.cart, data);
 
-export const apiAdminGetProducts = (page) => request.get(`${api.admin.product}s?page=${page}`);
-export const apiAdminPostProducts = (data) => request.post(api.admin.product, data);
-export const apiAdminPutProducts = (id, data) => request.put(`${api.admin.product}/${id}`, data);
-export const apiAdminDeleteProducts = (id) => request.delete(`${api.admin.product}/${id}`);
-
-export const apiAdminUploadImage = (formData) =>
+// API Admin
+const apiAdminGetProducts = (page) => request.get(`${api.admin.product}s?page=${page}`);
+const apiAdminPostProducts = (data) => request.post(api.admin.product, data);
+const apiAdminPutProducts = (id, data) => request.put(`${api.admin.product}/${id}`, data);
+const apiAdminDeleteProducts = (id) => request.delete(`${api.admin.product}/${id}`);
+const apiAdminUploadImage = (formData) =>
   request.post(api.admin.upload, formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   });
 
-export default {};
+export {
+  apiAdminDeleteProducts,
+  apiAdminGetProducts,
+  apiAdminPostProducts,
+  apiAdminPutProducts,
+  apiAdminUploadImage,
+  apiUserCheckSignin,
+  apiUserGetAllProducts,
+  apiUserGetCarts,
+  apiUSerGetProduct,
+  apiUserGetProducts,
+  apiUserLogout,
+  apiUserPostCart,
+  apiUserSignin
+};

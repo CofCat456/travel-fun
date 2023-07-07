@@ -8,11 +8,15 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  showEvaluateNum: {
+    type: Boolean,
+    default: true
+  },
   evaluate: {
     type: Number,
     default: 0
   },
-  evaluateTotal: {
+  evaluateNum: {
     type: Number,
     default: 0
   }
@@ -25,7 +29,7 @@ const outlineNum = 5 - Math.ceil(props.evaluate);
 
 <template>
   <div class="flex items-center gap-1">
-    <div class="inline-flex items-center text-cc-accent">
+    <div class="flex items-center text-cc-accent">
       <span v-for="star in fillNum" :key="star" class="material-icons-outlined" :class="{ sm: sm }">
         star
       </span>
@@ -40,12 +44,12 @@ const outlineNum = 5 - Math.ceil(props.evaluate);
       </span>
     </div>
     <p v-if="showEvaluate" class="text-sm-content text-cc-accent">{{ evaluate.toFixed(1) }}</p>
-    <p class="text-sm-content text-cc-other-3">({{ evaluateTotal }})</p>
+    <p v-if="showEvaluateNum" class="text-sm-content text-cc-other-3">({{ evaluateNum }})</p>
   </div>
 </template>
 
 <style scoped>
 .sm {
-  font-size: 16px;
+  @apply text-base;
 }
 </style>

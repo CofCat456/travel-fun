@@ -1,16 +1,14 @@
 <script setup>
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia';
 
-import Container from '@/Layout/Container.vue';
 import Banner from '@/components/Banner.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
 import SwiperCity from '@/components/Swiper/SwiperCity.vue';
-
-import useProductStore from '@/stores/product';
-
+import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
+import Container from '@/Layout/Container.vue';
+import { useProductStore } from '@/stores';
 import { countryMap } from '@/utlis/context';
 
 import KnowCountry from './components/KnowCountry.vue';
@@ -43,10 +41,10 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
 
 <template>
   <Banner multiply :bg-url="getBackgroundUrl">
-    <template v-slot:title>
+    <template #title>
       {{ getCountryName }}
     </template>
-    <template v-slot:sec-title> {{ `${getCountryName} 熱門旅遊景點` }} </template>
+    <template #sec-title> {{ `${getCountryName} 熱門旅遊景點` }} </template>
   </Banner>
   <Container>
     <div class="mb-6">

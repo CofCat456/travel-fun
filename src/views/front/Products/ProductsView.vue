@@ -1,24 +1,22 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-
-import Container from '@/Layout/Container.vue';
+import { computed, onMounted, ref } from 'vue';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import ProductCard from '@/components/Card/ProductCard.vue';
+import Loading from '@/components/Loading.vue';
 import Modal from '@/components/Modal/Modal.vue';
 import ProductMap from '@/components/ProductMap.vue';
-import ProductCard from '@/components/Card/ProductCard.vue';
 import SwiperCategory from '@/components/Swiper/SwiperCategory.vue';
-import Loading from '@/components/Loading.vue';
-
+import Container from '@/Layout/Container.vue';
+import { useDeviceStore } from '@/stores';
 import useProductStore from '@/stores/product';
-import useDebiveStore from '@/stores/device';
+import { categoryMap, cityMap, countryMap, sortMap } from '@/utlis/context';
+import { createRouterOption } from '@/utlis/global';
 
-import { countryMap, cityMap, categoryMap, sortMap } from '@/utlis/context';
-
-import Menu from './components/Menu.vue';
 import Filter from './components/Filter.vue';
+import Menu from './components/Menu.vue';
 import MobileFilter from './components/MobileFilter.vue';
 
 const props = defineProps({
@@ -36,7 +34,7 @@ const route = useRoute();
 const router = useRouter();
 
 const productStore = useProductStore();
-const deviceStore = useDebiveStore();
+const deviceStore = useDeviceStore();
 
 const { isMobile } = storeToRefs(deviceStore);
 
@@ -59,6 +57,11 @@ const getBreadcrumbs = computed(() => [
     pathName: 'Home'
   },
   {
+    title: '台灣',
+    pathName: 'Country',
+    params: { countryName: 'taiwan' }
+  },
+  {
     title: isCity.value ? getCityName.value : getCountryName.value,
     pathName: isCity.value ? 'City' : 'Country',
     params: isCity.value
@@ -73,63 +76,44 @@ const getBreadcrumbs = computed(() => [
 const getProductList = computed(() =>
   productStore.getFilterData(
     productStore.getSortData(props.sort || 'popular'),
-    isCity.value ? getCityName.value : '',
+    isCity.value ? route.params.cityName : '',
     0
   )
 );
 
-const updateParams = (params) => {
-  if (isCity.value)
-    return router.push({
-      name: 'CityProducts',
-      params: { cityName: params, category: route.params.category },
-      query: { sort: props.sort }
-    });
+const updateCity = (city) => {
+  const routerOption = createRouterOption(city, route.params.category, props.sort);
 
   return router.push({
-    name: 'CountryProducts',
-    params: { countryName: params, category: route.params.category },
-    query: { sort: props.sort }
+    name: isCity.value ? 'CityProducts' : 'CountryProducts',
+    ...routerOption
   });
 };
 
 const updateCategory = (category) => {
+  const routerOption = createRouterOption(route.params.cityName, category, props.sort);
+
   router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
-    params: { category },
-    query: { sort: props.sort }
+    ...routerOption
   });
 };
 
-const updateSort = (query) => {
-  if (query) {
-    if (isCity.value) {
-      return router.push({
-        name: 'CityProducts',
-        params: { category: route.params.category },
-        query: { sort: query }
-      });
-    }
+const updateSort = (sort) => {
+  const routerOption = createRouterOption(route.params.cityName, route.params.category, sort);
 
-    return router.push({
-      name: 'CountryProducts',
-      params: { category: route.params.category },
-      query: { sort: query }
-    });
-  }
-
-  if (isCity.value)
-    return router.push({ name: 'CityProducts', params: { category: route.params.category } });
-
-  return router.push({ name: 'CountryProducts', params: { category: route.params.category } });
+  return router.push({
+    name: isCity.value ? 'CityProducts' : 'CountryProducts',
+    ...routerOption
+  });
 };
-
-onMounted(() => productStore.getProducts(loadingRef));
 
 onBeforeRouteUpdate(async (to) => {
   const { category } = to.params;
   await productStore.getProducts(loadingRef, categoryMap.get(category));
 });
+
+onMounted(() => productStore.getProducts(loadingRef));
 </script>
 
 <template>
@@ -161,7 +145,7 @@ onBeforeRouteUpdate(async (to) => {
     :array="isCity ? getEnCitys : getEnCountrys"
     :curr-sort="sort"
     :sort-array="getFilterList"
-    @update-params="updateParams"
+    @update-params="updateCity"
     @update-sort="updateSort"
     @open-map="mobileMapRef?.show"
   />
@@ -203,7 +187,7 @@ onBeforeRouteUpdate(async (to) => {
           :is-city="isCity"
           :curr-en-target="getParams"
           :array="isCity ? getEnCitys : getEnCountrys"
-          @update-params="updateParams"
+          @update-params="updateCity"
         />
       </div>
       <main class="flex flex-1 flex-col">
@@ -231,7 +215,7 @@ onBeforeRouteUpdate(async (to) => {
     </div>
   </Container>
   <Modal v-if="isMobile" id="mobileMap" ref="mobileMapRef" no-scroll screen="screen">
-    <template v-slot:content>
+    <template #content>
       <button
         type="button"
         class="fixed top-4 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cc-other-1 shadow-2xl"
@@ -252,7 +236,7 @@ onBeforeRouteUpdate(async (to) => {
     </template>
   </Modal>
   <Modal v-else id="map" ref="mapRef" no-scroll screen="screen">
-    <template v-slot:content>
+    <template #content>
       <ProductMap />
       <button
         type="button"
@@ -273,3 +257,13 @@ onBeforeRouteUpdate(async (to) => {
     </template>
   </Modal>
 </template>
+
+<style scoped>
+:deep(.swiper-category-custom-prev) {
+  @apply -left-5;
+}
+
+:deep(.swiper-category-custom-next) {
+  @apply -right-5;
+}
+</style>

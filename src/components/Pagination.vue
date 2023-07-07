@@ -1,4 +1,6 @@
 <script setup>
+import Button from './Base/Button.vue';
+
 const props = defineProps({
   current_page: {
     type: Number,
@@ -47,8 +49,8 @@ const goNext = () => {
       </div>
       <div>
         <nav class="isolate inline-flex gap-2 rounded-md shadow-sm" aria-label="Pagination">
-          <button :disabled="!has_pre" class="btn" @click="goPrev">上一頁</button>
-          <button :disabled="!has_next" class="btn" @click="goNext">下一頁</button>
+          <Button :disabled="!has_pre" @click="goPrev">上一頁</Button>
+          <Button :disabled="!has_next" @click="goNext">下一頁</Button>
         </nav>
       </div>
     </div>

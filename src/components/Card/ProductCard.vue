@@ -1,10 +1,17 @@
 <script setup>
+import { useRouter } from 'vue-router';
+
 import { currency } from '@/utlis/global';
 
+import { cityMap } from '../../utlis/context';
 import FavouriteIcon from '../Icons/FavouriteIcon.vue';
 import FullStarIcon from '../Icons/FullStarIcon.vue';
 
 defineProps({
+  id: {
+    type: String,
+    default: ''
+  },
   title: {
     type: String,
     default: '活動名稱'
@@ -46,11 +53,16 @@ defineProps({
     default: 1
   }
 });
+
+const router = useRouter();
+
+const goProduct = (id) => router.push({ name: 'Product', params: { productId: id } });
 </script>
 
 <template>
   <div
     class="group relative flex cursor-pointer flex-col items-start transition-all duration-300 hover:brightness-[.8]"
+    @click="goProduct(id)"
   >
     <div
       v-if="!notRanking"
@@ -68,10 +80,10 @@ defineProps({
     <div class="flex h-[120px] w-full flex-col gap-1 px-1">
       <div class="inline-flex gap-1 text-sm text-cc-other-4">
         <span class="material-icons-outlined icon-hover"> location_on </span>
-        {{ city }}
+        {{ cityMap.get(city) }}
       </div>
-      <p class="text-sm-content flex-1 line-clamp-2">{{ title }}</p>
-      <FullStarIcon :evaluate="evaluate" :evaluate-total="evaluateNum" />
+      <p class="text-sm-content line-clamp-2 flex-1">{{ title }}</p>
+      <FullStarIcon :evaluate="evaluate" :evaluate-num="evaluateNum" />
       <div class="inline-flex items-center gap-1">
         <h6>
           {{ currency(price, 'NT$ ') }}

@@ -1,18 +1,16 @@
 <script setup>
-import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-
-import useProductStore from '@/stores/product';
+import { useRouter } from 'vue-router';
 
 import Banner from '@/components/Banner.vue';
 import SwiperNews from '@/components/Swiper/SwiperNews.vue';
 import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
+import { useProductStore } from '@/stores';
 
+import { mockHotCitys, mockNews } from './_Context';
 import HotCity from './components/HotCity.vue';
 import Member from './components/Member.vue';
 import Search from './components/Search.vue';
-
-import { mockNews, mockHotCitys } from './_Context';
 
 const router = useRouter();
 
@@ -26,11 +24,11 @@ const goCountry = () => router.push({ name: 'Country', params: { countryName: 't
 <template>
   <main>
     <Banner bg-url="/images/banner.jpg" :center="false">
-      <template v-slot:title>
+      <template #title>
         <span>旅遊趣</span>
         陪你去台灣各地
       </template>
-      <template v-slot:sec-title> 讓我們帶著你一同欣賞台灣的美 </template>
+      <template #sec-title> 讓我們帶著你一同欣賞台灣的美 </template>
       <Search />
     </Banner>
     <div class="mb-4 md:mt-[60px] md:mb-0">

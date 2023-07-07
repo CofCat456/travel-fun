@@ -38,7 +38,7 @@ defineProps({
         <RouterLink
           v-if="pathName"
           :to="{ name: pathName, params }"
-          class="inline-flex items-center text-sm text-cc-primary hover:underline"
+          class="inline-flex items-center text-sm font-medium text-cc-primary hover:underline"
         >
           {{ title }}
         </RouterLink>

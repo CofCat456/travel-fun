@@ -1,19 +1,19 @@
 <script setup>
 import { computed } from 'vue';
-import { RouterLink, useRouter, useRoute } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 
-import Logo from './Logo.vue';
+import Container from '../Layout/Container.vue';
+import { useCartStore, useUserStore } from '../stores';
+import HamburgerBtn from './HamburgerBtn.vue';
 import FavouriteIcon from './Icons/FavouriteIcon.vue';
 import ShopCartIcon from './Icons/ShopCartIcon.vue';
-import HamburgerBtn from './HamburgerBtn.vue';
-import Container from '../Layout/Container.vue';
-
-import useUserStore from '../stores/user';
+import Logo from './Logo.vue';
 
 const route = useRoute();
 const router = useRouter();
 
 const user = useUserStore();
+const cart = useCartStore();
 
 const goLogin = () => router.push({ name: 'Login' });
 const goAdmin = () => router.push({ name: 'AdminHome' });
@@ -71,7 +71,7 @@ const isHome = computed(() => ['Home', 'City'].includes(route.name));
             <span class="material-icons-outlined h-6 w-6"> person_filled </span>
             登入 / 註冊
           </button>
-          <ShopCartIcon />
+          <ShopCartIcon :shop-cart-num="cart.cartList?.length" />
         </div>
       </div>
     </Container>

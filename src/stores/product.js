@@ -1,10 +1,9 @@
-import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
 
-import { apiUserGetAllProducts, apiUserGetProducts } from '../utlis/api';
+import { apiUserGetProducts } from '../utlis/api';
 
 const useProductStore = defineStore('product', () => {
-  const isDone = ref(false);
   const allProductList = ref([]);
   const productList = ref([]);
 
@@ -52,23 +51,8 @@ const useProductStore = defineStore('product', () => {
     return num === 0 ? newArray : newArray.slice(0, num);
   };
 
-  const getInitialProducts = async (loadingRef) => {
-    loadingRef.value.show();
-
-    try {
-      const [res, res1] = await Promise.all([apiUserGetAllProducts(), apiUserGetProducts()]);
-
-      allProductList.value = res.data.products ?? [];
-      productList.value = res1.data.products ?? [];
-
-      loadingRef.value.hide();
-    } finally {
-      isDone.value = true;
-    }
-  };
-
   const getProducts = async (loadingRef, category = '') => {
-    loadingRef.value.show();
+    loadingRef.value?.show();
 
     const res = await apiUserGetProducts(category);
 
@@ -78,15 +62,13 @@ const useProductStore = defineStore('product', () => {
 
     if (success) {
       productList.value = products;
-      loadingRef.value.hide();
+      loadingRef.value?.hide();
     }
   };
 
   return {
-    isDone,
     allProductList,
     productList,
-    getInitialProducts,
     getProducts,
     getByAllPreferred,
     getByPreferred,

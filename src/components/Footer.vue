@@ -1,7 +1,6 @@
 <script setup>
-import Logo from './Logo.vue';
-
 import { socialMedia } from '../utlis/context';
+import Logo from './Logo.vue';
 </script>
 
 <template>

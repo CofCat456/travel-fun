@@ -1,18 +1,18 @@
 <script setup>
-import { ref, inject, onMounted } from 'vue';
 import Swal from 'sweetalert2';
+import { inject, onMounted, ref } from 'vue';
 
+import AddBtn from '@/components/Admin/AddBtn.vue';
 import Pagination from '@/components/Admin/Pagination.vue';
 import ProductModal from '@/components/Modal/ProductModal.vue';
-import AddBtn from '@/components/Admin/AddBtn.vue';
-
 import {
+  apiAdminDeleteProducts,
   apiAdminGetProducts,
   apiAdminPostProducts,
   apiAdminPutProducts,
-  apiAdminDeleteProducts,
   apiAdminUploadImage
 } from '@/utlis/api';
+import { cityMap } from '@/utlis/context';
 import { currency } from '@/utlis/global';
 
 const loading = inject('loading');
@@ -180,7 +180,7 @@ onMounted(() => {
             {{ product.title }}
           </th>
           <td class="px-6 py-4">{{ product.category }}</td>
-          <td class="px-6 py-4">{{ product.city }}</td>
+          <td class="px-6 py-4">{{ cityMap.get(product.city) }}</td>
           <td class="px-6 py-4">{{ currency(product.origin_price, 'NT ') }}</td>
           <td class="px-6 py-4 text-right">
             <button

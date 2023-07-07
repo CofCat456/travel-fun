@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-import BottomSheet from '../Modal/BottomSheet.vue';
+import BottomSheet from '../../Modal/BottomSheet.vue';
 
 defineProps({
   title: {
@@ -35,8 +35,8 @@ const hideBottomSheet = () => bottomSheetRef.value.hide();
     </svg>
   </div>
   <BottomSheet ref="bottomSheetRef">
-    <template v-slot:header>{{ title }}</template>
-    <template v-slot:bottom-sheet-item>
+    <template #header>{{ title }}</template>
+    <template #bottom-sheet-item>
       <ul style="margin: 0" @click="hideBottomSheet">
         <slot />
       </ul>

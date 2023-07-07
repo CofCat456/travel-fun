@@ -1,5 +1,5 @@
-import { onMounted, ref, watchEffect } from 'vue';
 import { defineStore } from 'pinia';
+import { onMounted, ref, watchEffect } from 'vue';
 
 const useDeviceStore = defineStore('device', () => {
   const isMobile = ref(false);

@@ -24,7 +24,7 @@ module.exports = {
     },
     'import/core-modules': ['vite', '@vitejs/plugin-vue']
   },
-  plugins: ['vue'],
+  plugins: ['vue', 'simple-import-sort'],
   rules: {
     'no-param-reassign': [
       'error',
@@ -35,6 +35,8 @@ module.exports = {
     semi: ['error', 'always'],
     camelcase: ['off'],
     'vue/multi-word-component-names': 'off',
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'warn'
   }
 };

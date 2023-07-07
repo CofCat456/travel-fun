@@ -1,16 +1,14 @@
 <script setup>
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia';
 
-import Container from '@/Layout/Container.vue';
 import Banner from '@/components/Banner.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
 import SwiperCity from '@/components/Swiper/SwiperCity.vue';
-
-import useProductStore from '@/stores/product';
-
+import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
+import Container from '@/Layout/Container.vue';
+import { useProductStore } from '@/stores';
 import { cityMap } from '@/utlis/context';
 
 import KnowCity from './components/KnowCity.vue';
@@ -32,6 +30,11 @@ const getBreadcrumbs = computed(() => [
     pathName: 'Home'
   },
   {
+    title: '台灣',
+    pathName: 'Country',
+    params: { countryName: 'taiwan' }
+  },
+  {
     title: getCityName.value
   }
 ]);
@@ -41,10 +44,10 @@ const goProducts = () => router.push({ name: 'CityProducts' });
 
 <template>
   <Banner multiply :bg-url="getBackgroundUrl">
-    <template v-slot:title>
+    <template #title>
       {{ getCityName }}
     </template>
-    <template v-slot:sec-title> {{ `${getCityName} 熱門旅遊景點` }} </template>
+    <template #sec-title> {{ `${getCityName} 熱門旅遊景點` }} </template>
   </Banner>
   <Container>
     <div class="mb-6">
@@ -53,20 +56,20 @@ const goProducts = () => router.push({ name: 'CityProducts' });
   </Container>
   <SwiperProduct
     title="Top 10 商品"
-    :products="productStore.getFilterData(getByAllPopular, getCityName)"
+    :products="productStore.getFilterData(getByAllPopular, route.params.cityName)"
   />
   <SwiperProduct
     :title="`精選${getCityName}活動`"
-    :products="productStore.getFilterData(getByAllPreferred, getCityName)"
+    :products="productStore.getFilterData(getByAllPreferred, route.params.cityName)"
   />
   <SwiperProduct
     title="為您推薦"
-    :products="productStore.getFilterData(getByAllRecommended, getCityName)"
+    :products="productStore.getFilterData(getByAllRecommended, route.params.cityName)"
   />
   <SwiperProduct
     title="最新上架"
     :btn="{ text: `查看所有${getCityName}所有活動` }"
-    :products="productStore.getFilterData(getByAllNewest, getCityName)"
+    :products="productStore.getFilterData(getByAllNewest, route.params.cityName)"
     @btn-click="goProducts"
   />
   <KnowCity :city-name="getCityName" />

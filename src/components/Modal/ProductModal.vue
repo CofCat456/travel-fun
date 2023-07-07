@@ -1,15 +1,15 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { useField, useForm } from 'vee-validate';
-import * as yup from 'yup';
-import { DatePicker } from 'v-calendar';
-
-import Modal from './Modal.vue';
-import SwiperPhoto from '../Swiper/SwiperPhoto.vue';
-
 import 'v-calendar/style.css';
 
-import { cityMap, categoryMap, unitList } from '../../utlis/context';
+import { DatePicker } from 'v-calendar';
+import { useField, useForm } from 'vee-validate';
+import { computed, ref, watch } from 'vue';
+import * as yup from 'yup';
+
+import { categoryMap, cityMap, unitList } from '../../utlis/context';
+import Button from '../Base/Button.vue';
+import SwiperPhoto from '../Swiper/SwiperPhoto.vue';
+import Modal from './Modal.vue';
 
 const props = defineProps({
   noScroll: {
@@ -99,8 +99,6 @@ const dateText = computed(
   () => `${date.value.getFullYear()} 年 ${date.value.getMonth() + 1} 月 ${date.value.getDate()} 日`
 );
 
-const cityList = computed(() => [...cityMap.values()]);
-
 const isPreferred = computed(
   () => tempPreferImageUrl.value === tempImagesUrl.value[activeImageIndex.value] ?? ''
 );
@@ -170,7 +168,7 @@ watch(
     evaluateNum.value = currTempProduct?.evaluateNum ?? 0;
     origin_price.value = currTempProduct?.origin_price;
     price.value = currTempProduct?.price;
-    date.value = currTempProduct?.date ? new Date(currTempProduct?.date) : new Date();
+    date.value = new Date();
     description.value = currTempProduct?.description;
     tempImagesUrl.value = [...(currTempProduct?.imagesUrl ?? [])];
     tempPreferImageUrl.value = currTempProduct?.imageUrl ?? tempImagesUrl.value[0] ?? '';
@@ -198,7 +196,7 @@ defineExpose({
 
 <template>
   <Modal ref="modalRef" :no-scroll="noScroll" @hiding="resetForm()">
-    <template v-slot:header>
+    <template #header>
       <div class="flex items-center justify-between">
         <h4 class="font-bold">{{ `${modalStatus}產品` }}</h4>
         <button type="button" @click="hideModal">
@@ -206,7 +204,7 @@ defineExpose({
         </button>
       </div>
     </template>
-    <template v-slot:content>
+    <template #content>
       <div class="max-h-[500px] space-y-6 overflow-auto">
         <div class="flex items-center justify-between">
           <div class="space-x-3">
@@ -300,7 +298,9 @@ defineExpose({
                       v-model="city"
                     />
                     <datalist id="city-list">
-                      <option v-for="value in cityList" :key="value" :value="value" />
+                      <option v-for="[key, value] in cityMap" :key="key" :value="key">
+                        {{ value }}
+                      </option>
                     </datalist>
                   </div>
                 </div>
@@ -478,7 +478,7 @@ defineExpose({
 
               <div class="w-1/4 space-y-2">
                 <label for="description-input" class="block text-sm font-medium">上架日期</label>
-                <DatePicker ref="calendarRef" v-model="date" :max-date="new Date()">
+                <DatePicker :max-date="new Date()" v-model="date">
                   <template #default="{ togglePopover }">
                     <div class="flex overflow-hidden rounded-m border">
                       <button
@@ -529,36 +529,10 @@ defineExpose({
       </div>
       <input ref="fileInputRef" type="file" class="hidden" @change="imageUploadHandler" />
     </template>
-    <template v-slot:footer>
-      <button
-        type="submit"
-        class="btn group relative flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed"
-        :disabled="isLoading"
-        @click="onSubmit"
-      >
-        <svg
-          v-if="isLoading"
-          class="h-6 w-6 animate-spin py-1 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
+    <template #footer>
+      <Button type="submit" class="group" is-full :is-loading="isLoading" @click="onSubmit">
         {{ `${modalStatus}${isLoading ? '中' : ''}` }}
-      </button>
+      </Button>
     </template>
   </Modal>
 </template>

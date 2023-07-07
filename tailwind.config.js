@@ -30,7 +30,8 @@ module.exports = {
       borderRadius: {
         m: '5px'
       }
-    }
-  },
-  plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/forms')]
+    },
+    // eslint-disable-next-line global-require
+    plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/forms')]
+  }
 };

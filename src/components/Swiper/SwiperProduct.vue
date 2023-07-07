@@ -1,18 +1,17 @@
 <script setup>
-import { ref } from 'vue';
-
-import { v4 } from 'uuid';
-import { Navigation } from 'swiper';
-
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import { Navigation } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { v4 } from 'uuid';
+import { ref } from 'vue';
+
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
+import Button from '../Base/Button.vue';
 import ProductCard from '../Card/ProductCard.vue';
-import Title from './internal/Title.vue';
+import Title from '../Title.vue';
 import CustomNavigation from './internal/CustomNavigation.vue';
 
 defineProps({
@@ -70,10 +69,10 @@ const onSlideChange = (swiper) => {
 
 <template>
   <SwiperLayout>
-    <template v-slot:title>
+    <template #title>
       <Title :title="title" :sec-title="secTitle" />
     </template>
-    <template v-slot:swiper>
+    <template #swiper>
       <Swiper
         :modules="modules"
         :slides-per-view="slidesPerView"
@@ -116,9 +115,9 @@ const onSlideChange = (swiper) => {
       </Swiper>
       <CustomNavigation :classkey="btnUUID" :is-beginning="isBeginning" :is-end="isEnd" />
     </template>
-    <template v-slot:btn>
+    <template #btn>
       <div v-if="btn.text" class="mt-6 text-center md:mb-6 md:mt-12">
-        <button type="button" class="btn" @click="$emit('btnClick')">{{ btn.text }}</button>
+        <Button @click="$emit('btnClick')">{{ btn.text }}</Button>
       </div>
     </template>
   </SwiperLayout>

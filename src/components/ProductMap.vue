@@ -1,14 +1,13 @@
 <script setup>
-import { onMounted, ref, toRaw } from 'vue';
-import { useRouter, RouterLink } from 'vue-router';
-
-import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import FullStarIcon from './Icons/FullStarIcon.vue';
+import L from 'leaflet';
+import { onMounted, ref, toRaw } from 'vue';
+import { RouterLink, useRouter } from 'vue-router';
 
 import { icons } from '../utlis/context';
 import { currency } from '../utlis/global';
+import FullStarIcon from './Icons/FullStarIcon.vue';
 
 const props = defineProps({
   products: {
@@ -161,14 +160,14 @@ onMounted(() => {
                 <img :src="product.image" class="img" loading="lazy" :alt="product.title" />
               </div>
               <div class="flex min-w-0 flex-1 flex-col p-[10px]">
-                <p class="text-sm-content mb-1 line-clamp-3">{{ product.title }}</p>
+                <p class="text-sm-content line-clamp-3 mb-1">{{ product.title }}</p>
                 <div class="flex flex-1 items-end justify-between">
                   <div class="flex flex-col gap-1">
                     <FullStarIcon
                       sm
                       :show-evaluate="false"
                       :evaluate="product.evaluate"
-                      :evaluate-total="product.evaluateTotal"
+                      :evaluate-num="product.evaluateNum"
                     />
                     <h6 class="font-bold">
                       {{ currency(product.price, 'NT$ ') }}

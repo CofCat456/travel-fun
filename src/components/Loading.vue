@@ -1,7 +1,8 @@
 <script setup>
+import 'vue-loading-overlay/dist/css/index.css';
+
 import { ref } from 'vue';
 import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
 
 defineProps({
   width: {

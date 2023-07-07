@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+
 import Modal from './Modal.vue';
 
 const modalRef = ref(null);
@@ -23,7 +24,7 @@ defineExpose({
     position="bottom"
     class="bottom-sheet"
   >
-    <template v-slot:header>
+    <template #header>
       <div class="flex items-center px-5 py-3">
         <button type="button" @click="hide">
           <span class="material-icons-outlined icon-hover align-top text-cc-other-2"> close </span>
@@ -33,7 +34,7 @@ defineExpose({
         </div>
       </div>
     </template>
-    <template v-slot:content>
+    <template #content>
       <slot name="bottom-sheet-item" />
     </template>
   </Modal>

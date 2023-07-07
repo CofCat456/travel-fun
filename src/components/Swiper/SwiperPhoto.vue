@@ -1,13 +1,11 @@
 <script setup>
-import { computed } from 'vue';
-
-import { Pagination, Navigation } from 'swiper';
-
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+
+import { Navigation, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { computed } from 'vue';
 
 import UploadBlock from './internal/UploadBlock.vue';
 

@@ -1,5 +1,5 @@
 <script setup>
-import { countryMap, cityMap } from '@/utlis/context';
+import { cityMap, countryMap } from '@/utlis/context';
 
 defineProps({
   isCity: {

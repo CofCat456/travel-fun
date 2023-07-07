@@ -1,8 +1,12 @@
 <script setup>
-const props = defineProps({
+defineProps({
   classkey: {
     type: String,
     default: ''
+  },
+  opacity: {
+    type: Number,
+    default: 100
   },
   isBeginning: {
     type: Boolean,
@@ -21,11 +25,11 @@ const props = defineProps({
 
 <template>
   <button
-    class="swiper-btn swiper-btn-shadow group hidden -translate-x-full md:block"
+    class="swiper-btn swiper-btn-shadow group hidden md:block"
     :class="[
-      `swiper-${props.classkey}-custom-prev`,
+      `swiper-${classkey}-custom-prev`,
       isBeginning && 'md:hidden',
-      isNormal ? '-left-5' : 'left-0'
+      isNormal ? 'left-3 opacity-60' : 'left-0  -translate-x-full'
     ]"
   >
     <svg
@@ -45,11 +49,11 @@ const props = defineProps({
     </svg>
   </button>
   <button
-    class="swiper-btn swiper-btn-shadow group hidden translate-x-full md:block"
+    class="swiper-btn swiper-btn-shadow group hidden md:block"
     :class="[
-      `swiper-${props.classkey}-custom-next`,
+      `swiper-${classkey}-custom-next`,
       isEnd && 'md:hidden',
-      isNormal ? '-right-5' : 'right-0'
+      isNormal ? 'right-3 opacity-60' : 'right-0 translate-x-full '
     ]"
   >
     <svg
@@ -71,6 +75,10 @@ const props = defineProps({
 </template>
 
 <style scoped>
+.swiper-btn {
+  @apply absolute top-1/2 z-10 h-10 w-10 -translate-y-1/2 rounded-full bg-white text-cc-other-9;
+}
+
 .swiper-btn-shadow {
   box-shadow: 0px 0px 4px 0px #0000001f;
 }

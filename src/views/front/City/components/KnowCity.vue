@@ -1,13 +1,11 @@
 <script setup>
-import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia';
-
-import Container from '@/Layout/Container.vue';
+import { computed, ref } from 'vue';
 
 import Modal from '@/components/Modal/Modal.vue';
 import ProductMap from '@/components/ProductMap.vue';
-
-import useDebiveStore from '@/stores/device';
+import Container from '@/Layout/Container.vue';
+import { useDeviceStore } from '@/stores';
 
 const props = defineProps({
   cityName: {
@@ -20,7 +18,7 @@ const props = defineProps({
   }
 });
 
-const deviceStore = useDebiveStore();
+const deviceStore = useDeviceStore();
 
 const { isMobile } = storeToRefs(deviceStore);
 
@@ -79,7 +77,7 @@ const hideMap = () => (isMobile.value ? mobileMapRef.value?.hide() : mapRef.valu
       </div>
     </Container>
     <Modal v-if="isMobile" id="mobileMap" ref="mobileMapRef" no-scroll screen="screen">
-      <template v-slot:content>
+      <template #content>
         <button
           type="button"
           class="fixed top-4 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cc-other-1 shadow-2xl"
@@ -100,7 +98,7 @@ const hideMap = () => (isMobile.value ? mobileMapRef.value?.hide() : mapRef.valu
       </template>
     </Modal>
     <Modal v-else id="map" ref="mapRef" no-scroll screen="screen">
-      <template v-slot:content>
+      <template #content>
         <ProductMap />
         <button
           type="button"

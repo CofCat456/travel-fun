@@ -1,17 +1,15 @@
 <script setup>
-import { ref } from 'vue';
-
-import { Navigation } from 'swiper';
-
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
+
+import { Navigation } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { ref } from 'vue';
 
 import SwiperLayout from '@/Layout/SwiperLayout.vue';
 
 import NewCard from '../Card/NewCard.vue';
-import Title from './internal/Title.vue';
+import Title from '../Title.vue';
 import CustomNavigation from './internal/CustomNavigation.vue';
 
 defineProps({
@@ -38,13 +36,13 @@ const onSlideChange = (swiper) => {
 
 <template>
   <SwiperLayout>
-    <template v-slot:title>
+    <template #title>
       <Title
         title="最新旅遊優惠"
         sec-title="旅行變得更簡單！我們提供最新的旅遊優惠，讓您輕鬆規劃完美的旅程！"
       />
     </template>
-    <template v-slot:swiper>
+    <template #swiper>
       <Swiper
         :modules="modules"
         :slides-per-view="3"
