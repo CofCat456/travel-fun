@@ -1,5 +1,3 @@
-import L from 'leaflet';
-
 export const countryMap = new Map().set('taiwan', '台灣');
 
 export const cityMap = new Map()
@@ -33,17 +31,6 @@ export const sortMap = new Map()
   .set('newArrivals', '最新上架');
 
 export const iconsConfig = {};
-
-export const icons = {
-  orange: new L.Icon({
-    iconUrl:
-      'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  })
-};
 
 export const mockMap = [
   { id: 1, lat: 25.0425, lng: 121.5468 },
