@@ -1,12 +1,10 @@
 <script setup>
-import 'v-calendar/style.css';
-
-import { DatePicker } from 'v-calendar';
+import { NDatePicker } from 'naive-ui';
 import { computed, ref } from 'vue';
 
 import Button from '@/components/Base/Button.vue';
 import Title from '@/components/Title.vue';
-import Container from '@/Layout/Container.vue';
+import Container from '@/layout/Container.vue';
 import { currency } from '@/utlis/global';
 
 const props = defineProps({
@@ -14,17 +12,13 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  price: {
-    type: Number,
-    default: 0
-  },
-  origin_price: {
-    type: Number,
-    default: 0
-  },
   unit: {
     type: String,
     default: ''
+  },
+  plans: {
+    type: Array,
+    default: () => []
   },
   adding: {
     type: Boolean,
@@ -34,11 +28,10 @@ const props = defineProps({
 
 const emit = defineEmits(['addCart']);
 
-const date = ref(new Date());
+const date = ref(Date.now());
 const qty = ref(1);
 const showDetail = ref(false);
 
-const getTotal = computed(() => currency(qty.value * props.price, 'NT$ '));
 const getSelectBtnText = computed(() => (showDetail.value ? '取消選擇' : '選擇'));
 
 function toggleShowDetail() {
@@ -59,37 +52,41 @@ const addCart = () => {
   const data = { product_id: props.id, qty: qty.value, buy_date: date.value };
   emit('addCart', { data });
 };
+
+const disablePreviousDate = (ts) => {
+  const currentDate = new Date();
+
+  const inputDateTime = new Date(ts);
+
+  currentDate.setHours(0, 0, 0, 0);
+  inputDateTime.setHours(0, 0, 0, 0);
+
+  return inputDateTime < currentDate;
+};
 </script>
 
 <template>
-  <div id="plan" class="bg-cc-other-7/80 py-10">
+  <div v-if="plans.length >= 0" id="plan" class="bg-cc-other-7/80 py-10">
     <Container>
       <Title page title="選擇方案" />
       <div
+        v-for="plan in plans"
         class="bordr mb-4 rounded-m border-cc-other-5/50 bg-cc-other-1"
         :class="showDetail && 'shadow-xl'"
+        :key="plan"
       >
         <div class="flex gap-4 px-5 py-4">
           <div class="flex-1">
             <h4 class="mb-5 font-bold">方案名稱</h4>
-            <ul class="list-disc pl-6 text-base tracking-wide">
-              <li class="py-1">一整天的活動，包括觀光、戶外活動、美味的在地餐點等。</li>
-              <li class="py-1">特別安排觀賞美麗的鶯歌景觀，體驗不一樣的自然風光。</li>
-              <li class="py-1">提供專業的導遊，講解鶯歌的生態與歷史。</li>
-              <li class="py-1">多種戶外活動可供選擇，徒步旅行、騎單車、釣魚等。</li>
-              <li class="py-1">一整天的活動，包括觀光、戶外活動、美味的在地餐點等。</li>
-              <li class="py-1">特別安排觀賞美麗的鶯歌景觀，體驗不一樣的自然風光。</li>
-              <li class="py-1">提供專業的導遊，講解鶯歌的生態與歷史。</li>
-              <li class="py-1">多種戶外活動可供選擇，徒步旅行、騎單車、釣魚等。</li>
-            </ul>
+            <div id="list" v-html="plan.content" />
           </div>
           <div class="flex items-end">
             <div class="mr-4 whitespace-nowrap text-right">
               <h5 class="font-bold">
-                {{ currency(price, 'NT$ ') }}
+                {{ currency(plan.price, 'NT$ ') }}
               </h5>
               <span class="text-sm text-cc-other-4 line-through">
-                {{ currency(origin_price, 'NT$ ') }}
+                {{ currency(plan.origin_price, 'NT$ ') }}
               </span>
             </div>
             <Button @click="toggleShowDetail">
@@ -102,17 +99,22 @@ const addCart = () => {
             <h5 class="text-base font-bold">選擇日期、選項</h5>
           </div>
           <div class="flex gap-8">
-            <div class="w-1/2">
+            <div class="w-auto">
               <span class="mb-2 block text-sm text-cc-other-9">請選擇出發日期</span>
-              <DatePicker expanded :min-date="new Date()" v-model="date" />
+              <n-date-picker
+                type="date"
+                panel
+                :is-date-disabled="disablePreviousDate"
+                v-model:value="date"
+              />
             </div>
-            <div class="w-1/2">
+            <div class="flex-1">
               <div class="mb-5">
                 <span class="mb-2 block text-sm text-cc-other-9">選擇數量</span>
                 <div class="flex items-center">
                   <h6 class="flex-1 font-bold">票數</h6>
                   <span class="mr-2 whitespace-nowrap text-sm text-cc-other-9">
-                    {{ currency(price, 'NT$ ') }}/{{ `每${unit}` }}
+                    {{ currency(plan.price, 'NT$ ') }}/{{ `每${unit}` }}
                   </span>
                   <div class="inline-flex items-center">
                     <button type="button" :disabled="qty <= 1" @click="decrement">
@@ -160,7 +162,7 @@ const addCart = () => {
               <div class="mt-5">
                 <div class="flex items-center">
                   <span class="flex-1 whitespace-nowrap text-sm text-cc-other-9"> 總金額 </span>
-                  <h5 class="font-bold">{{ getTotal }}</h5>
+                  <h5 class="font-bold">{{ currency(qty * plan.price, 'NT$ ') }}</h5>
                 </div>
               </div>
               <div class="mt-4 text-right">

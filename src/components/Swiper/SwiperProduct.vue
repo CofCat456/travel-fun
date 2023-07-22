@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { v4 } from 'uuid';
 import { ref } from 'vue';
 
-import SwiperLayout from '@/Layout/SwiperLayout.vue';
+import SwiperLayout from '@/layout/SwiperLayout.vue';
 
 import Button from '../Base/Button.vue';
 import ProductCard from '../Card/ProductCard.vue';

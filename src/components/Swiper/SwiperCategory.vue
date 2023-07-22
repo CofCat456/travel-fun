@@ -6,7 +6,7 @@ import { FreeMode, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref } from 'vue';
 
-import SwiperLayout from '../../Layout/SwiperLayout.vue';
+import SwiperLayout from '../../layout/SwiperLayout.vue';
 import CategoryCard from '../Card/CategoryCard.vue';
 import CustomNavigation from './internal/CustomNavigation.vue';
 

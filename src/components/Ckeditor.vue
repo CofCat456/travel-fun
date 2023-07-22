@@ -3,7 +3,6 @@ import '@ckeditor/ckeditor5-build-classic/build/translations/zh-cn';
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { component as ckeditor } from '@ckeditor/ckeditor5-vue';
-import { ref } from 'vue';
 
 import { MyAdapterPlugin } from '@/utlis/myUploadAdapter';
 
@@ -11,13 +10,16 @@ defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  value: {
+    type: String,
+    default: ''
   }
 });
 
-const emit = defineEmits(['ready', 'foucs', 'blur', 'input', 'destroy']);
+const emit = defineEmits(['ready', 'foucs', 'blur', 'destroy', 'update:value']);
 
 const editor = ClassicEditor;
-const editorResult = ref('');
 
 const editorConfig = {
   extraPlugins: [MyAdapterPlugin],
@@ -36,6 +38,7 @@ const editorConfig = {
       'indent',
       '|',
       'imageUpload',
+      'toggleImageCaption',
       'blockQuote',
       'insertTable',
       'mediaEmbed',
@@ -55,11 +58,10 @@ const onEditorFoucs = () => {
 
 const onEditorBlur = () => {
   emit('blur');
-  console.log(editorResult.value);
 };
 
-const onEditorInput = () => {
-  emit('input');
+const onEditorInput = (value) => {
+  emit('update:value', value);
 };
 
 const onEditorDestroy = () => {
@@ -73,12 +75,12 @@ const onEditorDestroy = () => {
       :editor="editor"
       :config="editorConfig"
       :disabled="disabled"
+      :model-value="value"
       @ready="onEditorReady"
       @foucs="onEditorFoucs"
       @blur="onEditorBlur"
       @input="onEditorInput"
       @destroy="onEditorDestroy"
-      v-model="editorResult"
     >
     </ckeditor>
   </div>

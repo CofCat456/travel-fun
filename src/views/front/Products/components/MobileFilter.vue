@@ -27,8 +27,8 @@ defineProps({
 
 defineEmits(['updateParams', 'updateSort', 'openMap']);
 
-const cityText = (city) => `${cityMap.get(city)}市`;
-const countryText = (city) => countryMap.get(city);
+const cityText = (city) => `${cityMap.get(city.key)}市`;
+const countryText = (country) => countryMap.get(country);
 </script>
 
 <template>
@@ -40,11 +40,11 @@ const countryText = (city) => countryMap.get(city);
             v-for="item in array"
             :key="item"
             class="flex cursor-pointer items-center justify-between border-t border-cc-other-5/50 px-4 py-2"
-            @click="$emit('updateParams', item)"
+            @click="$emit('updateParams', item.key)"
           >
             {{ isCity ? cityText(item) : countryText(item) }}
             <svg
-              v-if="item === currEnTarget"
+              v-if="item.key === currEnTarget"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -61,11 +61,11 @@ const countryText = (city) => countryMap.get(city);
             v-for="query in sortArray"
             :key="query"
             class="flex cursor-pointer items-center justify-between border-t border-cc-other-5/50 px-4 py-2"
-            @click="$emit('updateSort', query)"
+            @click="$emit('updateSort', query.value)"
           >
-            {{ sortMap.get(query) }}
+            {{ sortMap.get(query.value) }}
             <svg
-              v-if="query === currSort"
+              v-if="query.value === currSort"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

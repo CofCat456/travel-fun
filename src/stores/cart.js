@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { apiUserGetCarts, apiUserPostCart } from '../utlis/api';
 
 const useCartStore = defineStore('cart', () => {
   const isLoading = ref(false);
   const cartList = ref([]);
+
+  const totalNum = computed(() => cartList.value.length);
 
   const getCarts = async () => {
     const res = await apiUserGetCarts();
@@ -35,6 +37,7 @@ const useCartStore = defineStore('cart', () => {
   return {
     isLoading,
     cartList,
+    totalNum,
     getCarts,
     addCart
   };

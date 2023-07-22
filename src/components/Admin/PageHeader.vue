@@ -14,8 +14,12 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { websiteConfig } from '@/config/website.config';
 
+import { useUserStore } from '../../stores';
+
 const route = useRoute();
 const router = useRouter();
+
+const user = useUserStore();
 
 defineProps({
   collapsed: {
@@ -61,13 +65,16 @@ const iconList = [
   }
 ];
 
+const avatarOptions = [
+  {
+    label: '登出',
+    key: 1
+  }
+];
+
 const getBreadcrumbList = computed(() => generator(route.matched));
 
 const reloadPage = () => router.go(0);
-
-const dropdownSelect = (key) => {
-  router.push({ name: key });
-};
 
 const toggleFullScreen = () => {
   if (!document.fullscreenElement) {
@@ -76,10 +83,18 @@ const toggleFullScreen = () => {
     document.exitFullscreen();
   }
 };
+
+const dropdownSelect = (key) => {
+  router.push({ name: key });
+};
+
+const avatarSelect = async () => {
+  await user.logout();
+};
 </script>
 
 <template>
-  <div class="mx-3 flex h-16 items-center justify-between rounded-b-xl px-4 shadow transition-all">
+  <div class="flex h-16 items-center justify-between rounded-b-xl px-4 shadow transition-all">
     <!-- 左側菜單 -->
     <div class="flex items-center">
       <!-- 左邊側邊欄開關 -->
@@ -146,7 +161,11 @@ const toggleFullScreen = () => {
       </div>
       <!-- 個人 -->
       <div class="flex items-center">
-        <n-avatar round lazy :src="websiteConfig.userImage"> </n-avatar>
+        <n-dropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
+          <div class="avatar">
+            <n-avatar round lazy :src="websiteConfig.userImage" />
+          </div>
+        </n-dropdown>
       </div>
     </div>
   </div>

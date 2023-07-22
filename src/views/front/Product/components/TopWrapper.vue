@@ -1,5 +1,6 @@
 <script setup>
-import FullStarIcon from '@/components/Icons/FullStarIcon.vue';
+import { StarFilled } from '@vicons/material';
+import { NIcon } from 'naive-ui';
 
 defineProps({
   evaluate: {
@@ -20,13 +21,12 @@ defineProps({
 <template>
   <div class="mt-3 flex items-center gap-6">
     <div class="flex items-center">
-      <FullStarIcon
-        :show-evaluate="false"
-        :show-evaluate-num="false"
-        :evaluate="evaluate"
-        :evaluate-num="evaluateNum"
-      />
-      <span class="px-1 font-medium text-cc-accent"> {{ evaluate }} </span>
+      <div class="flex items-center">
+        <n-icon size="20" color="#EE5220">
+          <StarFilled />
+        </n-icon>
+        <span class="px-1 font-medium leading-5 text-cc-accent"> {{ evaluate }} </span>
+      </div>
       <div class="ml-2 cursor-pointer">
         <span class="underline">({{ evaluateNum }} 則評價)</span>
       </div>

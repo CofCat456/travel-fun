@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { v4 } from 'uuid';
 import { computed, ref } from 'vue';
 
-import SwiperLayout from '@/Layout/SwiperLayout.vue';
+import SwiperLayout from '@/layout/SwiperLayout.vue';
 
 import { cityMap } from '../../utlis/context';
 import CityCard from '../Card/CityCard.vue';

@@ -1,14 +1,15 @@
 <script setup>
+import { NBreadcrumb, NBreadcrumbItem } from 'naive-ui';
 import { computed, inject, onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import SwiperBanner from '@/components/Swiper/SwiperBanner.vue';
-import Container from '@/Layout/Container.vue';
+import Container from '@/layout/Container.vue';
 import { useCartStore } from '@/stores';
 import { apiUSerGetProduct } from '@/utlis/api';
 import { cityMap } from '@/utlis/context';
 
+import Content from './components/Content.vue';
 import LeftSidebar from './components/LeftSidebar.vue';
 import Plan from './components/Plan.vue';
 import RightSidebar from './components/RightSidebar.vue';
@@ -77,7 +78,14 @@ onMounted(() => getProduct(route.params.productId));
 <template>
   <Container v-if="product.id" class="py-5">
     <div class="my-4">
-      <Breadcrumbs :breadcrumbs="getBreadcrumbs" />
+      <n-breadcrumb separator=">">
+        <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
+          <n-breadcrumb-item v-if="pathName">
+            <RouterLink :to="{ name: pathName, params }">{{ title }}</RouterLink>
+          </n-breadcrumb-item>
+          <n-breadcrumb-item v-else> {{ title }}</n-breadcrumb-item>
+        </template>
+      </n-breadcrumb>
     </div>
     <h1 class="text-3xl font-bold">{{ product.title }}</h1>
     <TopWrapper
@@ -88,7 +96,7 @@ onMounted(() => getProduct(route.params.productId));
     <SwiperBanner :imagesUrl="product.imagesUrl" />
     <div class="flex gap-8">
       <div class="w-8/12">
-        <LeftSidebar :description="product.description" />
+        <LeftSidebar :features="product.features" />
       </div>
       <div class="w-4/12">
         <RightSidebar :price="product.price" :origin_price="product.origin_price" />
@@ -97,10 +105,22 @@ onMounted(() => getProduct(route.params.productId));
   </Container>
   <Plan
     :id="product.id"
-    :price="product.price"
-    :origin_price="product.origin_price"
     :unit="product.unit"
+    :plans="product.plans"
     :adding="cart.isLoading"
     @add-cart="cart.addCart"
   />
+  <Container v-if="product.id" class="py-5">
+    <Content :content="product.content" />
+  </Container>
 </template>
+
+<style scoped>
+:deep(#list) > ul {
+  @apply list-disc pl-6 text-base tracking-wide;
+}
+
+:deep(li) {
+  @apply py-1;
+}
+</style>

@@ -1,7 +1,6 @@
 <script setup>
+import { NDrawer, NDrawerContent } from 'naive-ui';
 import { ref } from 'vue';
-
-import BottomSheet from '../../Modal/BottomSheet.vue';
 
 defineProps({
   title: {
@@ -14,14 +13,11 @@ defineProps({
   }
 });
 
-const bottomSheetRef = ref(null);
-
-const openBottomSheet = () => bottomSheetRef.value.show();
-const hideBottomSheet = () => bottomSheetRef.value.hide();
+const show = ref(false);
 </script>
 
 <template>
-  <div class="btn-filter" @click="openBottomSheet">
+  <div class="btn-filter" @click="show = true">
     <div class="whitespace-nowrap text-sm text-cc-other-3">{{ title }}</div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -34,14 +30,13 @@ const hideBottomSheet = () => bottomSheetRef.value.hide();
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
     </svg>
   </div>
-  <BottomSheet ref="bottomSheetRef">
-    <template #header>{{ title }}</template>
-    <template #bottom-sheet-item>
+  <n-drawer placement="bottom" v-model:show="show">
+    <n-drawer-content :title="title" closable>
       <ul style="margin: 0" @click="hideBottomSheet">
         <slot />
       </ul>
-    </template>
-  </BottomSheet>
+    </n-drawer-content>
+  </n-drawer>
 </template>
 
 <style scoped>

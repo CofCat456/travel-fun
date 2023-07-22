@@ -7,7 +7,7 @@ import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref } from 'vue';
 
-import SwiperLayout from '@/Layout/SwiperLayout.vue';
+import SwiperLayout from '@/layout/SwiperLayout.vue';
 
 import CustomNavigation from './internal/CustomNavigation.vue';
 
@@ -70,12 +70,6 @@ const pagination = () => ({
         @swiper="onSwiper"
         @slideChange="onSlideChange"
       >
-        <SwiperSlide v-for="imageUrl in imagesUrl" :key="imageUrl" class="bg-sky-300">
-          <img :src="imageUrl" />
-        </SwiperSlide>
-        <SwiperSlide v-for="imageUrl in imagesUrl" :key="imageUrl" class="bg-sky-300">
-          <img :src="imageUrl" />
-        </SwiperSlide>
         <SwiperSlide v-for="imageUrl in imagesUrl" :key="imageUrl" class="bg-sky-300">
           <img :src="imageUrl" />
         </SwiperSlide>

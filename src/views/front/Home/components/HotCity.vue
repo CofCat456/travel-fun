@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 import Title from '@/components/Title.vue';
-import Container from '@/Layout/Container.vue';
+import Container from '@/layout/Container.vue';
 
 const props = defineProps({
   hotCitys: {

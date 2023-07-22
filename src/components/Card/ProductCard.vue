@@ -1,11 +1,11 @@
 <script setup>
+import { FavoriteBorderOutlined, FavoriteOutlined, LocationOnOutlined } from '@vicons/material';
+import { NIcon, NRate, NSpace } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
 import { currency } from '@/utlis/global';
 
 import { cityMap } from '../../utlis/context';
-import FavouriteIcon from '../Icons/FavouriteIcon.vue';
-import FullStarIcon from '../Icons/FullStarIcon.vue';
 
 defineProps({
   id: {
@@ -71,7 +71,12 @@ const goProduct = (id) => router.push({ name: 'Product', params: { productId: id
       {{ ranking }}
     </div>
     <div class="absolute top-[10px] right-[10px] text-white">
-      <FavouriteIcon :status="collectStatus" />
+      <n-icon v-if="collectStatus" size="24" class="icon-hover">
+        <FavoriteOutlined />
+      </n-icon>
+      <n-icon v-else size="20" class="icon-hover">
+        <FavoriteBorderOutlined />
+      </n-icon>
     </div>
     <div
       class="mb-2 aspect-square w-full bg-cover bg-center"
@@ -79,11 +84,17 @@ const goProduct = (id) => router.push({ name: 'Product', params: { productId: id
     />
     <div class="flex h-[120px] w-full flex-col gap-1 px-1">
       <div class="inline-flex gap-1 text-sm text-cc-other-4">
-        <span class="material-icons-outlined icon-hover"> location_on </span>
+        <n-icon size="20">
+          <LocationOnOutlined />
+        </n-icon>
         {{ cityMap.get(city) }}
       </div>
       <p class="text-sm-content line-clamp-2 flex-1">{{ title }}</p>
-      <FullStarIcon :evaluate="evaluate" :evaluate-num="evaluateNum" />
+      <n-space size="small">
+        <n-rate readonly allow-half size="small" :default-value="evaluate" />
+        <p class="text-sm-content text-cc-accent">{{ evaluate.toFixed(1) }}</p>
+        <p class="text-sm-content text-cc-other-3">({{ evaluateNum }})</p>
+      </n-space>
       <div class="inline-flex items-center gap-1">
         <h6>
           {{ currency(price, 'NT$ ') }}
@@ -95,9 +106,3 @@ const goProduct = (id) => router.push({ name: 'Product', params: { productId: id
     </div>
   </div>
 </template>
-
-<style scoped>
-:deep(.material-icons-outlined) {
-  font-size: 20px;
-}
-</style>

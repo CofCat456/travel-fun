@@ -2,12 +2,12 @@
 import 'leaflet/dist/leaflet.css';
 
 import L from 'leaflet';
+import { NRate, NSpace } from 'naive-ui';
 import { onMounted, ref, toRaw } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
 import { icons } from '../utlis/context';
 import { currency } from '../utlis/global';
-import FullStarIcon from './Icons/FullStarIcon.vue';
 
 const props = defineProps({
   products: {
@@ -48,9 +48,10 @@ const addMapMarker = (x, y, product) => {
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-1">
                     <div class="inline-flex items-center text-cc-accent">
-                      <span class="material-icons-outlined sm" >
-                        star
-                      </span>
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+                        <path d="M22 9.24l-7.19-.62L12 2L9.19 8.63L2 9.24l5.46 4.73L5.82 21L12 17.27L18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27l1-4.28l-3.32-2.88l4.38-.38L12 6.1l1.71 4.04l4.38.38l-3.32 2.88l1 4.28L12 15.4z" fill="currentColor">
+                        </path>
+                      </svg>
                     </div>
                     <p class="text-sm text-cc-accent leading-normal">${product.evaluate.toFixed(
                       1
@@ -91,9 +92,6 @@ const penTo = (x, y, product) => {
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-1">
                     <div class="inline-flex items-center text-cc-accent">
-                      <span class="material-icons-outlined sm" >
-                        star
-                      </span>
                     </div>
                     <p class="text-sm text-cc-accent leading-normal">${product.evaluate.toFixed(
                       1
@@ -163,12 +161,10 @@ onMounted(() => {
                 <p class="text-sm-content line-clamp-3 mb-1">{{ product.title }}</p>
                 <div class="flex flex-1 items-end justify-between">
                   <div class="flex flex-col gap-1">
-                    <FullStarIcon
-                      sm
-                      :show-evaluate="false"
-                      :evaluate="product.evaluate"
-                      :evaluate-num="product.evaluateNum"
-                    />
+                    <n-space size="small">
+                      <n-rate readonly allow-half size="small" :default-value="evaluate" />
+                      <p class="text-sm-content text-cc-other-3">({{ evaluateNum }})</p>
+                    </n-space>
                     <h6 class="font-bold">
                       {{ currency(product.price, 'NT$ ') }}
                     </h6>
@@ -217,9 +213,5 @@ onMounted(() => {
 
 .leaflet-container a {
   color: #181818;
-}
-
-.sm {
-  font-size: 16px;
 }
 </style>

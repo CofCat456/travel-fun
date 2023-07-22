@@ -1,13 +1,21 @@
 <script setup>
+import {
+  ConfirmationNumberOutlined,
+  FavoriteBorderOutlined,
+  FlightTakeoffOutlined,
+  PersonOutlineFilled,
+  PersonOutlineOutlined,
+  ShoppingCartOutlined
+} from '@vicons/material';
+import { NBadge, NIcon } from 'naive-ui';
 import { computed } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 
-import Container from '../Layout/Container.vue';
+import { websiteConfig } from '@/config/website.config';
+
+import Container from '../layout/Container.vue';
 import { useCartStore, useUserStore } from '../stores';
 import HamburgerBtn from './HamburgerBtn.vue';
-import FavouriteIcon from './Icons/FavouriteIcon.vue';
-import ShopCartIcon from './Icons/ShopCartIcon.vue';
-import Logo from './Logo.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -18,7 +26,7 @@ const cart = useCartStore();
 const goLogin = () => router.push({ name: 'Login' });
 const goAdmin = () => router.push({ name: 'AdminHome' });
 
-const isHome = computed(() => ['Home', 'City'].includes(route.name));
+const isHome = computed(() => ['Home', 'City', 'Country'].includes(route.name));
 </script>
 
 <template>
@@ -31,7 +39,7 @@ const isHome = computed(() => ['Home', 'City'].includes(route.name));
         <HamburgerBtn />
         <div class="flex items-center gap-8 lg:w-[526px]">
           <RouterLink :to="{ name: 'Home' }">
-            <Logo />
+            <img class="h-10 object-cover" :src="websiteConfig.logoImage" alt="logo" />
           </RouterLink>
           <ul class="hidden h-full flex-1 items-center gap-1 md:flex">
             <li class="h-full flex-1">
@@ -40,38 +48,40 @@ const isHome = computed(() => ['Home', 'City'].includes(route.name));
               </button>
             </li>
             <li class="flex flex-1 items-center justify-center gap-2 text-sm">
-              <span class="material-icons-outlined"> confirmation_number </span>
+              <n-icon size="24"> <ConfirmationNumberOutlined /> </n-icon>
               景點套票
             </li>
             <li class="flex flex-1 items-center justify-center gap-2 text-sm">
-              <span class="material-icons-outlined"> flight_takeoff </span>
+              <n-icon size="24"> <FlightTakeoffOutlined /> </n-icon>
               觀光行程
             </li>
           </ul>
         </div>
         <div class="flex items-center justify-between lg:w-[256px]">
           <div class="hidden place-content-center md:grid">
-            <FavouriteIcon />
+            <n-icon size="24" class="icon-hover"> <FavoriteBorderOutlined /> </n-icon>
           </div>
           <button
             v-if="user.loginStatus"
             type="button"
             class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-accent px-4 py-2 text-base lg:flex"
-            @click="goAdmin()"
+            @click="goAdmin"
           >
-            <span class="material-icons-outlined h-6 w-6"> person_filled </span>
+            <n-icon size="24"> <PersonOutlineOutlined /> </n-icon>
             會員專區
           </button>
           <button
             v-else
             type="button"
             class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-other-8 px-4 py-2 text-base transition-colors duration-300 hover:bg-cc-accent lg:flex"
-            @click="goLogin()"
+            @click="goLogin"
           >
-            <span class="material-icons-outlined h-6 w-6"> person_filled </span>
+            <n-icon size="24"> <PersonOutlineFilled /> </n-icon>
             登入 / 註冊
           </button>
-          <ShopCartIcon :shop-cart-num="cart.cartList?.length" />
+          <n-badge color="#EE5220" :max="10" :value="cart.totalNum">
+            <n-icon size="24" color="white" class="icon-hover"> <ShoppingCartOutlined /></n-icon>
+          </n-badge>
         </div>
       </div>
     </Container>

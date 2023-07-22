@@ -1,15 +1,14 @@
 <script setup>
-import { socialMedia } from '../utlis/context';
-import Logo from './Logo.vue';
+import { websiteConfig } from '@/config/website.config';
 </script>
 
 <template>
   <footer class="flex flex-col items-center bg-cc-other-2 p-4">
     <div class="mt-6 mb-10 flex items-center gap-8">
-      <Logo />
+      <img class="h-10 object-cover" :src="websiteConfig.logo" alt="logo" />
       <ul class="flex items-center gap-4">
         <li
-          v-for="item in socialMedia"
+          v-for="item in websiteConfig.socia"
           :key="item.icon"
           class="grid h-10 w-10 cursor-pointer place-items-center rounded-full bg-cc-other-3 text-white transition-colors duration-300 hover:bg-cc-accent"
         >

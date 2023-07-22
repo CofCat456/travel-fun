@@ -1,9 +1,10 @@
 <script setup>
-import HamburgerIcon from './Icons/HamburgerIcon.vue';
+import { TableRowsRound } from '@vicons/material';
+import { NIcon } from 'naive-ui';
 </script>
 
 <template>
   <button type="button" class="block md:hidden">
-    <HamburgerIcon />
+    <n-icon size="24"> <TableRowsRound /> </n-icon>
   </button>
 </template>

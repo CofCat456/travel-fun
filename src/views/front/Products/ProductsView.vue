@@ -1,22 +1,21 @@
 <script setup>
+import { AirplanemodeActiveOutlined } from '@vicons/material';
+import { NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NMenu, NModal } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import ProductCard from '@/components/Card/ProductCard.vue';
 import Loading from '@/components/Loading.vue';
-import Modal from '@/components/Modal/Modal.vue';
 import ProductMap from '@/components/ProductMap.vue';
 import SwiperCategory from '@/components/Swiper/SwiperCategory.vue';
-import Container from '@/Layout/Container.vue';
+import Container from '@/layout/Container.vue';
 import { useDeviceStore } from '@/stores';
 import useProductStore from '@/stores/product';
 import { categoryMap, cityMap, countryMap, sortMap } from '@/utlis/context';
 import { createRouterOption } from '@/utlis/global';
 
 import Filter from './components/Filter.vue';
-import Menu from './components/Menu.vue';
 import MobileFilter from './components/MobileFilter.vue';
 
 const props = defineProps({
@@ -39,8 +38,7 @@ const deviceStore = useDeviceStore();
 const { isMobile } = storeToRefs(deviceStore);
 
 const loadingRef = ref(null);
-const mapRef = ref(null);
-const mobileMapRef = ref(null);
+const showMap = ref(false);
 
 const isCity = computed(() => props.mode === 'city');
 const getParams = computed(() => (isCity.value ? route.params.cityName : route.params.countryName));
@@ -48,30 +46,54 @@ const getCityName = computed(() => cityMap.get(route.params.cityName));
 const getCountryName = computed(() => countryMap.get(route.params.countryName));
 const getCategory = computed(() => categoryMap.get(route.params.category) ?? '所有活動');
 const getCategorys = computed(() => ['', ...categoryMap.keys()]);
-const getFilterList = computed(() => [...sortMap.keys()]);
-const getEnCitys = computed(() => [...cityMap.keys()]);
-const getEnCountrys = computed(() => [...countryMap.keys()]);
-const getBreadcrumbs = computed(() => [
-  {
-    title: '首頁',
-    pathName: 'Home'
-  },
-  {
-    title: '台灣',
-    pathName: 'Country',
-    params: { countryName: 'taiwan' }
-  },
-  {
-    title: isCity.value ? getCityName.value : getCountryName.value,
-    pathName: isCity.value ? 'City' : 'Country',
-    params: isCity.value
-      ? { cityName: route.params.cityName }
-      : { countryName: route.params.countryName }
-  },
-  {
-    title: getCategory.value
-  }
-]);
+
+const getFilterList = computed(() =>
+  Array.from(sortMap, ([key, value]) => ({ label: value, value: key }))
+);
+const getEnCitys = computed(() =>
+  Array.from(cityMap, ([key, value]) => ({ label: `${value}市`, key }))
+);
+
+const getEnCountrys = computed(() =>
+  Array.from(countryMap, ([key, value]) => ({ label: value, key }))
+);
+
+const getBreadcrumbs = computed(() => {
+  return isCity.value
+    ? [
+        {
+          title: '首頁',
+          pathName: 'Home'
+        },
+        {
+          title: '台灣',
+          pathName: 'Country',
+          params: { countryName: 'taiwan' }
+        },
+        {
+          title: getCityName.value,
+          pathName: 'City',
+          params: { cityName: route.params.cityName }
+        },
+        {
+          title: getCategory.value
+        }
+      ]
+    : [
+        {
+          title: '首頁',
+          pathName: 'Home'
+        },
+        {
+          title: '台灣',
+          pathName: 'Country',
+          params: { countryName: 'taiwan' }
+        },
+        {
+          title: getCategory.value
+        }
+      ];
+});
 
 const getProductList = computed(() =>
   productStore.getFilterData(
@@ -108,6 +130,10 @@ const updateSort = (sort) => {
   });
 };
 
+function openMap() {
+  showMap.value = true;
+}
+
 onBeforeRouteUpdate(async (to) => {
   const { category } = to.params;
   await productStore.getProducts(loadingRef, categoryMap.get(category));
@@ -119,7 +145,14 @@ onMounted(() => productStore.getProducts(loadingRef));
 <template>
   <div class="bg-cc-other-7/80 py-2 md:py-6">
     <Container>
-      <Breadcrumbs :breadcrumbs="getBreadcrumbs" />
+      <n-breadcrumb separator=">">
+        <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
+          <n-breadcrumb-item v-if="pathName">
+            <RouterLink :to="{ name: pathName, params }">{{ title }}</RouterLink>
+          </n-breadcrumb-item>
+          <n-breadcrumb-item v-else> {{ title }}</n-breadcrumb-item>
+        </template>
+      </n-breadcrumb>
     </Container>
   </div>
   <div
@@ -147,7 +180,7 @@ onMounted(() => productStore.getProducts(loadingRef));
     :sort-array="getFilterList"
     @update-params="updateCity"
     @update-sort="updateSort"
-    @open-map="mobileMapRef?.show"
+    @open-map="openMap"
   />
   <Container>
     <div class="flex py-6">
@@ -158,7 +191,7 @@ onMounted(() => productStore.getProducts(loadingRef));
             background-image: linear-gradient(90deg, #fff7eb, rgba(255, 247, 234, 0.2)),
               url(/images/map.jpg);
           "
-          @click="mapRef?.show"
+          @click="openMap"
         >
           <div class="absolute bottom-4 left-4 rounded-m font-bold">
             <h6 class="mb-2 font-medium">
@@ -183,12 +216,20 @@ onMounted(() => productStore.getProducts(loadingRef));
             </p>
           </div>
         </div>
-        <Menu
-          :is-city="isCity"
-          :curr-en-target="getParams"
-          :array="isCity ? getEnCitys : getEnCountrys"
-          @update-params="updateCity"
-        />
+        <n-card size="small">
+          <template #header>
+            <div class="flex items-center gap-3">
+              <n-icon size="24"> <AirplanemodeActiveOutlined /> </n-icon>
+              目的地
+            </div>
+          </template>
+          <n-menu
+            :default-value="isCity ? route.params.cityName : route.params.countryName"
+            :root-indent="25"
+            :options="isCity ? getEnCitys : getEnCountrys"
+            @update-value="updateCity"
+          />
+        </n-card>
       </div>
       <main class="flex flex-1 flex-col">
         <h6 v-if="isMobile" class="mb-4 font-medium">
@@ -214,48 +255,9 @@ onMounted(() => productStore.getProducts(loadingRef));
       </main>
     </div>
   </Container>
-  <Modal v-if="isMobile" id="mobileMap" ref="mobileMapRef" no-scroll screen="screen">
-    <template #content>
-      <button
-        type="button"
-        class="fixed top-4 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cc-other-1 shadow-2xl"
-        @click="mobileMapRef?.hide"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="h-5 w-5"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-        </svg>
-      </button>
-      <ProductMap />
-    </template>
-  </Modal>
-  <Modal v-else id="map" ref="mapRef" no-scroll screen="screen">
-    <template #content>
-      <ProductMap />
-      <button
-        type="button"
-        class="absolute -top-3 -right-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cc-other-2 text-cc-other-1 shadow-2xl"
-        @click="mapRef?.hide"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="h-6 w-6"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </template>
-  </Modal>
+  <n-modal v-model:show="showMap">
+    <ProductMap />
+  </n-modal>
 </template>
 
 <style scoped>

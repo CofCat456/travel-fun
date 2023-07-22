@@ -27,10 +27,18 @@ const themeOverrides = {
     primaryColorHover: '#68A0E8',
     primaryColorPressed: '#072A81',
     primaryColorSuppl: '#CDE4FB',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    borderColor: '#D4D4D4',
+    textColorBase: '#181818',
+    textColor1: '#181818',
+    textColor2: '#181818',
+    textColor3: '#181818'
   },
   Card: {
     borderRadius: '12px'
+  },
+  Rate: {
+    itemColorActive: '#EE5220'
   }
 };
 
@@ -44,7 +52,7 @@ onMounted(() => {
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
     <n-message-provider>
-      <n-layout class="min-h-screen" has-sider>
+      <n-layout has-sider>
         <n-layout-sider
           class="min-h-screen"
           bordered
@@ -60,11 +68,11 @@ onMounted(() => {
           <Logo :collapsed="collapsed" />
           <AsideMenu />
         </n-layout-sider>
-        <n-layout>
+        <n-layout embedded class="px-3">
           <n-layout-header>
             <PageHeader v-model:collapsed="collapsed" />
           </n-layout-header>
-          <n-layout-content class="min-h-screen bg-cc-other-7/30 px-3 py-2">
+          <n-layout-content embedded class="min-h-screen py-2">
             <MainView v-if="user.loginStatus" />
           </n-layout-content>
         </n-layout>

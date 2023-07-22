@@ -6,7 +6,7 @@ import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { ref } from 'vue';
 
-import SwiperLayout from '@/Layout/SwiperLayout.vue';
+import SwiperLayout from '@/layout/SwiperLayout.vue';
 
 import NewCard from '../Card/NewCard.vue';
 import Title from '../Title.vue';

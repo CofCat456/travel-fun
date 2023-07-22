@@ -1,17 +1,16 @@
 <script setup>
+import { NBreadcrumb, NBreadcrumbItem } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import Banner from '@/components/Banner.vue';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import Know from '@/components/Know.vue';
 import SwiperCity from '@/components/Swiper/SwiperCity.vue';
 import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
-import Container from '@/Layout/Container.vue';
+import Container from '@/layout/Container.vue';
 import { useProductStore } from '@/stores';
 import { countryMap } from '@/utlis/context';
-
-import KnowCountry from './components/KnowCountry.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -48,7 +47,14 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
   </Banner>
   <Container>
     <div class="mb-6">
-      <Breadcrumbs :breadcrumbs="getBreadcrumbs" />
+      <n-breadcrumb separator=">">
+        <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
+          <n-breadcrumb-item v-if="pathName">
+            <RouterLink :to="{ name: pathName, params }">{{ title }}</RouterLink>
+          </n-breadcrumb-item>
+          <n-breadcrumb-item v-else> {{ title }}</n-breadcrumb-item>
+        </template>
+      </n-breadcrumb>
     </div>
   </Container>
   <SwiperProduct title="Top 10 商品" :products="productStore.getFilterData(getByAllPopular)" />
@@ -63,6 +69,6 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
     :products="productStore.getFilterData(getByAllNewest)"
     @btn-click="goProducts"
   />
-  <KnowCountry :city-name="getCountryName" />
+  <Know :name="getCountryName" />
   <SwiperCity :title="`${getCountryName}熱門城市`" />
 </template>

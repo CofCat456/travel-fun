@@ -63,6 +63,8 @@ const useUserStore = defineStore('user', () => {
 
       if (success && document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')) {
         loginStatus.value = true;
+      } else {
+        loginStatus.value = false;
       }
     } catch {
       router.push({ name: 'Home' });
