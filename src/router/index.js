@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('../Layout/FrontLayout.vue'),
+      component: () => import('../layout/FrontLayout.vue'),
       children: [
         {
           path: '',
@@ -48,17 +48,31 @@ const router = createRouter({
     },
     {
       path: '/admin',
-      component: () => import('../Layout/Dashboard.vue'),
+      component: () => import('../layout/Dashboard.vue'),
       children: [
         {
           path: 'home',
           name: 'AdminHome',
-          component: () => import('../views/admin/Home/AdminHomeView.vue')
+          component: () => import('../views/admin/Home/AdminHomeView.vue'),
+          meta: {
+            title: 'Dashboard'
+          }
         },
         {
-          path: 'products',
-          name: 'AdminProducts',
-          component: () => import('../views/admin/Product/AdminProducts.vue')
+          path: 'list',
+          meta: {
+            title: '列表頁面'
+          },
+          children: [
+            {
+              path: 'products',
+              name: 'AdminProducts',
+              component: () => import('../views/admin/Product/AdminProducts.vue'),
+              meta: {
+                title: '產品列表'
+              }
+            }
+          ]
         }
       ]
     }

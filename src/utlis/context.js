@@ -1,20 +1,5 @@
 import L from 'leaflet';
 
-export const socialMedia = [
-  {
-    icon: 'github',
-    href: 'https://github.com/CofCat456'
-  },
-  {
-    icon: 'mail',
-    href: 'mailto:a25690756@gmail.com'
-  },
-  {
-    icon: 'public',
-    href: 'https://www.cofcat.com/'
-  }
-];
-
 export const countryMap = new Map().set('taiwan', '台灣');
 
 export const cityMap = new Map()
@@ -39,6 +24,8 @@ export const cityMap = new Map()
 
 export const categoryMap = new Map().set('tickets', '門票').set('package', '套票');
 
+export const unitMap = new Map().set('張', '張');
+
 export const sortMap = new Map()
   .set('', '熱門程度')
   .set('userRating', '用戶評價')
@@ -57,8 +44,6 @@ export const icons = {
     shadowSize: [41, 41]
   })
 };
-
-export const unitList = ['張'];
 
 export const mockProducts = [
   {

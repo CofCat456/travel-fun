@@ -6,10 +6,6 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  size: {
-    type: [String, Number],
-    default: 'md'
-  },
   screen: {
     type: String,
     default: null
@@ -32,15 +28,6 @@ const getScreen = (screen) => {
   const screenMap = new Map().set('screen', 'screen').set('fullscreen', 'fullscreen');
 
   return screenMap.get(screen) ? `modal-${screenMap.get(screen)}` : null;
-};
-
-const getSize = (size) => {
-  if (size === 'auto') return 'w-auto';
-  if (Number(size)) return `max-w-[${size}px]`;
-
-  const sizeMap = new Map().set('sm', '300px').set('md', '768px').set('auto', 'auto');
-
-  return sizeMap.get(size) ? `max-w-[${sizeMap.get(size)}]` : 'max-w-[768px]';
 };
 
 const getPosition = (position) => {
@@ -106,7 +93,7 @@ defineExpose({
       <div class="modal-overlay" @click="hide" />
 
       <!-- Modal-Diglog -->
-      <div class="modal-diglog" :class="[getScreen(screen), getSize(size), getPosition(position)]">
+      <div class="modal-diglog" :class="[getScreen(screen), getPosition(position)]">
         <!-- Modal-Window -->
         <div class="modal-window">
           <div class="relative h-full space-y-4 p-5">
@@ -148,7 +135,7 @@ defineExpose({
 /* Diglog */
 
 .modal-diglog {
-  @apply pointer-events-none relative mx-auto w-auto;
+  @apply pointer-events-none relative mx-auto w-auto max-w-[768px];
 }
 
 /* Window */
