@@ -72,7 +72,7 @@ const onSubmit = () => {
         </n-grid>
       </n-form>
       <Button isFull :isLoading="userStore.isLoading" @click="onSubmit">
-        登入 {{ user.isLoading ? '中' : '' }}
+        登入 {{ userStore.isLoading ? '中' : '' }}
       </Button>
     </div>
   </div>

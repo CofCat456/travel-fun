@@ -1,5 +1,5 @@
 <script setup>
-import { SearchOutline as SearchIcon } from '@vicons/antd';
+import { SearchOutlined } from '@vicons/antd';
 import {
   NButton,
   NDatePicker,
@@ -328,7 +328,7 @@ watch(
                   v-model:value="productValue.city"
                 >
                   <template v-if="citySelectShow" #arrow>
-                    <search-icon />
+                    <SearchOutlined />
                   </template>
                 </n-select>
               </n-form-item-gi>
@@ -362,7 +362,7 @@ watch(
                   v-model:value="productValue.category"
                 >
                   <template v-if="categorySelectShow" #arrow>
-                    <search-icon />
+                    <SearchOutlined />
                   </template>
                 </n-select>
               </n-form-item-gi>
@@ -377,7 +377,7 @@ watch(
                   v-model:value="productValue.unit"
                 >
                   <template v-if="unitSelectShow" #arrow>
-                    <search-icon />
+                    <SearchOutlined />
                   </template>
                 </n-select>
               </n-form-item-gi>
