@@ -6,7 +6,7 @@ import Button from '@/components/Base/Button.vue';
 import { websiteConfig } from '@/config/website.config';
 import { useUserStore } from '@/stores';
 
-const user = useUserStore();
+const userStore = useUserStore();
 
 const formRef = ref(null);
 const userValue = ref({
@@ -40,7 +40,7 @@ const rules = computed(() => ({
 const onSubmit = () => {
   formRef.value?.validate(async (errors) => {
     if (!errors) {
-      await user.signin({ ...userValue.value });
+      await userStore.signin({ ...userValue.value });
     }
   });
 };
@@ -71,7 +71,7 @@ const onSubmit = () => {
           </n-form-item-gi>
         </n-grid>
       </n-form>
-      <Button isFull :isLoading="user.isLoading" @click="onSubmit">
+      <Button isFull :isLoading="userStore.isLoading" @click="onSubmit">
         登入 {{ user.isLoading ? '中' : '' }}
       </Button>
     </div>

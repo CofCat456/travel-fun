@@ -17,7 +17,7 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
+const { allProductList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
   storeToRefs(productStore);
 
 const getBackgroundUrl = computed(
@@ -69,6 +69,6 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
     :products="productStore.getFilterData(getByAllNewest)"
     @btn-click="goProducts"
   />
-  <Know :name="getCountryName" />
+  <Know :name="getCountryName" :products="productStore.getFilterData(allProductList)" />
   <SwiperCity :title="`${getCountryName}熱門城市`" />
 </template>

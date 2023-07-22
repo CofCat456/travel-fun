@@ -8,6 +8,8 @@ import {
   NFormItemGi,
   NGrid,
   NInput,
+  NInputGroup,
+  NInputGroupLabel,
   NInputNumber,
   NModal,
   NRate,
@@ -22,11 +24,13 @@ import { v4 } from 'uuid';
 import { computed, ref, watch } from 'vue';
 
 import Ckeditor from '@/components/Ckeditor.vue';
+import { useGeocodeAddress } from '@/components/Map';
 import { apiAdminUploadImage } from '@/utlis/api';
 import { categoryMap, cityMap, unitMap } from '@/utlis/context';
 import { mapToArray } from '@/utlis/global';
 
 const message = useMessage();
+const { coordinates, response, isSearching, geocodeAddress } = useGeocodeAddress();
 
 const props = defineProps({
   isNew: {
@@ -49,8 +53,6 @@ const props = defineProps({
 
 const emit = defineEmits(['addProduct', 'updateProduct', 'uploadImage', 'update:showModal']);
 
-const tempUploadFileInfo = ref([]);
-
 const formRef = ref(null);
 const productValue = ref({
   id: '',
@@ -70,7 +72,11 @@ const productValue = ref({
   imagesUrl: [],
   features: '',
   plans: [],
-  content: ''
+  content: '',
+  coordinates: {
+    lat: 0,
+    lng: 0
+  }
 });
 
 // Naive Ui
@@ -176,10 +182,12 @@ const resetForm = () => {
     is_enabled: false,
     features: '',
     plans: [],
-    content: ''
+    content: '',
+    coordinates: {
+      lat: 0,
+      lng: 0
+    }
   };
-
-  tempUploadFileInfo.value = [];
 };
 
 const customRequest = async ({ file, onFinish, onError }) => {
@@ -210,6 +218,31 @@ const handleRemoveUploadFile = (options) => {
   productValue.value.imagesUrl = productValue.value.imagesUrl.filter(
     (imageUrl) => imageUrl !== options?.file?.url
   );
+};
+
+const handleGetGeometry = async (address) => {
+  if (address === '') {
+    message.error('地址不得為空');
+    return;
+  }
+
+  await geocodeAddress(address);
+
+  const { lat, lng } = coordinates.value;
+
+  productValue.value.coordinates = {
+    lat,
+    lng
+  };
+
+  switch (response.value.type) {
+    case 'success':
+      message.success(response.value.text);
+      break;
+    default:
+      message.error(response.value.text);
+      break;
+  }
 };
 
 const onSubmit = () => {
@@ -248,7 +281,8 @@ watch(
       plans: curr?.plan ?? [],
       content: curr?.content ?? '',
       imageUrl: curr?.imageUrl ?? '',
-      imagesUrl: curr?.imagesUrl ?? []
+      imagesUrl: curr?.imagesUrl ?? [],
+      coordinates: curr?.coordinates ?? { lat: 0, lng: 0 }
     };
   },
   { deep: true }
@@ -280,7 +314,6 @@ watch(
                 <n-input
                   type="text"
                   placeholder="輸入產品名稱"
-                  @keydown.enter.prevent
                   v-model:value="productValue.title"
                 />
               </n-form-item-gi>
@@ -301,12 +334,22 @@ watch(
               </n-form-item-gi>
 
               <n-form-item-gi path="address" label="地址">
-                <n-input
-                  type="text"
-                  placeholder="輸入產品地址"
-                  @keydown.enter.prevent
-                  v-model:value="productValue.address"
-                />
+                <n-input-group>
+                  <n-input
+                    type="text"
+                    placeholder="輸入產品地址"
+                    :disabled="isSearching"
+                    v-model:value="productValue.address"
+                  />
+                  <n-button
+                    type="primary"
+                    ghost
+                    :loading="isSearching"
+                    @click="handleGetGeometry(productValue.address)"
+                  >
+                    搜尋
+                  </n-button>
+                </n-input-group>
               </n-form-item-gi>
 
               <n-form-item-gi path="category" label="分類">
@@ -387,6 +430,21 @@ watch(
                 />
               </n-form-item-gi>
 
+              <n-form-item-gi path="geometry" label="座標查詢">
+                <n-input-group>
+                  <n-input-group-label>經度</n-input-group-label>
+                  <n-input-number
+                    :show-button="false"
+                    v-model:value="productValue.coordinates.lng"
+                  />
+                  <n-input-group-label>緯度</n-input-group-label>
+                  <n-input-number
+                    :show-button="false"
+                    v-model:value="productValue.coordinates.lat"
+                  />
+                </n-input-group>
+              </n-form-item-gi>
+
               <n-form-item-gi :span="2" path="description" label="描述">
                 <n-input
                   type="textarea"
@@ -424,8 +482,18 @@ watch(
               <template #default="{ value }">
                 <div class="flex max-w-xl flex-col gap-4">
                   <div class="flex items-center gap-8">
-                    <n-input-number placeholder="輸入原價" v-model:value="value.origin_price" />
-                    <n-input-number placeholder="輸入售價" v-model:value="value.price" />
+                    <n-input-number
+                      placeholder="輸入原價"
+                      :disabled="isSearching"
+                      :loading="isSearching"
+                      v-model:value="value.origin_price"
+                    />
+                    <n-input-number
+                      placeholder="輸入售價"
+                      :disabled="isSearching"
+                      :loading="isSearching"
+                      v-model:value="value.price"
+                    />
                   </div>
                   <Ckeditor v-model:value="value.content" />
                 </div>

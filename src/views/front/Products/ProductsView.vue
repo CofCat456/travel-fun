@@ -1,13 +1,13 @@
 <script setup>
 import { AirplanemodeActiveOutlined } from '@vicons/material';
-import { NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NMenu, NModal } from 'naive-ui';
+import { NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NMenu } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
 import ProductCard from '@/components/Card/ProductCard.vue';
 import Loading from '@/components/Loading.vue';
-import ProductMap from '@/components/ProductMap.vue';
+import { ProductMap } from '@/components/Map';
 import SwiperCategory from '@/components/Swiper/SwiperCategory.vue';
 import Container from '@/layout/Container.vue';
 import { useDeviceStore } from '@/stores';
@@ -38,7 +38,7 @@ const deviceStore = useDeviceStore();
 const { isMobile } = storeToRefs(deviceStore);
 
 const loadingRef = ref(null);
-const showMap = ref(false);
+const productMap = ref(null);
 
 const isCity = computed(() => props.mode === 'city');
 const getParams = computed(() => (isCity.value ? route.params.cityName : route.params.countryName));
@@ -130,10 +130,6 @@ const updateSort = (sort) => {
   });
 };
 
-function openMap() {
-  showMap.value = true;
-}
-
 onBeforeRouteUpdate(async (to) => {
   const { category } = to.params;
   await productStore.getProducts(loadingRef, categoryMap.get(category));
@@ -191,7 +187,7 @@ onMounted(() => productStore.getProducts(loadingRef));
             background-image: linear-gradient(90deg, #fff7eb, rgba(255, 247, 234, 0.2)),
               url(/images/map.jpg);
           "
-          @click="openMap"
+          @click="productMap.openMap"
         >
           <div class="absolute bottom-4 left-4 rounded-m font-bold">
             <h6 class="mb-2 font-medium">
@@ -255,9 +251,7 @@ onMounted(() => productStore.getProducts(loadingRef));
       </main>
     </div>
   </Container>
-  <n-modal v-model:show="showMap">
-    <ProductMap />
-  </n-modal>
+  <ProductMap ref="productMap" :products="getProductList" />
 </template>
 
 <style scoped>

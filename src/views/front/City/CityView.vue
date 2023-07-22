@@ -17,7 +17,7 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
+const { allProductList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
   storeToRefs(productStore);
 
 const getBackgroundUrl = computed(() => `/images/background/city/bg_${route.params.cityName}.jpg`);
@@ -78,6 +78,9 @@ const goProducts = () => router.push({ name: 'CityProducts' });
     :products="productStore.getFilterData(getByAllNewest, route.params.cityName)"
     @btn-click="goProducts"
   />
-  <Know :name="getCityName" />
+  <Know
+    :name="getCityName"
+    :products="productStore.getFilterData(allProductList, route.params.cityName)"
+  />
   <SwiperCity title="探索其他城市" :curr-city="getCityName" />
 </template>

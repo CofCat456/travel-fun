@@ -1,8 +1,7 @@
 <script setup>
-import { NModal } from 'naive-ui';
 import { ref } from 'vue';
 
-import ProductMap from '@/components/ProductMap.vue';
+import { ProductMap } from '@/components/Map';
 import Container from '@/layout/Container.vue';
 
 defineProps({
@@ -16,7 +15,7 @@ defineProps({
   }
 });
 
-const showMap = ref(false);
+const productMap = ref(null);
 </script>
 
 <template>
@@ -37,7 +36,7 @@ const showMap = ref(false);
             background-image: linear-gradient(90deg, #fff7eb, rgba(255, 247, 234, 0.2)),
               url(/images/map.jpg);
           "
-          @click="showMap = true"
+          @click="productMap.openMap"
         >
           <div
             class="absolute bottom-1/2 left-6 translate-y-1/2 font-bold md:left-auto md:bottom-6 md:right-6 md:translate-y-0"
@@ -64,8 +63,6 @@ const showMap = ref(false);
         </div>
       </div>
     </Container>
-    <n-modal v-model:show="showMap">
-      <ProductMap />
-    </n-modal>
+    <ProductMap ref="productMap" :products="products" />
   </div>
 </template>
