@@ -1,5 +1,5 @@
 <script setup>
-import { SearchOutline as SearchIcon } from '@vicons/ionicons5';
+import { SearchOutline as SearchIcon } from '@vicons/antd';
 import {
   NButton,
   NDatePicker,

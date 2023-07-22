@@ -1,6 +1,5 @@
 <script setup>
-import { TableOutlined as TableIcon } from '@vicons/antd';
-import { SpeedometerOutline as SpeedometerIcon } from '@vicons/ionicons5';
+import { DashboardOutlined, TableOutlined } from '@vicons/antd';
 import { NIcon, NMenu } from 'naive-ui';
 import { h } from 'vue';
 import { RouterLink } from 'vue-router';
@@ -13,7 +12,7 @@ const menuOptions = [
   {
     label: 'Dashboard',
     key: 'dashboard',
-    icon: renderIcon(SpeedometerIcon),
+    icon: renderIcon(DashboardOutlined),
     children: [
       {
         label: () =>
@@ -33,7 +32,7 @@ const menuOptions = [
   {
     label: '列表',
     key: 'table',
-    icon: renderIcon(TableIcon),
+    icon: renderIcon(TableOutlined),
     children: [
       {
         label: () =>
