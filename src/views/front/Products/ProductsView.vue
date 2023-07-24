@@ -3,30 +3,23 @@ import { AirplanemodeActiveOutlined } from '@vicons/material';
 import { NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NMenu } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
-import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-import ProductCard from '@/components/Card/ProductCard.vue';
+import { ProductCard } from '@/components/Card';
 import Loading from '@/components/Loading.vue';
 import { ProductMap } from '@/components/Map';
-import SwiperCategory from '@/components/Swiper/SwiperCategory.vue';
+import { SwiperCategory } from '@/components/Swiper';
 import Container from '@/layout/Container.vue';
-import { useDeviceStore } from '@/stores';
-import useProductStore from '@/stores/product';
+import { useDeviceStore, useProductStore } from '@/stores';
 import { categoryMap, cityMap, countryMap, sortMap } from '@/utlis/context';
 import { createRouterOption } from '@/utlis/global';
 
 import Filter from './components/Filter.vue';
 import MobileFilter from './components/MobileFilter.vue';
 
-const props = defineProps({
-  mode: {
-    type: String,
-    defautl: 'city'
-  },
-  sort: {
-    type: String,
-    default: ''
-  }
+const { mode, sort } = defineProps({
+  mode: String,
+  sort: String
 });
 
 const route = useRoute();
@@ -37,10 +30,12 @@ const deviceStore = useDeviceStore();
 
 const { isMobile } = storeToRefs(deviceStore);
 
+const { getFilterData, getSortData, getProducts } = productStore;
+
 const loadingRef = ref(null);
 const productMap = ref(null);
 
-const isCity = computed(() => props.mode === 'city');
+const isCity = computed(() => mode === 'city');
 const getParams = computed(() => (isCity.value ? route.params.cityName : route.params.countryName));
 const getCityName = computed(() => cityMap.get(route.params.cityName));
 const getCountryName = computed(() => countryMap.get(route.params.countryName));
@@ -96,15 +91,16 @@ const getBreadcrumbs = computed(() => {
 });
 
 const getProductList = computed(() =>
-  productStore.getFilterData(
-    productStore.getSortData(props.sort || 'popular'),
+  getFilterData(
+    getSortData(sort || 'popular'),
     isCity.value ? route.params.cityName : '',
+    route.params.category,
     0
   )
 );
 
 const updateCity = (city) => {
-  const routerOption = createRouterOption(city, route.params.category, props.sort);
+  const routerOption = createRouterOption(city, route.params.category, sort);
 
   return router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -113,7 +109,7 @@ const updateCity = (city) => {
 };
 
 const updateCategory = (category) => {
-  const routerOption = createRouterOption(route.params.cityName, category, props.sort);
+  const routerOption = createRouterOption(route.params.cityName, category, sort);
 
   router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -121,8 +117,8 @@ const updateCategory = (category) => {
   });
 };
 
-const updateSort = (sort) => {
-  const routerOption = createRouterOption(route.params.cityName, route.params.category, sort);
+const updateSort = (item) => {
+  const routerOption = createRouterOption(route.params.cityName, route.params.category, item);
 
   return router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -130,12 +126,7 @@ const updateSort = (sort) => {
   });
 };
 
-onBeforeRouteUpdate(async (to) => {
-  const { category } = to.params;
-  await productStore.getProducts(loadingRef, categoryMap.get(category));
-});
-
-onMounted(() => productStore.getProducts(loadingRef));
+onMounted(() => getProducts(loadingRef));
 </script>
 
 <template>

@@ -6,8 +6,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import Banner from '@/components/Banner.vue';
 import Know from '@/components/Know.vue';
-import SwiperCity from '@/components/Swiper/SwiperCity.vue';
-import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
+import { SwiperCity, SwiperProduct } from '@/components/Swiper';
 import Container from '@/layout/Container.vue';
 import { useProductStore } from '@/stores';
 import { cityMap } from '@/utlis/context';
@@ -17,8 +16,10 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { allProductList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
+const { productList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
   storeToRefs(productStore);
+
+const { getFilterData } = productStore;
 
 const getBackgroundUrl = computed(() => `/images/background/city/bg_${route.params.cityName}.jpg`);
 const getCityName = computed(() => cityMap.get(route.params.cityName));
@@ -62,25 +63,22 @@ const goProducts = () => router.push({ name: 'CityProducts' });
   </Container>
   <SwiperProduct
     title="Top 10 商品"
-    :products="productStore.getFilterData(getByAllPopular, route.params.cityName)"
+    :products="getFilterData(getByAllPopular, route.params.cityName)"
   />
   <SwiperProduct
     :title="`精選${getCityName}活動`"
-    :products="productStore.getFilterData(getByAllPreferred, route.params.cityName)"
+    :products="getFilterData(getByAllPreferred, route.params.cityName)"
   />
   <SwiperProduct
     title="為您推薦"
-    :products="productStore.getFilterData(getByAllRecommended, route.params.cityName)"
+    :products="getFilterData(getByAllRecommended, route.params.cityName)"
   />
   <SwiperProduct
     title="最新上架"
     :btn="{ text: `查看所有${getCityName}所有活動` }"
-    :products="productStore.getFilterData(getByAllNewest, route.params.cityName)"
+    :products="getFilterData(getByAllNewest, route.params.cityName)"
     @btn-click="goProducts"
   />
-  <Know
-    :name="getCityName"
-    :products="productStore.getFilterData(allProductList, route.params.cityName)"
-  />
-  <SwiperCity title="探索其他城市" :curr-city="getCityName" />
+  <Know :name="getCityName" :products="getFilterData(productList, route.params.cityName)" />
+  <SwiperCity title="探索其他城市" :space-between="16" :curr-city="getCityName" />
 </template>

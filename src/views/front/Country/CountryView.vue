@@ -6,8 +6,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import Banner from '@/components/Banner.vue';
 import Know from '@/components/Know.vue';
-import SwiperCity from '@/components/Swiper/SwiperCity.vue';
-import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
+import { SwiperCity, SwiperProduct } from '@/components/Swiper';
 import Container from '@/layout/Container.vue';
 import { useProductStore } from '@/stores';
 import { countryMap } from '@/utlis/context';
@@ -17,8 +16,10 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { allProductList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
+const { productList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
   storeToRefs(productStore);
+
+const { getFilterData } = productStore;
 
 const getBackgroundUrl = computed(
   () => `/images/background/country/bg_${route.params.countryName}.jpg`
@@ -57,18 +58,23 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
       </n-breadcrumb>
     </div>
   </Container>
-  <SwiperProduct title="Top 10 商品" :products="productStore.getFilterData(getByAllPopular)" />
+  <SwiperProduct title="Top 10 商品" :products="getFilterData(getByAllPopular)" />
   <SwiperProduct
     :title="`精選${getCountryName}活動`"
-    :products="productStore.getFilterData(getByAllPreferred)"
+    :products="getFilterData(getByAllPreferred)"
   />
-  <SwiperProduct title="為您推薦" :products="productStore.getFilterData(getByAllRecommended)" />
+  <SwiperProduct title="為您推薦" :products="getFilterData(getByAllRecommended)" />
   <SwiperProduct
     title="最新上架"
     :btn="{ text: `查看所有${getCountryName}所有活動` }"
-    :products="productStore.getFilterData(getByAllNewest)"
+    :products="getFilterData(getByAllNewest)"
     @btn-click="goProducts"
   />
-  <Know :name="getCountryName" :products="productStore.getFilterData(allProductList)" />
-  <SwiperCity :title="`${getCountryName}熱門城市`" />
+  <Know :name="getCountryName" :products="getFilterData(productList)" />
+  <SwiperCity
+    :title="`${getCountryName}熱門城市`"
+    :slides-per-view="6"
+    :slides-per-group="6"
+    :space-between="16"
+  />
 </template>

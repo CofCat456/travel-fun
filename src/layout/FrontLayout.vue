@@ -8,7 +8,7 @@ import Footer from '../components/Footer.vue';
 import Header from '../components/Header.vue';
 import Loading from '../components/Loading.vue';
 import { useCartStore, useProductStore } from '../stores';
-import { apiUserGetAllProducts, apiUserGetCarts, apiUserGetProducts } from '../utlis/api';
+import { apiUserGetAllProducts, apiUserGetCarts } from '../utlis/api';
 
 const loadingRef = ref(null);
 const isDone = ref(false);
@@ -41,28 +41,26 @@ const themeOverrides = {
 
 provide('loading', loadingRef);
 
-const product = useProductStore();
-const cart = useCartStore();
+const cartStore = useCartStore();
+const productStore = useProductStore();
 
-const { allProductList, productList } = storeToRefs(product);
-const { cartList } = storeToRefs(cart);
+const { cartList } = storeToRefs(cartStore);
+const { productList } = storeToRefs(productStore);
 
 const getInitialProducts = async () => {
   loadingRef.value.show();
   isDone.value = false;
 
   try {
-    const [getAllProductsRes, getProductRes, getCartsRes] = await Promise.all([
+    const [getProductsRes, getCartsRes] = await Promise.all([
       apiUserGetAllProducts(),
-      apiUserGetProducts(),
       apiUserGetCarts()
     ]);
 
-    allProductList.value = getAllProductsRes?.data?.products ?? [];
-    productList.value = getProductRes?.data?.products ?? [];
+    productList.value = getProductsRes?.data?.products ?? [];
     cartList.value = getCartsRes?.data?.data?.carts ?? [];
 
-    console.log(allProductList.value, productList.value, cartList.value);
+    console.log(productList.value, cartList.value);
 
     loadingRef.value.hide();
   } finally {

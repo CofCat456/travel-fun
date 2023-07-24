@@ -35,6 +35,7 @@ module.exports = {
     semi: ['error', 'always'],
     camelcase: ['off'],
     'vue/multi-word-component-names': 'off',
+    'vue/no-setup-props-destructure': 'off',
     'import/prefer-default-export': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'warn'

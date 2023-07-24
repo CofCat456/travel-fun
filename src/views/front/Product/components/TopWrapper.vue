@@ -3,18 +3,9 @@ import { StarFilled } from '@vicons/material';
 import { NIcon } from 'naive-ui';
 
 defineProps({
-  evaluate: {
-    type: Number,
-    default: 0
-  },
-  evaluateNum: {
-    type: Number,
-    default: 0
-  },
-  address: {
-    type: String,
-    default: ''
-  }
+  evaluate: Number,
+  evaluateNum: Number,
+  address: String
 });
 </script>
 

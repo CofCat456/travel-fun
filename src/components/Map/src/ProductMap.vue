@@ -3,16 +3,16 @@ import { Loader } from '@googlemaps/js-api-loader';
 import { CloseOutlined } from '@vicons/material';
 import { NButton, NIcon, NModal, NRate, NSpace } from 'naive-ui';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { currency } from '@/utlis/global';
 
 const { VITE_GOOGLE_MAP_API_KEY } = import.meta.env;
 
-const props = defineProps({
-  products: {
-    type: Array,
-    default: () => []
-  }
+const router = useRouter();
+
+const { products } = defineProps({
+  products: Array
 });
 
 const states = ref({
@@ -22,6 +22,8 @@ const states = ref({
 });
 
 const showMap = ref(false);
+
+const goProduct = (id) => router.push({ name: 'Product', params: { productId: id } });
 
 const initMap = async () => {
   const loader = new Loader({
@@ -41,14 +43,14 @@ const initMap = async () => {
 
 const handleLoadMarkers = async () => {
   /* eslint-disable no-new */
-  props.products.forEach((product) => {
+  products.forEach((product) => {
     const marker = new states.value.google.maps.Marker({
       position: { lat: product.coordinates.lat, lng: product.coordinates.lng },
       map: states.value.map,
       draggable: true
     });
 
-    marker.addListener('click', () => console.log(product));
+    marker.addListener('click', () => goProduct(product.id));
   });
 };
 

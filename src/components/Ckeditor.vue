@@ -7,14 +7,8 @@ import { component as ckeditor } from '@ckeditor/ckeditor5-vue';
 import { MyAdapterPlugin } from '@/utlis/myUploadAdapter';
 
 defineProps({
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  value: {
-    type: String,
-    default: ''
-  }
+  disabled: Boolean,
+  value: String
 });
 
 const emit = defineEmits(['ready', 'foucs', 'blur', 'destroy', 'update:value']);

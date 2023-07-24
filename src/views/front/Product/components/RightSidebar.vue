@@ -5,14 +5,8 @@ import Button from '@/components/Base/Button.vue';
 import { currency, scrollTo } from '@/utlis/global';
 
 defineProps({
-  price: {
-    type: Number,
-    default: 0
-  },
-  origin_price: {
-    type: Number,
-    default: 0
-  }
+  price: Number,
+  origin_price: Number
 });
 </script>
 

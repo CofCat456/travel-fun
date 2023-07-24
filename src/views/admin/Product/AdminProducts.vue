@@ -12,7 +12,7 @@ import {
   apiAdminPostProducts,
   apiAdminPutProducts
 } from '@/utlis/api';
-import { cityMap } from '@/utlis/context';
+import { categoryMap, cityMap } from '@/utlis/context';
 import { currency, formatDate2YMD } from '@/utlis/global';
 
 import { columns } from './columns';
@@ -28,6 +28,7 @@ const showModal = ref(false);
 const getTableData = computed(() =>
   [...products.value].map((product) => ({
     ...product,
+    category: categoryMap.get(product.category),
     city: cityMap.get(product.city),
     origin_price: currency(product.origin_price),
     price: currency(product.price),
@@ -176,7 +177,7 @@ const getActionColumn = computed(() => ({
       ],
       dropDownActions: [
         {
-          label: '启用',
+          label: '啟用',
           key: 'enabled'
         },
         {

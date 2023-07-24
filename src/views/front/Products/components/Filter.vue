@@ -2,18 +2,9 @@
 import { NCard, NSelect } from 'naive-ui';
 
 defineProps({
-  currSort: {
-    type: String,
-    default: ''
-  },
-  sortArray: {
-    type: Array,
-    default: () => []
-  },
-  productTotal: {
-    type: Number,
-    defautl: 0
-  }
+  currSort: String,
+  sortArray: Array,
+  productTotal: Number
 });
 
 defineEmits(['updateSort']);
@@ -32,10 +23,9 @@ defineEmits(['updateSort']);
       <div class="inline-flex items-center gap-4 whitespace-nowrap">
         <span>排序方式：</span>
         <n-select
-          placeholder="选择歌曲"
           :consistent-menu-width="false"
-          :options="sortArray"
-          :value="currSort"
+          :options="sortArray || []"
+          :value="currSort || ''"
           @update-value="(value) => $emit('updateSort', value)"
         />
       </div>

@@ -1,17 +1,8 @@
 <script setup>
 defineProps({
-  title: {
-    type: String,
-    default: '活動名稱'
-  },
-  description: {
-    type: String,
-    default: '小標題'
-  },
-  image: {
-    type: String,
-    default: '/images/news/news_1.png'
-  }
+  title: String,
+  description: String,
+  image: String
 });
 </script>
 

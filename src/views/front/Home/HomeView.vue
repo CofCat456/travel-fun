@@ -3,8 +3,7 @@ import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 
 import Banner from '@/components/Banner.vue';
-import SwiperNews from '@/components/Swiper/SwiperNews.vue';
-import SwiperProduct from '@/components/Swiper/SwiperProduct.vue';
+import { SwiperNews, SwiperProduct } from '@/components/Swiper';
 import { useProductStore } from '@/stores';
 
 import { mockHotCitys, mockNews } from './_Context';
@@ -17,6 +16,8 @@ const router = useRouter();
 const productStore = useProductStore();
 
 const { getByAllNewest, getByAllPopular } = storeToRefs(productStore);
+
+const { getFilterData } = productStore;
 
 const goCountry = () => router.push({ name: 'Country', params: { countryName: 'taiwan' } });
 </script>
@@ -32,7 +33,7 @@ const goCountry = () => router.push({ name: 'Country', params: { countryName: 't
       <Search />
     </Banner>
     <div class="mb-4 md:mt-[60px] md:mb-0">
-      <SwiperNews :news="mockNews" />
+      <SwiperNews :slides-per-view="3" :slides-per-group="3" :speed="600" :news="mockNews" />
     </div>
     <img
       src="/images/travel-the-world.png"
@@ -42,14 +43,14 @@ const goCountry = () => router.push({ name: 'Country', params: { countryName: 't
     <SwiperProduct
       title="Top 10 商品"
       sec-title="尋找最受歡迎的商品嗎？別再猶豫，立刻挑選！"
-      :products="productStore.getFilterData(getByAllPopular)"
+      :products="getFilterData(getByAllPopular)"
     />
     <img src="/images/home-bg.png" alt="home bg" class="my-6" loading="lazy" />
     <SwiperProduct
       title="最新產品"
       sec-title="一直關注最新產品的我們，給您帶來最好的選擇和品質！"
       :btn="{ text: '查看更多' }"
-      :products="productStore.getFilterData(getByAllNewest)"
+      :products="getFilterData(getByAllNewest)"
       @btn-click="goCountry"
     />
     <HotCity :hot-citys="mockHotCitys" />

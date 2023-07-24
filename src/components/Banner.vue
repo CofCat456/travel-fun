@@ -1,25 +1,19 @@
 <script setup>
 defineProps({
-  bgUrl: {
-    type: String,
-    default: ''
-  },
-  center: {
-    type: Boolean,
-    default: true
-  },
-  multiply: {
-    type: Boolean,
-    default: false
-  }
+  bgUrl: String,
+  center: Boolean,
+  multiply: Boolean
 });
 </script>
 
 <template>
   <div
     class="relative mb-12 flex h-[360px] w-full items-end bg-cover bg-center bg-no-repeat px-3 py-8 md:mb-5"
-    :class="[!center && 'lg:bg-[center_-100px]', multiply && 'bg-black/20 bg-blend-multiply']"
     :style="`background-image: url(${bgUrl})`"
+    :class="[
+      center ? '' : 'lg:bg-[center_-100px]',
+      multiply ? 'bg-black/20 bg-blend-multiply' : ''
+    ]"
   >
     <div
       class="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center font-serif text-white"

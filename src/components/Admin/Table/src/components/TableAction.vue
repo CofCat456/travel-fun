@@ -3,28 +3,15 @@ import { DownOutlined } from '@vicons/antd';
 import { NButton, NDropdown, NIcon } from 'naive-ui';
 import { computed } from 'vue';
 
-const props = defineProps({
-  actions: {
-    type: Array,
-    default: null,
-    required: true
-  },
-  dropDownActions: {
-    type: Array,
-    default: null
-  },
-  style: {
-    type: String,
-    default: 'button'
-  },
-  select: {
-    type: Function,
-    default: () => {}
-  }
+const { actions, dropDownActions } = defineProps({
+  actions: Array,
+  dropDownActions: Array,
+  style: String,
+  select: Function
 });
 
 const getActions = computed(() => {
-  return props.actions.map((action) => {
+  return actions.map((action) => {
     return {
       ...action,
       size: 'small'
@@ -33,7 +20,7 @@ const getActions = computed(() => {
 });
 
 const getDropdownList = computed(() => {
-  return props.dropDownActions;
+  return dropDownActions;
 });
 </script>
 

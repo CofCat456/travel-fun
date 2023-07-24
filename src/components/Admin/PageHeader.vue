@@ -16,19 +16,16 @@ import { websiteConfig } from '@/config/website.config';
 
 import { useUserStore } from '../../stores';
 
+defineProps({
+  collapsed: Boolean
+});
+
+defineEmits(['update:collapsed']);
+
 const route = useRoute();
 const router = useRouter();
 
 const user = useUserStore();
-
-defineProps({
-  collapsed: {
-    type: Boolean,
-    default: false
-  }
-});
-
-defineEmits(['update:collapsed']);
 
 const isFullscreen = ref(false);
 

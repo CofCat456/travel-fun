@@ -4,14 +4,8 @@ import { ref } from 'vue';
 import { sortMap } from '../utlis/context';
 
 defineProps({
-  sort: {
-    type: String,
-    default: ''
-  },
-  productTotal: {
-    type: Number,
-    defautl: 0
-  }
+  sort: String,
+  productTotal: Number
 });
 
 const isOpen = ref(false);

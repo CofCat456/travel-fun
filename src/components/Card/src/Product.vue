@@ -3,66 +3,25 @@ import { FavoriteBorderOutlined, FavoriteOutlined, LocationOnOutlined } from '@v
 import { NIcon, NRate, NSpace } from 'naive-ui';
 import { useRouter } from 'vue-router';
 
+import { cityMap } from '@/utlis/context';
 import { currency } from '@/utlis/global';
+import { productProps } from '@/utlis/props';
 
-import { cityMap } from '../../utlis/context';
-
-defineProps({
-  id: {
-    type: String,
-    default: ''
-  },
-  title: {
-    type: String,
-    default: '活動名稱'
-  },
-  city: {
-    type: String,
-    default: ''
-  },
-  evaluate: {
-    type: Number,
-    default: 0
-  },
-  evaluateNum: {
-    type: Number,
-    default: 0
-  },
-  collectStatus: {
-    type: Boolean,
-    default: false
-  },
-  price: {
-    type: Number,
-    default: 0
-  },
-  origin_price: {
-    type: Number,
-    default: 0
-  },
-  imageUrl: {
-    type: String,
-    default: '/images/news/news_1.png'
-  },
-  notRanking: {
-    type: Boolean,
-    default: false
-  },
-  ranking: {
-    type: Number,
-    default: 1
-  }
+const { id } = defineProps({
+  ...productProps,
+  notRanking: Boolean,
+  ranking: Number
 });
 
 const router = useRouter();
 
-const goProduct = (id) => router.push({ name: 'Product', params: { productId: id } });
+const goProduct = () => router.push({ name: 'Product', params: { productId: id } });
 </script>
 
 <template>
   <div
     class="group relative flex cursor-pointer flex-col items-start transition-all duration-300 hover:brightness-[.8]"
-    @click="goProduct(id)"
+    @click="goProduct"
   >
     <div
       v-if="!notRanking"

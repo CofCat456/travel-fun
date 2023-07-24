@@ -2,14 +2,7 @@
 import { RouterLink } from 'vue-router';
 
 defineProps({
-  breadcrumbs: {
-    type: Array,
-    default: () => [
-      {
-        title: '首頁'
-      }
-    ]
-  }
+  breadcrumbs: Array
 });
 </script>
 
@@ -17,7 +10,7 @@ defineProps({
   <nav class="flex" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1">
       <li
-        v-for="({ title, pathName, params = null }, index) in breadcrumbs"
+        v-for="({ title, pathName, params = null }, index) in breadcrumbs || []"
         :key="title"
         class="inline-flex items-center"
       >

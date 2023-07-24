@@ -3,26 +3,11 @@ import FilterMenu from '@/components/Base/Menu/FilterMenu.vue';
 import { cityMap, countryMap, sortMap } from '@/utlis/context';
 
 defineProps({
-  isCity: {
-    type: Boolean,
-    default: false
-  },
-  currEnTarget: {
-    type: String,
-    default: ''
-  },
-  array: {
-    type: Array,
-    default: () => []
-  },
-  currSort: {
-    type: String,
-    default: ''
-  },
-  sortArray: {
-    type: Array,
-    default: () => []
-  }
+  isCity: Boolean,
+  currEnTarget: String,
+  array: Array,
+  currSort: String,
+  sortArray: Array
 });
 
 defineEmits(['updateParams', 'updateSort', 'openMap']);
@@ -37,7 +22,7 @@ const countryText = (country) => countryMap.get(country);
       <div class="mx-5 inline-flex flex-1 items-center gap-2 overflow-x-auto">
         <FilterMenu :title="isCity ? '城市' : '國家'">
           <li
-            v-for="item in array"
+            v-for="item in array || []"
             :key="item"
             class="flex cursor-pointer items-center justify-between border-t border-cc-other-5/50 px-4 py-2"
             @click="$emit('updateParams', item.key)"
@@ -58,7 +43,7 @@ const countryText = (country) => countryMap.get(country);
         </FilterMenu>
         <FilterMenu title="排列">
           <li
-            v-for="query in sortArray"
+            v-for="query in sortArray || []"
             :key="query"
             class="flex cursor-pointer items-center justify-between border-t border-cc-other-5/50 px-4 py-2"
             @click="$emit('updateSort', query.value)"

@@ -6,28 +6,9 @@ import { computed, ref, unref } from 'vue';
 import { densityOptions } from '../setting';
 
 const props = defineProps({
-  loading: {
-    type: Boolean,
-    default: false
-  },
-  size: {
-    type: String,
-    default: ''
-  },
-  columns: {
-    type: Array,
-    default: () => [],
-    required: true
-  },
-  actionColumn: {
-    type: Object,
-    default: () => {}
-  },
-  data: {
-    type: Array,
-    default: () => [],
-    required: true
-  }
+  ...NDataTable.props,
+  actionColumn: Object,
+  data: Array
 });
 
 const emit = defineEmits(['reload']);
@@ -57,11 +38,13 @@ function densitySelect(type) {
 const reload = () => emit('reload');
 
 // 表格大小
-const getTableSize = computed(() => props.size || tableConfig.value.size);
+const getTableSize = computed(() => tableConfig.value.size);
 
 // 表格設定
 const getBindValues = computed(() => {
-  const columns = [...props.columns, unref(props.actionColumn)];
+  const columns = props.actionColumn
+    ? [...(props.columns || []), unref(props.actionColumn)]
+    : [...(props.columns || [])];
 
   return {
     ...unref(props),

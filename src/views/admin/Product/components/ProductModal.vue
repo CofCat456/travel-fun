@@ -32,23 +32,11 @@ import { mapToArray } from '@/utlis/global';
 const message = useMessage();
 const { coordinates, response, isSearching, geocodeAddress } = useGeocodeAddress();
 
-const props = defineProps({
-  isNew: {
-    type: Boolean,
-    default: false
-  },
-  isLoading: {
-    type: Boolean,
-    default: false
-  },
-  tempProduct: {
-    type: Object,
-    default: () => {}
-  },
-  showModal: {
-    type: Boolean,
-    default: false
-  }
+const { isNew, tempProduct = {} } = defineProps({
+  isNew: Boolean,
+  isLoading: Boolean,
+  tempProduct: Object,
+  showModal: Boolean
 });
 
 const emit = defineEmits(['addProduct', 'updateProduct', 'uploadImage', 'update:showModal']);
@@ -152,11 +140,11 @@ const rules = computed(() => ({
   }
 }));
 
-const modalStatus = computed(() => `${props.isNew ? '新增' : '編輯'}`);
+const modalStatus = computed(() => `${isNew ? '新增' : '編輯'}`);
 const getDefaultFileList = computed(() =>
-  props.tempProduct?.imagesUrl?.map((imageUrl) => ({
+  tempProduct?.imagesUrl?.map((imageUrl) => ({
     id: v4(),
-    name: `${props.tempProduct?.title} 的圖片`,
+    name: `${tempProduct?.title} 的圖片`,
     status: 'finished',
     url: imageUrl
   }))
@@ -253,7 +241,7 @@ const onSubmit = () => {
           ...productValue.value
         }
       };
-      const status = props.isNew ? 'addProduct' : 'updateProduct';
+      const status = isNew ? 'addProduct' : 'updateProduct';
       console.log(status, data);
       emit(status, data);
     }
@@ -261,7 +249,7 @@ const onSubmit = () => {
 };
 
 watch(
-  () => props.tempProduct,
+  () => tempProduct,
   (curr) => {
     productValue.value = {
       id: curr?.id ?? '',
@@ -298,7 +286,7 @@ watch(
     :title="`${modalStatus}產品`"
     :bordered="false"
     :show="showModal"
-    @update:show="$emit('update:showModal')"
+    @update:show="(status) => $emit('update:showModal', status)"
     @after-leave="resetForm"
   >
     <div class="max-h-[500px] space-y-6 overflow-auto">

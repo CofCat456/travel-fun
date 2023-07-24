@@ -2,10 +2,7 @@
 import { websiteConfig } from '@/config/website.config';
 
 defineProps({
-  collapsed: {
-    type: Boolean,
-    default: false
-  }
+  collapsed: Boolean
 });
 </script>
 

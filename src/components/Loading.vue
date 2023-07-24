@@ -5,22 +5,10 @@ import { ref } from 'vue';
 import Loading from 'vue-loading-overlay';
 
 defineProps({
-  width: {
-    type: Number,
-    default: 128
-  },
-  height: {
-    type: Number,
-    default: 128
-  },
-  loader: {
-    type: String,
-    default: 'dots'
-  },
-  fullPage: {
-    type: Boolean,
-    default: true
-  }
+  width: Number,
+  height: Number,
+  loader: String,
+  fullPage: Boolean
 });
 
 const isLoading = ref(false);
@@ -42,11 +30,11 @@ defineExpose({
 <template>
   <Loading
     color="#0F4BB4"
-    :width="width"
-    :height="height"
-    :loader="loader"
+    :width="width || 128"
+    :height="height || 128"
+    :loader="loader || 'dots'"
     :can-cancel="false"
-    :is-full-page="fullPage"
+    :is-full-page="!fullPage"
     v-model:active="isLoading"
   />
 </template>

@@ -2,24 +2,21 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
-import { cityMap } from '../../utlis/context';
+import { cityMap } from '@/utlis/context';
 
-const props = defineProps({
-  city: {
-    type: String,
-    default: ''
-  }
+const { city } = defineProps({
+  city: String
 });
 
-const getName = computed(() => cityMap.get(props.city));
+const getName = computed(() => cityMap.get(city));
 
-const getImage = computed(() => `/images/city/city_${props.city}.jpg`);
+const getImage = computed(() => `/images/city/city_${city}.jpg`);
 </script>
 
 <template>
   <RouterLink
     class="relative block w-full overflow-hidden rounded-m"
-    :to="{ name: 'City', params: { cityName: props.city } }"
+    :to="{ name: 'City', params: { cityName: city } }"
   >
     <div
       class="clear-scale h-40 w-full cursor-pointer rounded-m bg-cc-other-3 bg-cover bg-center transition-transform duration-500 md:h-60"

@@ -8,8 +8,9 @@ import {
   ShoppingCartOutlined
 } from '@vicons/material';
 import { NBadge, NIcon } from 'naive-ui';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import { RouterLink, useRoute, useRouter } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 
 import { websiteConfig } from '@/config/website.config';
 
@@ -18,13 +19,12 @@ import { useCartStore, useUserStore } from '../stores';
 import HamburgerBtn from './HamburgerBtn.vue';
 
 const route = useRoute();
-const router = useRouter();
 
-const user = useUserStore();
-const cart = useCartStore();
+const userStore = useUserStore();
+const cartStore = useCartStore();
 
-const goLogin = () => router.push({ name: 'Login' });
-const goAdmin = () => router.push({ name: 'AdminHome' });
+const { loginStatus } = storeToRefs(userStore);
+const { totalNum } = storeToRefs(cartStore);
 
 const isHome = computed(() => ['Home', 'City', 'Country'].includes(route.name));
 </script>
@@ -61,25 +61,27 @@ const isHome = computed(() => ['Home', 'City', 'Country'].includes(route.name));
           <div class="hidden place-content-center md:grid">
             <n-icon size="24" class="icon-hover"> <FavoriteBorderOutlined /> </n-icon>
           </div>
-          <button
-            v-if="user.loginStatus"
-            type="button"
-            class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-accent px-4 py-2 text-base lg:flex"
-            @click="goAdmin"
-          >
-            <n-icon size="24"> <PersonOutlineOutlined /> </n-icon>
-            會員專區
-          </button>
-          <button
-            v-else
-            type="button"
-            class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-other-8 px-4 py-2 text-base transition-colors duration-300 hover:bg-cc-accent lg:flex"
-            @click="goLogin"
-          >
-            <n-icon size="24"> <PersonOutlineFilled /> </n-icon>
-            登入 / 註冊
-          </button>
-          <n-badge color="#EE5220" :max="10" :value="cart.totalNum">
+          <RouterLink v-if="loginStatus" custom :to="{ name: 'AdminHome' }" v-slot="{ navigate }">
+            <button
+              type="button"
+              class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-accent px-4 py-2 text-base lg:flex"
+              @click="navigate"
+            >
+              <n-icon size="24"> <PersonOutlineOutlined /> </n-icon>
+              會員專區
+            </button>
+          </RouterLink>
+          <RouterLink v-else custom :to="{ name: 'Login' }" v-slot="{ navigate }">
+            <button
+              type="button"
+              class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-other-8 px-4 py-2 text-base transition-colors duration-300 hover:bg-cc-accent lg:flex"
+              @click="navigate"
+            >
+              <n-icon size="24"> <PersonOutlineFilled /> </n-icon>
+              登入 / 註冊
+            </button>
+          </RouterLink>
+          <n-badge color="#EE5220" :max="10" :value="totalNum">
             <n-icon size="24" color="white" class="icon-hover"> <ShoppingCartOutlined /></n-icon>
           </n-badge>
         </div>

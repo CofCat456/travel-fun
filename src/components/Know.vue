@@ -5,14 +5,8 @@ import { ProductMap } from '@/components/Map';
 import Container from '@/layout/Container.vue';
 
 defineProps({
-  name: {
-    type: String,
-    default: ''
-  },
-  products: {
-    type: Array,
-    default: () => []
-  }
+  name: String,
+  products: Array
 });
 
 const productMap = ref(null);
@@ -63,6 +57,6 @@ const productMap = ref(null);
         </div>
       </div>
     </Container>
-    <ProductMap ref="productMap" :products="products" />
+    <ProductMap ref="productMap" :products="products || []" />
   </div>
 </template>

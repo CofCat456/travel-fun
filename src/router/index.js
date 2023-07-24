@@ -42,7 +42,10 @@ const router = createRouter({
         {
           path: 'product/:productId',
           name: 'Product',
-          component: () => import('../views/front/Product/ProductView.vue')
+          component: () => import('../views/front/Product/ProductView.vue'),
+          meta: {
+            target: '_blank'
+          }
         }
       ]
     },

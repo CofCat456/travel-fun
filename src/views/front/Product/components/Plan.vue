@@ -7,23 +7,11 @@ import Title from '@/components/Title.vue';
 import Container from '@/layout/Container.vue';
 import { currency } from '@/utlis/global';
 
-const props = defineProps({
-  id: {
-    type: String,
-    default: ''
-  },
-  unit: {
-    type: String,
-    default: ''
-  },
-  plans: {
-    type: Array,
-    default: () => []
-  },
-  adding: {
-    type: Boolean,
-    default: false
-  }
+const { id } = defineProps({
+  id: String,
+  unit: String,
+  plans: Array,
+  adding: Boolean
 });
 
 const emit = defineEmits(['addCart']);
@@ -49,7 +37,7 @@ function decrement() {
 }
 
 const addCart = () => {
-  const data = { product_id: props.id, qty: qty.value, buy_date: date.value };
+  const data = { product_id: id, qty: qty.value, buy_date: date.value };
   emit('addCart', { data });
 };
 
@@ -66,11 +54,11 @@ const disablePreviousDate = (ts) => {
 </script>
 
 <template>
-  <div v-if="plans.length >= 0" id="plan" class="bg-cc-other-7/80 py-10">
+  <div v-if="plans?.length >= 0" id="plan" class="bg-cc-other-7/80 py-10">
     <Container>
       <Title page title="選擇方案" />
       <div
-        v-for="plan in plans"
+        v-for="plan in plans || []"
         class="bordr mb-4 rounded-m border-cc-other-5/50 bg-cc-other-1"
         :class="showDetail && 'shadow-xl'"
         :key="plan"
