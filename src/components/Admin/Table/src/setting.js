@@ -1,14 +1,14 @@
 export const densityOptions = [
   {
     label: '緊湊',
-    key: 'small'
+    key: 'small',
   },
   {
     label: '默認',
-    key: 'medium'
+    key: 'medium',
   },
   {
     label: '寬鬆',
-    key: 'large'
-  }
+    key: 'large',
+  },
 ];

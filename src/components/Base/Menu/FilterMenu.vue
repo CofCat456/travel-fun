@@ -5,12 +5,12 @@ import { ref } from 'vue';
 defineProps({
   title: {
     type: String,
-    default: ''
+    default: '',
   },
   value: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 
 const show = ref(false);
@@ -18,7 +18,9 @@ const show = ref(false);
 
 <template>
   <div class="btn-filter" @click="show = true">
-    <div class="whitespace-nowrap text-sm text-cc-other-3">{{ title }}</div>
+    <div class="whitespace-nowrap text-sm text-cc-other-3">
+      {{ title }}
+    </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -30,13 +32,13 @@ const show = ref(false);
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
     </svg>
   </div>
-  <n-drawer placement="bottom" v-model:show="show">
-    <n-drawer-content :title="title" closable>
+  <NDrawer v-model:show="show" placement="bottom">
+    <NDrawerContent :title="title" closable>
       <ul style="margin: 0" @click="hideBottomSheet">
         <slot />
       </ul>
-    </n-drawer-content>
-  </n-drawer>
+    </NDrawerContent>
+  </NDrawer>
 </template>
 
 <style scoped>

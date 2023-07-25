@@ -13,15 +13,15 @@ export const websiteConfig = Object.freeze({
   socia: [
     {
       icon: 'github',
-      href: 'https://github.com/CofCat456'
+      href: 'https://github.com/CofCat456',
     },
     {
       icon: 'mail',
-      href: 'mailto:a25690756@gmail.com'
+      href: 'mailto:a25690756@gmail.com',
     },
     {
       icon: 'public',
-      href: 'https://www.cofcat.com/'
-    }
-  ]
+      href: 'https://www.cofcat.com/',
+    },
+  ],
 });

@@ -18,7 +18,7 @@ import {
   NTabPane,
   NTabs,
   NUpload,
-  useMessage
+  useMessage,
 } from 'naive-ui';
 import { v4 } from 'uuid';
 import { computed, ref, watch } from 'vue';
@@ -29,17 +29,15 @@ import { apiAdminUploadImage } from '@/utlis/api';
 import { categoryMap, cityMap, unitMap } from '@/utlis/context';
 import { mapToArray } from '@/utlis/global';
 
-const message = useMessage();
-const { coordinates, response, isSearching, geocodeAddress } = useGeocodeAddress();
-
 const { isNew, tempProduct = {} } = defineProps({
   isNew: Boolean,
   isLoading: Boolean,
   tempProduct: Object,
-  showModal: Boolean
+  showModal: Boolean,
 });
-
 const emit = defineEmits(['addProduct', 'updateProduct', 'uploadImage', 'update:showModal']);
+const message = useMessage();
+const { coordinates, response, isSearching, geocodeAddress } = useGeocodeAddress();
 
 const formRef = ref(null);
 const productValue = ref({
@@ -63,98 +61,100 @@ const productValue = ref({
   content: '',
   coordinates: {
     lat: 0,
-    lng: 0
-  }
+    lng: 0,
+  },
 });
 
 // Naive Ui
 const citySelectShow = ref(false);
 const categorySelectShow = ref(false);
 const unitSelectShow = ref(false);
-const onCreate = () => ({
-  origin_price: 0,
-  price: 0,
-  content: ''
-});
+function onCreate() {
+  return {
+    origin_price: 0,
+    price: 0,
+    content: '',
+  };
+}
 
 const rules = computed(() => ({
   title: {
     required: true,
     trigger: ['blur', 'input'],
-    message: '請輸入產品名稱'
+    message: '請輸入產品名稱',
   },
   city: {
     required: true,
     trigger: ['blur', 'change'],
-    message: '請選擇產品城市'
+    message: '請選擇產品城市',
   },
   address: {
     required: true,
     trigger: ['blur', 'input'],
-    message: '請輸入產品地址'
+    message: '請輸入產品地址',
   },
   category: {
     required: true,
     trigger: ['blur', 'change'],
-    message: '請選擇產品分類'
+    message: '請選擇產品分類',
   },
   unit: {
     required: true,
     trigger: ['blur', 'change'],
-    message: '請選擇產品單位'
+    message: '請選擇產品單位',
   },
   evaluate: {
     type: 'number',
     required: true,
     trigger: ['blur', 'change'],
-    message: '请滑動評價'
+    message: '请滑動評價',
   },
   evaluateNum: {
     type: 'number',
     required: true,
     trigger: ['blur', 'change'],
-    message: '请輸入評價總人數'
+    message: '请輸入評價總人數',
   },
   origin_price: {
     type: 'number',
     required: true,
     trigger: ['blur', 'change'],
-    message: '请輸入產品原價'
+    message: '请輸入產品原價',
   },
   price: {
     type: 'number',
     required: true,
     trigger: ['blur', 'change'],
-    message: '请輸入產品售價'
+    message: '请輸入產品售價',
   },
   date: {
     type: 'number',
     required: true,
     trigger: ['blur', 'change'],
-    message: '请輸入產品售價'
+    message: '请輸入產品售價',
   },
   description: {
     required: true,
     trigger: ['blur', 'input'],
-    message: '請輸入產品描述'
-  }
+    message: '請輸入產品描述',
+  },
 }));
 
 const modalStatus = computed(() => `${isNew ? '新增' : '編輯'}`);
 const getDefaultFileList = computed(() =>
-  tempProduct?.imagesUrl?.map((imageUrl) => ({
+  tempProduct?.imagesUrl?.map(imageUrl => ({
     id: v4(),
     name: `${tempProduct?.title} 的圖片`,
     status: 'finished',
-    url: imageUrl
-  }))
+    url: imageUrl,
+  })),
 );
 
-const disablePreviousDate = (ts) => {
+function disablePreviousDate(ts) {
   return ts > Date.now();
-};
+}
 
-const resetForm = () => {
+function resetForm() {
   productValue.value = {
     title: '',
     city: null,
@@ -173,12 +173,12 @@ const resetForm = () => {
     content: '',
     coordinates: {
       lat: 0,
-      lng: 0
-    }
+      lng: 0,
+    },
   };
-};
+}
 
-const customRequest = async ({ file, onFinish, onError }) => {
+async function customRequest({ file, onFinish, onError }) {
   const formData = new FormData();
   formData.append('file-to-upload', file.file);
 
@@ -186,7 +186,7 @@ const customRequest = async ({ file, onFinish, onError }) => {
     const res = await apiAdminUploadImage(formData);
 
     const {
-      data: { imageUrl, success }
+      data: { imageUrl, success },
     } = res;
 
     if (success) {
@@ -195,20 +195,21 @@ const customRequest = async ({ file, onFinish, onError }) => {
     }
 
     onFinish();
-  } catch {
+  }
+  catch {
     message.error('上傳失敗');
 
     onError();
   }
-};
+}
 
-const handleRemoveUploadFile = (options) => {
+function handleRemoveUploadFile(options) {
   productValue.value.imagesUrl = productValue.value.imagesUrl.filter(
-    (imageUrl) => imageUrl !== options?.file?.url
+    imageUrl => imageUrl !== options?.file?.url,
   );
-};
+}
 
-const handleGetGeometry = async (address) => {
+async function handleGetGeometry(address) {
   if (address === '') {
     message.error('地址不得為空');
     return;
@@ -220,7 +221,7 @@ const handleGetGeometry = async (address) => {
 
   productValue.value.coordinates = {
     lat,
-    lng
+    lng,
   };
 
   switch (response.value.type) {
@@ -231,22 +232,22 @@ const handleGetGeometry = async (address) => {
       message.error(response.value.text);
       break;
   }
-};
+}
 
-const onSubmit = () => {
+function onSubmit() {
   formRef.value?.validate((errors) => {
     if (!errors) {
       const data = {
         data: {
-          ...productValue.value
-        }
+          ...productValue.value,
+        },
       };
       const status = isNew ? 'addProduct' : 'updateProduct';
       console.log(status, data);
       emit(status, data);
     }
   });
-};
+}
 
 watch(
   () => tempProduct,
@@ -270,15 +271,15 @@ watch(
       content: curr?.content ?? '',
       imageUrl: curr?.imageUrl ?? '',
       imagesUrl: curr?.imagesUrl ?? [],
-      coordinates: curr?.coordinates ?? { lat: 0, lng: 0 }
+      coordinates: curr?.coordinates ?? { lat: 0, lng: 0 },
     };
   },
-  { deep: true }
+  { deep: true },
 );
 </script>
 
 <template>
-  <n-modal
+  <NModal
     class="custom-card"
     preset="card"
     size="huge"
@@ -290,216 +291,226 @@ watch(
     @after-leave="resetForm"
   >
     <div class="max-h-[500px] space-y-6 overflow-auto">
-      <n-form ref="formRef" :model="productValue" :rules="rules">
-        <n-tabs type="line" animated>
-          <n-tab-pane name="產品內容" display-directive="show:lazy" tab="產品內容">
-            <n-grid :cols="2" :x-gap="24">
-              <n-form-item-gi :span="2" path="id" label="ID">
-                <n-input type="text" placeholder="產品 ID" disabled :value="productValue.id" />
-              </n-form-item-gi>
+      <NForm ref="formRef" :model="productValue" :rules="rules">
+        <NTabs type="line" animated>
+          <NTabPane name="產品內容" display-directive="show:lazy" tab="產品內容">
+            <NGrid :cols="2" :x-gap="24">
+              <NFormItemGi :span="2" path="id" label="ID">
+                <NInput type="text" placeholder="產品 ID" disabled :value="productValue.id" />
+              </NFormItemGi>
 
-              <n-form-item-gi :span="2" path="title" label="名稱">
-                <n-input
+              <NFormItemGi :span="2" path="title" label="名稱">
+                <NInput
+                  v-model:value="productValue.title"
                   type="text"
                   placeholder="輸入產品名稱"
-                  v-model:value="productValue.title"
                 />
-              </n-form-item-gi>
+              </NFormItemGi>
 
-              <n-form-item-gi path="city" label="城市">
-                <n-select
+              <NFormItemGi path="city" label="城市">
+                <NSelect
+                  v-model:show="citySelectShow"
+                  v-model:value="productValue.city"
                   filterable
                   tag
                   placeholder="選擇產品城市"
                   :options="mapToArray(cityMap)"
-                  v-model:show="citySelectShow"
-                  v-model:value="productValue.city"
                 >
                   <template v-if="citySelectShow" #arrow>
                     <SearchOutlined />
                   </template>
-                </n-select>
-              </n-form-item-gi>
+                </NSelect>
+              </NFormItemGi>
 
-              <n-form-item-gi path="address" label="地址">
-                <n-input-group>
-                  <n-input
+              <NFormItemGi path="address" label="地址">
+                <NInputGroup>
+                  <NInput
+                    v-model:value="productValue.address"
                     type="text"
                     placeholder="輸入產品地址"
                     :disabled="isSearching"
-                    v-model:value="productValue.address"
                   />
-                  <n-button
+                  <NButton
                     type="primary"
                     ghost
                     :loading="isSearching"
                     @click="handleGetGeometry(productValue.address)"
                   >
                     搜尋
-                  </n-button>
-                </n-input-group>
-              </n-form-item-gi>
+                  </NButton>
+                </NInputGroup>
+              </NFormItemGi>
 
-              <n-form-item-gi path="category" label="分類">
-                <n-select
+              <NFormItemGi path="category" label="分類">
+                <NSelect
+                  v-model:show="categorySelectShow"
+                  v-model:value="productValue.category"
                   filterable
                   tag
                   placeholder="選擇產品分類"
                   :options="mapToArray(categoryMap)"
-                  v-model:show="categorySelectShow"
-                  v-model:value="productValue.category"
                 >
                   <template v-if="categorySelectShow" #arrow>
                     <SearchOutlined />
                   </template>
-                </n-select>
-              </n-form-item-gi>
+                </NSelect>
+              </NFormItemGi>
 
-              <n-form-item-gi path="unit" label="單位">
-                <n-select
+              <NFormItemGi path="unit" label="單位">
+                <NSelect
+                  v-model:show="unitSelectShow"
+                  v-model:value="productValue.unit"
                   filterable
                   tag
                   placeholder="選擇產品單位"
                   :options="mapToArray(unitMap)"
-                  v-model:show="unitSelectShow"
-                  v-model:value="productValue.unit"
                 >
                   <template v-if="unitSelectShow" #arrow>
                     <SearchOutlined />
                   </template>
-                </n-select>
-              </n-form-item-gi>
+                </NSelect>
+              </NFormItemGi>
 
-              <n-form-item-gi path="evaluate" label="評價">
-                <n-rate allow-half v-model:value="productValue.evaluate" />
-              </n-form-item-gi>
+              <NFormItemGi path="evaluate" label="評價">
+                <NRate v-model:value="productValue.evaluate" allow-half />
+              </NFormItemGi>
 
-              <n-form-item-gi path="evaluateNum" label="評價總人數">
-                <n-input-number
+              <NFormItemGi path="evaluateNum" label="評價總人數">
+                <NInputNumber
+                  v-model:value="productValue.evaluateNum"
                   style="width: 100%"
                   placeholder="輸入產品評價總人數"
                   clearable
                   :min="0"
-                  v-model:value="productValue.evaluateNum"
                 />
-              </n-form-item-gi>
+              </NFormItemGi>
 
-              <n-form-item-gi path="origin_price" label="原價">
-                <n-input-number
+              <NFormItemGi path="origin_price" label="原價">
+                <NInputNumber
+                  v-model:value="productValue.origin_price"
                   style="width: 100%"
                   placeholder="輸入產品原價"
                   clearable
                   :min="0"
                   :show-button="false"
-                  v-model:value="productValue.origin_price"
                 >
-                  <template #prefix> $NT </template>
-                </n-input-number>
-              </n-form-item-gi>
+                  <template #prefix>
+                    $NT
+                  </template>
+                </NInputNumber>
+              </NFormItemGi>
 
-              <n-form-item-gi path="price" label="售價">
-                <n-input-number
+              <NFormItemGi path="price" label="售價">
+                <NInputNumber
+                  v-model:value="productValue.price"
                   style="width: 100%"
                   placeholder="輸入產品售價"
                   clearable
                   :min="0"
                   :show-button="false"
-                  v-model:value="productValue.price"
                 >
-                  <template #prefix> $NT </template>
-                </n-input-number>
-              </n-form-item-gi>
+                  <template #prefix>
+                    $NT
+                  </template>
+                </NInputNumber>
+              </NFormItemGi>
 
-              <n-form-item-gi path="date" label="上架日期">
-                <n-date-picker
+              <NFormItemGi path="date" label="上架日期">
+                <NDatePicker
+                  v-model:value="productValue.date"
                   type="date"
                   :is-date-disabled="disablePreviousDate"
-                  v-model:value="productValue.date"
                 />
-              </n-form-item-gi>
+              </NFormItemGi>
 
-              <n-form-item-gi path="geometry" label="座標查詢">
-                <n-input-group>
-                  <n-input-group-label>經度</n-input-group-label>
-                  <n-input-number
-                    :show-button="false"
+              <NFormItemGi path="geometry" label="座標查詢">
+                <NInputGroup>
+                  <NInputGroupLabel>經度</NInputGroupLabel>
+                  <NInputNumber
                     v-model:value="productValue.coordinates.lng"
-                  />
-                  <n-input-group-label>緯度</n-input-group-label>
-                  <n-input-number
                     :show-button="false"
-                    v-model:value="productValue.coordinates.lat"
                   />
-                </n-input-group>
-              </n-form-item-gi>
+                  <NInputGroupLabel>緯度</NInputGroupLabel>
+                  <NInputNumber
+                    v-model:value="productValue.coordinates.lat"
+                    :show-button="false"
+                  />
+                </NInputGroup>
+              </NFormItemGi>
 
-              <n-form-item-gi :span="2" path="description" label="描述">
-                <n-input
+              <NFormItemGi :span="2" path="description" label="描述">
+                <NInput
+                  v-model:value="productValue.description"
                   type="textarea"
                   :autosize="{
                     minRows: 3,
-                    maxRows: 5
+                    maxRows: 5,
                   }"
                   placeholder="請輸入產品描述"
-                  v-model:value="productValue.description"
                 />
-              </n-form-item-gi>
+              </NFormItemGi>
 
-              <n-form-item-gi :span="2" path="is_enabled" label="啟用產品">
-                <n-switch v-model:value="productValue.is_enabled">
-                  <template #checked> 啟用 </template>
-                  <template #unchecked> 未啟用 </template>
-                </n-switch>
-              </n-form-item-gi>
-            </n-grid>
-          </n-tab-pane>
-          <n-tab-pane name="圖片上傳" display-directive="show" tab="產品圖片">
-            <n-upload
+              <NFormItemGi :span="2" path="is_enabled" label="啟用產品">
+                <NSwitch v-model:value="productValue.is_enabled">
+                  <template #checked>
+                    啟用
+                  </template>
+                  <template #unchecked>
+                    未啟用
+                  </template>
+                </NSwitch>
+              </NFormItemGi>
+            </NGrid>
+          </NTabPane>
+          <NTabPane name="圖片上傳" display-directive="show" tab="產品圖片">
+            <NUpload
               list-type="image-card"
               :default-file-list="getDefaultFileList"
               :custom-request="customRequest"
               @remove="handleRemoveUploadFile"
             />
-          </n-tab-pane>
-          <n-tab-pane name="活動特色" display-directive="show" tab="產品特色">
+          </NTabPane>
+          <NTabPane name="活動特色" display-directive="show" tab="產品特色">
             <Ckeditor v-model:value="productValue.features" />
-          </n-tab-pane>
-          <n-tab-pane name="活動方案" display-directive="show" tab="產品方案">
-            <n-dynamic-input v-model:value="productValue.plans" :on-create="onCreate">
-              <template #create-button-default> 創建方案 </template>
+          </NTabPane>
+          <NTabPane name="活動方案" display-directive="show" tab="產品方案">
+            <NDynamicInput v-model:value="productValue.plans" :on-create="onCreate">
+              <template #create-button-default>
+                創建方案
+              </template>
               <template #default="{ value }">
                 <div class="flex max-w-xl flex-col gap-4">
                   <div class="flex items-center gap-8">
-                    <n-input-number
+                    <NInputNumber
+                      v-model:value="value.origin_price"
                       placeholder="輸入原價"
                       :disabled="isSearching"
                       :loading="isSearching"
-                      v-model:value="value.origin_price"
                     />
-                    <n-input-number
+                    <NInputNumber
+                      v-model:value="value.price"
                       placeholder="輸入售價"
                       :disabled="isSearching"
                       :loading="isSearching"
-                      v-model:value="value.price"
                     />
                   </div>
                   <Ckeditor v-model:value="value.content" />
                 </div>
               </template>
-            </n-dynamic-input>
-          </n-tab-pane>
-          <n-tab-pane name="活動內容" display-directive="show" tab="產品內容">
+            </NDynamicInput>
+          </NTabPane>
+          <NTabPane name="活動內容" display-directive="show" tab="產品內容">
             <Ckeditor v-model:value="productValue.content" />
-          </n-tab-pane>
-        </n-tabs>
-      </n-form>
+          </NTabPane>
+        </NTabs>
+      </NForm>
     </div>
     <template #footer>
-      <n-button type="primary" block ghost :loading="isLoading" @click="onSubmit">
+      <NButton type="primary" block ghost :loading="isLoading" @click="onSubmit">
         {{ `${modalStatus}${isLoading ? '中' : ''}` }}
-      </n-button>
+      </NButton>
     </template>
-  </n-modal>
+  </NModal>
 </template>
 
 <style scoped>

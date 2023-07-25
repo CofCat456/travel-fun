@@ -7,14 +7,14 @@ const { actions, dropDownActions } = defineProps({
   actions: Array,
   dropDownActions: Array,
   style: String,
-  select: Function
+  select: Function,
 });
 
 const getActions = computed(() => {
   return actions.map((action) => {
     return {
       ...action,
-      size: 'small'
+      size: 'small',
     };
   });
 });
@@ -27,27 +27,27 @@ const getDropdownList = computed(() => {
 <template>
   <div class="flex items-center gap-1">
     <template v-for="action in getActions" :key="action.label">
-      <n-button v-bind="action">
+      <NButton v-bind="action">
         {{ action.label }}
-        <template #icon v-if="action.hasOwnProperty('icon')">
-          <n-icon :component="action.icon" />
+        <template v-if="action.hasOwnProperty('icon')" #icon>
+          <NIcon :component="action.icon" />
         </template>
-      </n-button>
+      </NButton>
     </template>
-    <n-dropdown
+    <NDropdown
       v-if="dropDownActions && getDropdownList.length"
       trigger="hover"
       :options="getDropdownList"
       @select="select"
     >
-      <n-button size="small" icon-placement="right">
+      <NButton size="small" icon-placement="right">
         <div class="flex items-center">
           <span>更多</span>
-          <n-icon size="14" class="ml-1">
+          <NIcon size="14" class="ml-1">
             <DownOutlined />
-          </n-icon>
+          </NIcon>
         </div>
-      </n-button>
-    </n-dropdown>
+      </NButton>
+    </NDropdown>
   </div>
 </template>

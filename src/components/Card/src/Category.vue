@@ -5,7 +5,7 @@ import { categoryMap } from '@/utlis/context';
 
 const { category } = defineProps({
   isActive: Boolean,
-  category: String
+  category: String,
 });
 
 const getCategory = computed(() => categoryMap.get(category) || '所有活動');

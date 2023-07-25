@@ -6,20 +6,22 @@ import { currency, scrollTo } from '@/utlis/global';
 
 defineProps({
   price: Number,
-  origin_price: Number
+  originPrice: Number,
 });
 </script>
 
 <template>
-  <n-affix :trigger-top="-620" class="min-w-[300px]" :top="130">
+  <NAffix :trigger-top="-620" class="min-w-[300px]" :top="100">
     <div class="rounded-2xl border border-cc-other-5/50 bg-cc-other-1 p-5">
       <div class="mb-4">
         <span class="mr-1 text-2xl font-bold">{{ currency(price, 'NT$ ') }}</span>
         <span class="text-sm text-cc-other-4 line-through">{{
-          currency(origin_price, 'NT$ ')
+          currency(originPrice, 'NT$ ')
         }}</span>
       </div>
-      <Button is-full @click="scrollTo('plan')"> 選擇方案 </Button>
+      <Button is-full @click="scrollTo('plan')">
+        選擇方案
+      </Button>
     </div>
-  </n-affix>
+  </NAffix>
 </template>

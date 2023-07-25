@@ -2,7 +2,7 @@
 import Title from '@/components/Title.vue';
 
 defineProps({
-  content: String
+  content: String,
 });
 </script>
 
@@ -12,10 +12,6 @@ defineProps({
 </template>
 
 <style scoped>
-.content {
-  @apply w-8/12 pr-8;
-}
-
 .content :deep(p) {
   @apply text-base leading-normal;
 }
@@ -25,7 +21,7 @@ defineProps({
 }
 
 .content :deep(img) {
-  @apply h-auto max-w-full rounded-2xl object-cover;
+  @apply h-auto max-w-full rounded-m object-cover;
 }
 
 .content :deep(figcaption) {

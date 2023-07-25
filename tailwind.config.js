@@ -4,15 +4,15 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['Noto Serif TC', 'serif']
+        serif: ['Noto Serif TC', 'serif'],
       },
       maxWidth: {
         'cc-big-width': '1328px',
-        'cc-width': '1296px'
+        'cc-width': '1296px',
       },
       width: {
         'cc-big-width': '1328px',
-        'cc-width': '1296px'
+        'cc-width': '1296px',
       },
       colors: {
         'cc-primary': '#0F4BB4',
@@ -25,13 +25,13 @@ module.exports = {
         'cc-other-6': '#E9E9E9',
         'cc-other-7': '#F7F7F7',
         'cc-other-8': 'rgba(24, 24, 24, 0.8);',
-        'cc-other-9': '#32302C'
+        'cc-other-9': '#32302C',
       },
       borderRadius: {
-        m: '5px'
-      }
+        m: '5px',
+      },
     },
-    // eslint-disable-next-line global-require
-    plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/forms')]
-  }
+
+    plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/forms')],
+  },
 };

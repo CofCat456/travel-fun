@@ -4,29 +4,28 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { v4 } from 'uuid';
 import { computed } from 'vue';
 
+import { useSwiper } from '../hooks/useSwiper';
+import SwiperLayout from '../Layout.vue';
+import { basicProps } from '../props';
+import CustomNavigation from './CustomNavigation.vue';
+import Title from '@/components/Title.vue';
+import Button from '@/components/Base/Button.vue';
 import { ProductCard } from '@/components/Card';
-
-import Button from '../../Base/Button.vue';
-import Title from '../../Title.vue';
-import CustomNavigation from './components/CustomNavigation.vue';
-import { useSwiper } from './hooks/useSwiper';
-import SwiperLayout from './Layout.vue';
-import { basicProps } from './props';
 
 const props = defineProps({
   ...basicProps,
   title: {
     type: String,
-    default: ''
+    default: '',
   },
   secTitle: {
     type: String,
-    default: ''
+    default: '',
   },
   products: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 
 defineEmits(['btnClick']);
@@ -43,28 +42,28 @@ const getBindValues = computed(() => {
     modules: [Navigation],
     navigation: {
       prevEl: `.swiper-${btnUUID}-custom-prev`,
-      nextEl: `.swiper-${btnUUID}-custom-next`
+      nextEl: `.swiper-${btnUUID}-custom-next`,
     },
     breakpoints: {
       '@0.00': {
         slidesPerView: 1.5,
         slidesPerGroup: 1,
-        speed: 300
+        speed: 300,
       },
       '@0.75': {
         slidesPerView: slidesPerView - 2,
         slidesPerGroup: slidesPerView - 2,
-        speed: 800
+        speed: 800,
       },
       '@1.00': {
         slidesPerView: slidesPerView - 1,
         slidesPerGroup: slidesPerGroup - 1,
-        speed: 1000
+        speed: 1000,
       },
       '@1.50': {
-        slidesPerView
-      }
-    }
+        slidesPerView,
+      },
+    },
   };
 });
 </script>
@@ -78,11 +77,11 @@ const getBindValues = computed(() => {
       <Swiper
         :navigation="{
           prevEl: `.swiper-${btnUUID}-custom-prev`,
-          nextEl: `.swiper-${btnUUID}-custom-next`
+          nextEl: `.swiper-${btnUUID}-custom-next`,
         }"
         v-bind="getBindValues"
         @swiper="onSwiper"
-        @slideChange="onSlideChange"
+        @slide-change="onSlideChange"
       >
         <SwiperSlide v-for="(product, index) in products" :key="product.title">
           <ProductCard v-bind="product" :ranking="index + 1" />
@@ -92,7 +91,9 @@ const getBindValues = computed(() => {
     </template>
     <template #btn>
       <div v-if="btn.text" class="mt-6 text-center md:mb-6 md:mt-12">
-        <Button @click="$emit('btnClick')">{{ btn.text }}</Button>
+        <Button @click="$emit('btnClick')">
+          {{ btn.text }}
+        </Button>
       </div>
     </template>
   </SwiperLayout>

@@ -2,7 +2,7 @@
 import Title from '@/components/Title.vue';
 
 defineProps({
-  features: String
+  features: String,
 });
 </script>
 

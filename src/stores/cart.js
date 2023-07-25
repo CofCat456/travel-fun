@@ -14,13 +14,12 @@ const useCartStore = defineStore('cart', () => {
 
     const {
       data: {
-        data: { success, carts }
-      }
+        data: { success, carts },
+      },
     } = res;
 
-    if (success) {
+    if (success)
       cartList.value = carts;
-    }
   };
 
   const addCart = async (data) => {
@@ -28,7 +27,8 @@ const useCartStore = defineStore('cart', () => {
 
     try {
       await apiUserPostCart(data);
-    } finally {
+    }
+    finally {
       await getCarts();
       isLoading.value = false;
     }
@@ -39,7 +39,7 @@ const useCartStore = defineStore('cart', () => {
     cartList,
     totalNum,
     getCarts,
-    addCart
+    addCart,
   };
 });
 

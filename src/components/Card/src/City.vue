@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router';
 import { cityMap } from '@/utlis/context';
 
 const { city } = defineProps({
-  city: String
+  city: String,
 });
 
 const getName = computed(() => cityMap.get(city));

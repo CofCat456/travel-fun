@@ -8,7 +8,7 @@ defineProps({
   width: Number,
   height: Number,
   loader: String,
-  fullPage: Boolean
+  fullPage: Boolean,
 });
 
 const isLoading = ref(false);
@@ -23,18 +23,18 @@ function hide() {
 
 defineExpose({
   show,
-  hide
+  hide,
 });
 </script>
 
 <template>
   <Loading
+    v-model:active="isLoading"
     color="#0F4BB4"
     :width="width || 128"
     :height="height || 128"
     :loader="loader || 'dots'"
     :can-cancel="false"
     :is-full-page="!fullPage"
-    v-model:active="isLoading"
   />
 </template>

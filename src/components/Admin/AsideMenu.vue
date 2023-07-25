@@ -4,9 +4,9 @@ import { NIcon, NMenu } from 'naive-ui';
 import { h } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const renderIcon = (icon) => {
+function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
-};
+}
 
 const menuOptions = [
   {
@@ -20,14 +20,14 @@ const menuOptions = [
             RouterLink,
             {
               to: {
-                name: 'AdminHome'
-              }
+                name: 'AdminHome',
+              },
             },
-            { default: () => '主控台' }
+            { default: () => '主控台' },
           ),
-        key: 'home'
-      }
-    ]
+        key: 'home',
+      },
+    ],
   },
   {
     label: '列表',
@@ -40,18 +40,18 @@ const menuOptions = [
             RouterLink,
             {
               to: {
-                name: 'AdminProducts'
-              }
+                name: 'AdminProducts',
+              },
             },
-            { default: () => '產品列表' }
+            { default: () => '產品列表' },
           ),
-        key: 'products'
-      }
-    ]
-  }
+        key: 'products',
+      },
+    ],
+  },
 ];
 </script>
 
 <template>
-  <n-menu :collapsed-width="64" :collapsed-icon-size="20" :indent="24" :options="menuOptions" />
+  <NMenu :collapsed-width="64" :collapsed-icon-size="20" :indent="24" :options="menuOptions" />
 </template>

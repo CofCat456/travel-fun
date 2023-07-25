@@ -6,18 +6,17 @@ import {
   GlobalOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  ReloadOutlined
+  ReloadOutlined,
 } from '@vicons/antd';
 import { NAvatar, NBreadcrumb, NBreadcrumbItem, NDropdown, NIcon, NTooltip } from 'naive-ui';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+import { useUserStore } from '../../stores';
 import { websiteConfig } from '@/config/website.config';
 
-import { useUserStore } from '../../stores';
-
 defineProps({
-  collapsed: Boolean
+  collapsed: Boolean,
 });
 
 defineEmits(['update:collapsed']);
@@ -29,65 +28,64 @@ const user = useUserStore();
 
 const isFullscreen = ref(false);
 
-const generator = (routerList) => {
+function generator(routerList) {
   return routerList.map((item) => {
     const currentMenu = {
       ...item,
       label: item.meta.title,
       key: item.name,
-      disabled: item.path === '/'
+      disabled: item.path === '/',
     };
     // 是否有子菜單，並遞迴處理
-    if (item.children && item.children.length > 0) {
+    if (item.children && item.children.length > 0)
       currentMenu.children = generator(item.children, currentMenu);
-    }
+
     return currentMenu;
   });
-};
+}
 
 const iconList = [
   {
     icon: GithubOutlined,
     tips: 'github',
     eventObject: {
-      click: () => window.open('https://github.com/CofCat456/travel-fun')
-    }
+      click: () => window.open('https://github.com/CofCat456/travel-fun'),
+    },
   },
   {
     icon: GlobalOutlined,
     tips: 'website',
     eventObject: {
-      click: () => window.open('https://cofcat.com')
-    }
-  }
+      click: () => window.open('https://cofcat.com'),
+    },
+  },
 ];
 
 const avatarOptions = [
   {
     label: '登出',
-    key: 1
-  }
+    key: 1,
+  },
 ];
 
 const getBreadcrumbList = computed(() => generator(route.matched));
 
 const reloadPage = () => router.go(0);
 
-const toggleFullScreen = () => {
-  if (!document.fullscreenElement) {
+function toggleFullScreen() {
+  if (!document.fullscreenElement)
     document.documentElement.requestFullscreen();
-  } else if (document.exitFullscreen) {
+  else if (document.exitFullscreen)
     document.exitFullscreen();
-  }
-};
+}
 
-const dropdownSelect = (key) => {
+function dropdownSelect(key) {
   router.push({ name: key });
-};
+}
 
-const avatarSelect = async () => {
+async function avatarSelect() {
   await user.logout();
-};
+}
 </script>
 
 <template>
@@ -96,27 +94,27 @@ const avatarSelect = async () => {
     <div class="flex items-center">
       <!-- 左邊側邊欄開關 -->
       <div class="layout-header-trigger" @click="$emit('update:collapsed', !collapsed)">
-        <n-icon size="18" v-if="collapsed">
+        <NIcon v-if="collapsed" size="18">
           <MenuUnfoldOutlined />
-        </n-icon>
-        <n-icon size="18" v-else>
+        </NIcon>
+        <NIcon v-else size="18">
           <MenuFoldOutlined />
-        </n-icon>
+        </NIcon>
       </div>
       <!-- 刷新頁面 -->
       <div class="layout-header-trigger mr-1" @click="reloadPage">
-        <n-icon size="18">
+        <NIcon size="18">
           <ReloadOutlined />
-        </n-icon>
+        </NIcon>
       </div>
       <!-- 麵包屑 -->
-      <n-breadcrumb>
+      <NBreadcrumb>
         <template
           v-for="routeItem in getBreadcrumbList"
           :key="routeItem.name === 'Redirect' ? void 0 : routeItem.name"
         >
-          <n-breadcrumb-item v-if="routeItem.meta.title">
-            <n-dropdown
+          <NBreadcrumbItem v-if="routeItem.meta.title">
+            <NDropdown
               v-if="routeItem.children.length"
               :options="routeItem.children"
               @select="dropdownSelect"
@@ -124,45 +122,45 @@ const avatarSelect = async () => {
               <span>
                 {{ routeItem.meta.title }}
               </span>
-            </n-dropdown>
+            </NDropdown>
             <span v-else>
               {{ routeItem.meta.title }}
             </span>
-          </n-breadcrumb-item>
+          </NBreadcrumbItem>
         </template>
-      </n-breadcrumb>
+      </NBreadcrumb>
     </div>
     <!-- 右側菜單 -->
     <div class="flex items-center">
-      <div class="layout-header-trigger" v-for="item in iconList" :key="item.icon">
-        <n-tooltip placement="bottom">
+      <div v-for="item in iconList" :key="item.icon" class="layout-header-trigger">
+        <NTooltip placement="bottom">
           <template #trigger>
-            <n-icon size="18">
+            <NIcon size="18">
               <component :is="item.icon" v-on="item.eventObject || {}" />
-            </n-icon>
+            </NIcon>
           </template>
           <span>{{ item.tips }}</span>
-        </n-tooltip>
+        </NTooltip>
       </div>
       <!-- 切换全螢幕 -->
       <div class="layout-header-trigger">
-        <n-tooltip placement="bottom">
+        <NTooltip placement="bottom">
           <template #trigger>
-            <n-icon size="18" @click="toggleFullScreen">
+            <NIcon size="18" @click="toggleFullScreen">
               <FullscreenOutlined v-if="isFullscreen" />
               <FullscreenExitOutlined v-else />
-            </n-icon>
+            </NIcon>
           </template>
           <span>全螢幕</span>
-        </n-tooltip>
+        </NTooltip>
       </div>
       <!-- 個人 -->
       <div class="flex items-center">
-        <n-dropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
+        <NDropdown trigger="hover" :options="avatarOptions" @select="avatarSelect">
           <div class="avatar">
-            <n-avatar round lazy :src="websiteConfig.userImage" />
+            <NAvatar round lazy :src="websiteConfig.userImage" />
           </div>
-        </n-dropdown>
+        </NDropdown>
       </div>
     </div>
   </div>

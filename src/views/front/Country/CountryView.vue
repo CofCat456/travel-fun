@@ -16,24 +16,24 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { productList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
-  storeToRefs(productStore);
+const { productList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred }
+  = storeToRefs(productStore);
 
 const { getFilterData } = productStore;
 
 const getBackgroundUrl = computed(
-  () => `/images/background/country/bg_${route.params.countryName}.jpg`
+  () => `/images/background/country/bg_${route.params.countryName}.jpg`,
 );
 const getCountryName = computed(() => countryMap.get(route.params.countryName));
 
 const getBreadcrumbs = computed(() => [
   {
     title: '首頁',
-    pathName: 'Home'
+    pathName: 'Home',
   },
   {
-    title: getCountryName.value
-  }
+    title: getCountryName.value,
+  },
 ]);
 
 const goProducts = () => router.push({ name: 'CountryProducts' });
@@ -44,18 +44,24 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
     <template #title>
       {{ getCountryName }}
     </template>
-    <template #sec-title> {{ `${getCountryName} 熱門旅遊景點` }} </template>
+    <template #sec-title>
+      {{ `${getCountryName} 熱門旅遊景點` }}
+    </template>
   </Banner>
   <Container>
     <div class="mb-6">
-      <n-breadcrumb separator=">">
+      <NBreadcrumb separator=">">
         <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
-          <n-breadcrumb-item v-if="pathName">
-            <RouterLink :to="{ name: pathName, params }">{{ title }}</RouterLink>
-          </n-breadcrumb-item>
-          <n-breadcrumb-item v-else> {{ title }}</n-breadcrumb-item>
+          <NBreadcrumbItem v-if="pathName">
+            <RouterLink :to="{ name: pathName, params }">
+              {{ title }}
+            </RouterLink>
+          </NBreadcrumbItem>
+          <NBreadcrumbItem v-else>
+            {{ title }}
+          </NBreadcrumbItem>
         </template>
-      </n-breadcrumb>
+      </NBreadcrumb>
     </div>
   </Container>
   <SwiperProduct title="Top 10 商品" :products="getFilterData(getByAllPopular)" />

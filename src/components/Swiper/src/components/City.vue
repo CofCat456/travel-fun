@@ -4,20 +4,19 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { v4 } from 'uuid';
 import { computed } from 'vue';
 
+import { useSwiper } from '../hooks/useSwiper';
+import SwiperLayout from '../Layout.vue';
+import { basicProps } from '../props';
+import CustomNavigation from './CustomNavigation.vue';
+import Title from '@/components/Title.vue';
+import { CityCard } from '@/components/Card';
 import { cityMap } from '@/utlis/context';
-
-import { CityCard } from '../../Card';
-import Title from '../../Title.vue';
-import CustomNavigation from './components/CustomNavigation.vue';
-import { useSwiper } from './hooks/useSwiper';
-import SwiperLayout from './Layout.vue';
-import { basicProps } from './props';
 
 const props = defineProps({
   ...basicProps,
   title: String,
   secTitle: String,
-  currCity: String
+  currCity: String,
 });
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();
@@ -32,35 +31,36 @@ const getBindValues = computed(() => {
     modules: [Navigation],
     navigation: {
       prevEl: `.swiper-${btnUUID}-custom-prev`,
-      nextEl: `.swiper-${btnUUID}-custom-next`
+      nextEl: `.swiper-${btnUUID}-custom-next`,
     },
     breakpoints: {
       '@0.00': {
         slidesPerView: 3,
         spaceBetween: 12,
-        speed: 300
+        speed: 300,
       },
       '@0.75': {
         slidesPerView: 4,
         spaceBetween: 12,
-        speed: 800
+        speed: 800,
       },
       '@1.00': {
         slidesPerView: 5,
-        speed: 1000
+        speed: 1000,
       },
       '@1.50': {
         slidesPerView,
-        noSwiping: true
-      }
-    }
+        noSwiping: true,
+      },
+    },
   };
 });
 
 const getCitys = computed(() => {
-  if (!props.currCity) return [...cityMap.keys()];
+  if (!props.currCity)
+    return [...cityMap.keys()];
 
-  return [...cityMap.keys()].filter((city) => cityMap.get(city) !== props.currCity);
+  return [...cityMap.keys()].filter(city => cityMap.get(city) !== props.currCity);
 });
 </script>
 
@@ -74,7 +74,7 @@ const getCitys = computed(() => {
         :no-swiping="true"
         v-bind="getBindValues"
         @swiper="onSwiper"
-        @slideChange="onSlideChange"
+        @slide-change="onSlideChange"
       >
         <SwiperSlide v-for="city in getCitys" :key="city" class="lg:swiper-no-swiping">
           <CityCard :city="city" />
@@ -84,7 +84,9 @@ const getCitys = computed(() => {
     </template>
     <template #btn>
       <div v-if="btn.text" class="mt-6 text-center md:mb-6 md:mt-12">
-        <button type="button" class="btn">{{ btn.text }}</button>
+        <button type="button" class="btn">
+          {{ btn.text }}
+        </button>
       </div>
     </template>
   </SwiperLayout>

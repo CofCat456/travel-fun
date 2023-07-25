@@ -3,16 +3,16 @@ import { FreeMode, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { computed } from 'vue';
 
-import { CategoryCard } from '../../Card';
-import CustomNavigation from './components/CustomNavigation.vue';
-import { useSwiper } from './hooks/useSwiper';
-import SwiperLayout from './Layout.vue';
-import { basicProps } from './props';
+import { useSwiper } from '../hooks/useSwiper';
+import { basicProps } from '../props';
+import SwiperLayout from '../Layout.vue';
+import CustomNavigation from './CustomNavigation.vue';
+import { CategoryCard } from '@/components/Card';
 
 const props = defineProps({
   ...basicProps,
   currCategory: String,
-  categorys: Array
+  categorys: Array,
 });
 
 defineEmits(['updateCategory']);
@@ -29,23 +29,23 @@ const getBindValues = computed(() => {
       '@0.00': {
         slidesPerView: 'auto',
         spaceBetween: 10,
-        speed: 300
+        speed: 300,
       },
       '@0.75': {
         slidesPerView: slidesPerView - 2,
         slidesPerGroup: slidesPerView - 2,
-        speed: 800
+        speed: 800,
       },
       '@1.00': {
         slidesPerView: slidesPerView - 1,
         slidesPerGroup: slidesPerGroup - 1,
-        speed: 1000
+        speed: 1000,
       },
       '@1.50': {
         slidesPerView,
-        slidesPerGroup
-      }
-    }
+        slidesPerGroup,
+      },
+    },
   };
 });
 </script>
@@ -57,7 +57,7 @@ const getBindValues = computed(() => {
         :free-mode="true"
         v-bind="getBindValues"
         @swiper="onSwiper"
-        @slideChange="onSlideChange"
+        @slide-change="onSlideChange"
       >
         <SwiperSlide
           v-for="category in categorys || []"

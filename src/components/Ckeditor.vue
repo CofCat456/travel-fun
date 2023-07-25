@@ -8,7 +8,7 @@ import { MyAdapterPlugin } from '@/utlis/myUploadAdapter';
 
 defineProps({
   disabled: Boolean,
-  value: String
+  value: String,
 });
 
 const emit = defineEmits(['ready', 'foucs', 'blur', 'destroy', 'update:value']);
@@ -37,30 +37,30 @@ const editorConfig = {
       'insertTable',
       'mediaEmbed',
       'undo',
-      'redo'
-    ]
-  }
+      'redo',
+    ],
+  },
 };
 
-const onEditorReady = () => {
+function onEditorReady() {
   emit('ready');
-};
+}
 
-const onEditorFoucs = () => {
+function onEditorFoucs() {
   emit('foucs');
-};
+}
 
-const onEditorBlur = () => {
+function onEditorBlur() {
   emit('blur');
-};
+}
 
-const onEditorInput = (value) => {
+function onEditorInput(value) {
   emit('update:value', value);
-};
+}
 
-const onEditorDestroy = () => {
+function onEditorDestroy() {
   emit('destroy');
-};
+}
 </script>
 
 <template>
@@ -75,7 +75,6 @@ const onEditorDestroy = () => {
       @blur="onEditorBlur"
       @input="onEditorInput"
       @destroy="onEditorDestroy"
-    >
-    </ckeditor>
+    />
   </div>
 </template>

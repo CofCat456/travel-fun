@@ -4,14 +4,14 @@ import { NCard, NSelect } from 'naive-ui';
 defineProps({
   currSort: String,
   sortArray: Array,
-  productTotal: Number
+  productTotal: Number,
 });
 
 defineEmits(['updateSort']);
 </script>
 
 <template>
-  <n-card size="small">
+  <NCard size="small">
     <div class="flex w-full items-center justify-between">
       <p class="font-bold">
         找到
@@ -22,7 +22,7 @@ defineEmits(['updateSort']);
       </p>
       <div class="inline-flex items-center gap-4 whitespace-nowrap">
         <span>排序方式：</span>
-        <n-select
+        <NSelect
           :consistent-menu-width="false"
           :options="sortArray || []"
           :value="currSort || ''"
@@ -30,5 +30,5 @@ defineEmits(['updateSort']);
         />
       </div>
     </div>
-  </n-card>
+  </NCard>
 </template>

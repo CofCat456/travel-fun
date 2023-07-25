@@ -2,12 +2,12 @@
 defineProps({
   full: {
     type: Boolean,
-    default: false
+    default: false,
   },
   center: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 </script>
 
@@ -16,6 +16,6 @@ defineProps({
     class="mx-auto w-full md:px-4 lg:max-w-cc-width xl:px-0"
     :class="[center && 'h-full', full ? 'px-0' : 'px-3']"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>

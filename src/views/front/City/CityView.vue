@@ -16,8 +16,8 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { productList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred } =
-  storeToRefs(productStore);
+const { productList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred }
+  = storeToRefs(productStore);
 
 const { getFilterData } = productStore;
 
@@ -27,16 +27,16 @@ const getCityName = computed(() => cityMap.get(route.params.cityName));
 const getBreadcrumbs = computed(() => [
   {
     title: '首頁',
-    pathName: 'Home'
+    pathName: 'Home',
   },
   {
     title: '台灣',
     pathName: 'Country',
-    params: { countryName: 'taiwan' }
+    params: { countryName: 'taiwan' },
   },
   {
-    title: getCityName.value
-  }
+    title: getCityName.value,
+  },
 ]);
 
 const goProducts = () => router.push({ name: 'CityProducts' });
@@ -47,18 +47,24 @@ const goProducts = () => router.push({ name: 'CityProducts' });
     <template #title>
       {{ getCityName }}
     </template>
-    <template #sec-title> {{ `${getCityName} 熱門旅遊景點` }} </template>
+    <template #sec-title>
+      {{ `${getCityName} 熱門旅遊景點` }}
+    </template>
   </Banner>
   <Container>
     <div class="mb-6">
-      <n-breadcrumb separator=">">
+      <NBreadcrumb separator=">">
         <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
-          <n-breadcrumb-item v-if="pathName">
-            <RouterLink :to="{ name: pathName, params }">{{ title }}</RouterLink>
-          </n-breadcrumb-item>
-          <n-breadcrumb-item v-else> {{ title }}</n-breadcrumb-item>
+          <NBreadcrumbItem v-if="pathName">
+            <RouterLink :to="{ name: pathName, params }">
+              {{ title }}
+            </RouterLink>
+          </NBreadcrumbItem>
+          <NBreadcrumbItem v-else>
+            {{ title }}
+          </NBreadcrumbItem>
         </template>
-      </n-breadcrumb>
+      </NBreadcrumb>
     </div>
   </Container>
   <SwiperProduct

@@ -3,16 +3,16 @@ import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { computed } from 'vue';
 
-import { NewCard } from '../../Card';
-import Title from '../../Title.vue';
-import CustomNavigation from './components/CustomNavigation.vue';
-import { useSwiper } from './hooks/useSwiper';
-import SwiperLayout from './Layout.vue';
-import { basicProps } from './props';
+import { useSwiper } from '../hooks/useSwiper';
+import { basicProps } from '../props';
+import SwiperLayout from '../Layout.vue';
+import CustomNavigation from './CustomNavigation.vue';
+import Title from '@/components/Title.vue';
+import { NewCard } from '@/components/Card';
 
 const props = defineProps({
   ...basicProps,
-  news: Array
+  news: Array,
 });
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();
@@ -25,26 +25,26 @@ const getBindValues = computed(() => {
     modules: [Navigation],
     navigation: {
       prevEl: '.swiper-news-custom-prev',
-      nextEl: '.swiper-news-custom-next'
+      nextEl: '.swiper-news-custom-next',
     },
     breakpoints: {
       '@0.00': {
-        direction: 'vertical'
+        direction: 'vertical',
       },
       '@0.75': {
         slidesPerView: 2,
-        slidesPerGroup: 2
+        slidesPerGroup: 2,
       },
       '@1.00': {
         slidesPerView: 2,
         slidesPerGroup: 2,
-        speed: 400
+        speed: 400,
       },
       '@1.50': {
         slidesPerView,
-        spaceBetween
-      }
-    }
+        spaceBetween,
+      },
+    },
   };
 });
 </script>
@@ -61,11 +61,11 @@ const getBindValues = computed(() => {
       <Swiper
         :navigation="{
           prevEl: '.swiper-news-custom-prev',
-          nextEl: '.swiper-news-custom-next'
+          nextEl: '.swiper-news-custom-next',
         }"
         v-bind="getBindValues"
         @swiper="onSwiper"
-        @slideChange="onSlideChange"
+        @slide-change="onSlideChange"
       >
         <SwiperSlide v-for="item in news || []" :key="item.title">
           <NewCard v-bind="item" />

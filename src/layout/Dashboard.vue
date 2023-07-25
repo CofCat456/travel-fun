@@ -5,7 +5,7 @@ import {
   NLayoutContent,
   NLayoutHeader,
   NLayoutSider,
-  NMessageProvider
+  NMessageProvider,
 } from 'naive-ui';
 import { onMounted, provide, ref } from 'vue';
 
@@ -32,14 +32,14 @@ const themeOverrides = {
     textColorBase: '#181818',
     textColor1: '#181818',
     textColor2: '#181818',
-    textColor3: '#181818'
+    textColor3: '#181818',
   },
   Card: {
-    borderRadius: '12px'
+    borderRadius: '12px',
   },
   Rate: {
-    itemColorActive: '#EE5220'
-  }
+    itemColorActive: '#EE5220',
+  },
 };
 
 provide('loading', loadingRef);
@@ -50,10 +50,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <n-config-provider :theme-overrides="themeOverrides">
-    <n-message-provider>
-      <n-layout has-sider>
-        <n-layout-sider
+  <NConfigProvider :theme-overrides="themeOverrides">
+    <NMessageProvider>
+      <NLayout has-sider>
+        <NLayoutSider
           class="min-h-screen"
           bordered
           show-trigger="bar"
@@ -67,18 +67,18 @@ onMounted(() => {
         >
           <Logo :collapsed="collapsed" />
           <AsideMenu />
-        </n-layout-sider>
-        <n-layout embedded class="px-3">
-          <n-layout-header>
+        </NLayoutSider>
+        <NLayout embedded class="px-3">
+          <NLayoutHeader>
             <PageHeader v-model:collapsed="collapsed" />
-          </n-layout-header>
-          <n-layout-content embedded class="min-h-screen py-2">
+          </NLayoutHeader>
+          <NLayoutContent embedded class="min-h-screen py-2">
             <MainView v-if="user.loginStatus" />
-          </n-layout-content>
-        </n-layout>
-      </n-layout>
-    </n-message-provider>
-  </n-config-provider>
+          </NLayoutContent>
+        </NLayout>
+      </NLayout>
+    </NMessageProvider>
+  </NConfigProvider>
   <Loading ref="loadingRef" />
 </template>
 

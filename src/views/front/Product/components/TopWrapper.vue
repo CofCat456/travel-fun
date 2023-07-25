@@ -1,11 +1,12 @@
 <script setup>
 import { StarFilled } from '@vicons/material';
 import { NIcon } from 'naive-ui';
+import { scrollTo } from '@/utlis/global';
 
 defineProps({
   evaluate: Number,
   evaluateNum: Number,
-  address: String
+  address: String,
 });
 </script>
 
@@ -13,9 +14,9 @@ defineProps({
   <div class="mt-3 flex items-center gap-6">
     <div class="flex items-center">
       <div class="flex items-center">
-        <n-icon size="20" color="#EE5220">
+        <NIcon size="20" color="#EE5220">
           <StarFilled />
-        </n-icon>
+        </NIcon>
         <span class="px-1 font-medium leading-5 text-cc-accent"> {{ evaluate }} </span>
       </div>
       <div class="ml-2 cursor-pointer">
@@ -42,7 +43,7 @@ defineProps({
           d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
         />
       </svg>
-      <span class="ml-2">{{ address }}</span>
+      <span class="ml-2" @click="scrollTo('map')">{{ address }}</span>
     </div>
     <div class="flex cursor-pointer items-center transition-colors hover:text-cc-accent">
       <svg

@@ -7,13 +7,13 @@ defineProps({
   currEnTarget: String,
   array: Array,
   currSort: String,
-  sortArray: Array
+  sortArray: Array,
 });
 
 defineEmits(['updateParams', 'updateSort', 'openMap']);
 
-const cityText = (city) => `${cityMap.get(city.key)}市`;
-const countryText = (country) => countryMap.get(country);
+const cityText = city => `${cityMap.get(city.key)}市`;
+const countryText = country => countryMap.get(country);
 </script>
 
 <template>

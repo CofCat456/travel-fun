@@ -1,19 +1,19 @@
 <script setup>
-import { NBreadcrumb, NBreadcrumbItem } from 'naive-ui';
+import { NBreadcrumb, NBreadcrumbItem, NSpace } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed, inject, onMounted } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
-import { SwiperBanner } from '@/components/Swiper';
-import Container from '@/layout/Container.vue';
-import { useCartStore, useProductStore } from '@/stores';
-import { cityMap } from '@/utlis/context';
-
 import Content from './components/Content.vue';
 import LeftSidebar from './components/LeftSidebar.vue';
-import Plan from './components/Plan.vue';
 import RightSidebar from './components/RightSidebar.vue';
 import TopWrapper from './components/TopWrapper.vue';
+import Plan from './components/Plan.vue';
+import { cityMap } from '@/utlis/context';
+import { useCartStore, useProductStore } from '@/stores';
+import Container from '@/layout/Container.vue';
+import { SwiperBanner, SwiperProduct } from '@/components/Swiper';
+import { Map } from '@/components/Map';
 
 const route = useRoute();
 const router = useRouter();
@@ -24,29 +24,29 @@ const cartStore = useCartStore();
 const productStore = useProductStore();
 
 const { isLoading } = storeToRefs(cartStore);
-const { product } = storeToRefs(productStore);
+const { product, getByRecommended } = storeToRefs(productStore);
 
 const { addCart } = cartStore;
-const { getProduct } = productStore;
+const { getProduct, getFilterData } = productStore;
 
 const getBreadcrumbs = computed(() => [
   {
     title: 'Travel Fun',
-    pathName: 'Home'
+    pathName: 'Home',
   },
   {
     title: '台灣',
     pathName: 'Country',
-    params: { countryName: 'taiwan' }
+    params: { countryName: 'taiwan' },
   },
   {
     title: cityMap.get(product.value?.city),
     pathName: 'City',
-    params: { cityName: product.value?.city }
+    params: { cityName: product.value?.city },
   },
   {
-    title: product.value?.title
-  }
+    title: product.value?.title,
+  },
 ]);
 
 // 確定路由變更時但組件被複用，能重新獲取產品
@@ -55,7 +55,8 @@ onBeforeRouteUpdate(async (to) => {
 
   try {
     await getProduct(loading, productId);
-  } catch {
+  }
+  catch {
     router.go(-1);
   }
 });
@@ -67,16 +68,22 @@ onMounted(() => getProduct(loading, route.params.productId));
   <template v-if="product && product.id">
     <Container class="py-5">
       <div class="my-4">
-        <n-breadcrumb separator=">">
+        <NBreadcrumb separator=">">
           <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
-            <n-breadcrumb-item v-if="pathName">
-              <RouterLink :to="{ name: pathName, params }">{{ title }}</RouterLink>
-            </n-breadcrumb-item>
-            <n-breadcrumb-item v-else> {{ title }}</n-breadcrumb-item>
+            <NBreadcrumbItem v-if="pathName">
+              <RouterLink :to="{ name: pathName, params }">
+                {{ title }}
+              </RouterLink>
+            </NBreadcrumbItem>
+            <NBreadcrumbItem v-else>
+              {{ title }}
+            </NBreadcrumbItem>
           </template>
-        </n-breadcrumb>
+        </NBreadcrumb>
       </div>
-      <h1 class="text-3xl font-bold">{{ product.title }}</h1>
+      <h1 class="text-3xl font-bold">
+        {{ product.title }}
+      </h1>
       <TopWrapper
         :evaluate="product.evaluate"
         :evaluate-num="product.evaluateNum"
@@ -86,29 +93,41 @@ onMounted(() => getProduct(loading, route.params.productId));
         loop
         centered-slides
         :slides-per-view="1.75"
+        :slides-per-group="1"
         :space-between="10"
         :speed="600"
-        :imagesUrl="product.imagesUrl"
+        :images-url="product.imagesUrl"
       />
       <div class="flex gap-8">
-        <div class="w-8/12">
+        <div v-if="product.features" class="w-8/12">
           <LeftSidebar :features="product.features" />
         </div>
-        <div class="w-4/12">
-          <RightSidebar :price="product.price" :origin_price="product.origin_price" />
+        <div class="flex-1">
+          <RightSidebar :price="product.price" :origin-price="product.origin_price" />
         </div>
       </div>
     </Container>
-    <Plan
-      :id="product.id"
-      :unit="product.unit"
-      :plans="product.plans"
-      :adding="isLoading"
-      @add-cart="addCart"
-    />
-    <Container class="py-5">
-      <Content :content="product.content" />
+    <div v-if="product.plans" class="bg-cc-other-7/80 py-10 mb-10">
+      <Plan
+        :id="product.id"
+        :unit="product.unit"
+        :plans="product.plans"
+        :adding="isLoading"
+        @add-cart="addCart"
+      />
+    </div>
+    <Container>
+      <NSpace class="w-8/12 py-10 pr-8" vertical :size="40">
+        <Content v-if="product.content" :content="product.content" />
+        <Map v-if="product.coordinates" :title="product.title" :coordinates="product.coordinates" />
+      </NSpace>
     </Container>
+    <div class="bg-cc-other-7/80">
+      <SwiperProduct
+        title="更多推薦"
+        :products="getFilterData(getByRecommended, '', product.cateogry)"
+      />
+    </div>
   </template>
 </template>
 

@@ -3,13 +3,13 @@ import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { computed } from 'vue';
 
-import CustomNavigation from './components/CustomNavigation.vue';
-import { useSwiper } from './hooks/useSwiper';
-import SwiperLayout from './Layout.vue';
-import { basicProps } from './props';
+import { useSwiper } from '../hooks/useSwiper';
+import SwiperLayout from '../Layout.vue';
+import { basicProps } from '../props';
+import CustomNavigation from './CustomNavigation.vue';
 
 const props = defineProps({
-  ...basicProps
+  ...basicProps,
 });
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();
@@ -19,16 +19,18 @@ const getBindValues = computed(() => ({
   modules: [Navigation, Pagination],
   navigation: {
     prevEl: '.swiper-banner-custom-prev',
-    nextEl: '.swiper-banner-custom-next'
-  }
+    nextEl: '.swiper-banner-custom-next',
+  },
 }));
 
-const pagination = () => ({
-  clickable: true,
-  renderBullet: (index, className) => {
-    return `<span class="${className}"></span>`;
-  }
-});
+function pagination() {
+  return {
+    clickable: true,
+    renderBullet: (index, className) => {
+      return `<span class="${className}"></span>`;
+    },
+  };
+}
 </script>
 
 <template>
@@ -38,10 +40,10 @@ const pagination = () => ({
         :pagination="pagination()"
         v-bind="getBindValues"
         @swiper="onSwiper"
-        @slideChange="onSlideChange"
+        @slide-change="onSlideChange"
       >
         <SwiperSlide v-for="imageUrl in imagesUrl" :key="imageUrl" class="bg-sky-300">
-          <img :src="imageUrl" />
+          <img :src="imageUrl">
         </SwiperSlide>
       </Swiper>
       <CustomNavigation classkey="banner" is-normal :is-beginning="isBeginning" :is-end="isEnd" />

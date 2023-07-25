@@ -9,13 +9,13 @@ export function useGeocodeAddress() {
   const isSearching = ref(false);
   const response = ref({
     type: 'success',
-    text: ''
+    text: '',
   });
 
   const states = ref({
     google: null,
     map: null,
-    markers: null
+    markers: null,
   });
 
   const geocodeAddress = async (address) => {
@@ -42,7 +42,8 @@ export function useGeocodeAddress() {
         response.value.type = 'success';
         response.value.text = '成功找到座標！';
         isSearching.value = false;
-      } else {
+      }
+      else {
         // 設置錯誤訊息
         coordinates.value = null; // 清空座標
 
@@ -59,7 +60,7 @@ export function useGeocodeAddress() {
       apiKey: VITE_GOOGLE_MAP_API_KEY,
       version: 'weekly',
       libraries: ['places'],
-      language: 'zh-TW'
+      language: 'zh-TW',
     });
 
     states.value.google = await loader.load();

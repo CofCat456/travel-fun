@@ -5,6 +5,8 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
+import Filter from './components/Filter.vue';
+import MobileFilter from './components/MobileFilter.vue';
 import { ProductCard } from '@/components/Card';
 import Loading from '@/components/Loading.vue';
 import { ProductMap } from '@/components/Map';
@@ -14,12 +16,9 @@ import { useDeviceStore, useProductStore } from '@/stores';
 import { categoryMap, cityMap, countryMap, sortMap } from '@/utlis/context';
 import { createRouterOption } from '@/utlis/global';
 
-import Filter from './components/Filter.vue';
-import MobileFilter from './components/MobileFilter.vue';
-
 const { mode, sort } = defineProps({
   mode: String,
-  sort: String
+  sort: String,
 });
 
 const route = useRoute();
@@ -43,14 +42,14 @@ const getCategory = computed(() => categoryMap.get(route.params.category) ?? '�
 const getCategorys = computed(() => ['', ...categoryMap.keys()]);
 
 const getFilterList = computed(() =>
-  Array.from(sortMap, ([key, value]) => ({ label: value, value: key }))
+  Array.from(sortMap, ([key, value]) => ({ label: value, value: key })),
 );
 const getEnCitys = computed(() =>
-  Array.from(cityMap, ([key, value]) => ({ label: `${value}市`, key }))
+  Array.from(cityMap, ([key, value]) => ({ label: `${value}市`, key })),
 );
 
 const getEnCountrys = computed(() =>
-  Array.from(countryMap, ([key, value]) => ({ label: value, key }))
+  Array.from(countryMap, ([key, value]) => ({ label: value, key })),
 );
 
 const getBreadcrumbs = computed(() => {
@@ -58,35 +57,35 @@ const getBreadcrumbs = computed(() => {
     ? [
         {
           title: '首頁',
-          pathName: 'Home'
+          pathName: 'Home',
         },
         {
           title: '台灣',
           pathName: 'Country',
-          params: { countryName: 'taiwan' }
+          params: { countryName: 'taiwan' },
         },
         {
           title: getCityName.value,
           pathName: 'City',
-          params: { cityName: route.params.cityName }
+          params: { cityName: route.params.cityName },
         },
         {
-          title: getCategory.value
-        }
+          title: getCategory.value,
+        },
       ]
     : [
         {
           title: '首頁',
-          pathName: 'Home'
+          pathName: 'Home',
         },
         {
           title: '台灣',
           pathName: 'Country',
-          params: { countryName: 'taiwan' }
+          params: { countryName: 'taiwan' },
         },
         {
-          title: getCategory.value
-        }
+          title: getCategory.value,
+        },
       ];
 });
 
@@ -95,36 +94,36 @@ const getProductList = computed(() =>
     getSortData(sort || 'popular'),
     isCity.value ? route.params.cityName : '',
     route.params.category,
-    0
-  )
+    0,
+  ),
 );
 
-const updateCity = (city) => {
+function updateCity(city) {
   const routerOption = createRouterOption(city, route.params.category, sort);
 
   return router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
-    ...routerOption
+    ...routerOption,
   });
-};
+}
 
-const updateCategory = (category) => {
+function updateCategory(category) {
   const routerOption = createRouterOption(route.params.cityName, category, sort);
 
   router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
-    ...routerOption
+    ...routerOption,
   });
-};
+}
 
-const updateSort = (item) => {
+function updateSort(item) {
   const routerOption = createRouterOption(route.params.cityName, route.params.category, item);
 
   return router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
-    ...routerOption
+    ...routerOption,
   });
-};
+}
 
 onMounted(() => getProducts(loadingRef));
 </script>
@@ -132,14 +131,18 @@ onMounted(() => getProducts(loadingRef));
 <template>
   <div class="bg-cc-other-7/80 py-2 md:py-6">
     <Container>
-      <n-breadcrumb separator=">">
+      <NBreadcrumb separator=">">
         <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
-          <n-breadcrumb-item v-if="pathName">
-            <RouterLink :to="{ name: pathName, params }">{{ title }}</RouterLink>
-          </n-breadcrumb-item>
-          <n-breadcrumb-item v-else> {{ title }}</n-breadcrumb-item>
+          <NBreadcrumbItem v-if="pathName">
+            <RouterLink :to="{ name: pathName, params }">
+              {{ title }}
+            </RouterLink>
+          </NBreadcrumbItem>
+          <NBreadcrumbItem v-else>
+            {{ title }}
+          </NBreadcrumbItem>
         </template>
-      </n-breadcrumb>
+      </NBreadcrumb>
     </Container>
   </div>
   <div
@@ -160,7 +163,7 @@ onMounted(() => getProducts(loadingRef));
   </div>
   <MobileFilter
     v-if="isMobile"
-    :isCity="isCity"
+    :is-city="isCity"
     :curr-en-target="getParams"
     :array="isCity ? getEnCitys : getEnCountrys"
     :curr-sort="sort"
@@ -203,20 +206,22 @@ onMounted(() => getProducts(loadingRef));
             </p>
           </div>
         </div>
-        <n-card size="small">
+        <NCard size="small">
           <template #header>
             <div class="flex items-center gap-3">
-              <n-icon size="24"> <AirplanemodeActiveOutlined /> </n-icon>
+              <NIcon size="24">
+                <AirplanemodeActiveOutlined />
+              </NIcon>
               目的地
             </div>
           </template>
-          <n-menu
+          <NMenu
             :default-value="isCity ? route.params.cityName : route.params.countryName"
             :root-indent="25"
             :options="isCity ? getEnCitys : getEnCountrys"
             @update-value="updateCity"
           />
-        </n-card>
+        </NCard>
       </div>
       <main class="flex flex-1 flex-col">
         <h6 v-if="isMobile" class="mb-4 font-medium">
@@ -235,7 +240,7 @@ onMounted(() => getProducts(loadingRef));
             v-for="product in getProductList"
             :key="product.id"
             v-bind="product"
-            notRanking
+            not-ranking
           />
           <Loading ref="loadingRef" loader="spinner" :width="30" :height="30" :full-page="false" />
         </div>

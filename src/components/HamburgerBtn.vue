@@ -5,6 +5,8 @@ import { NIcon } from 'naive-ui';
 
 <template>
   <button type="button" class="block md:hidden">
-    <n-icon size="24"> <TableRowsRound /> </n-icon>
+    <NIcon size="24">
+      <TableRowsRound />
+    </NIcon>
   </button>
 </template>

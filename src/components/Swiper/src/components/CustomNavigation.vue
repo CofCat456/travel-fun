@@ -2,24 +2,24 @@
 defineProps({
   classkey: {
     type: String,
-    default: ''
+    default: '',
   },
   opacity: {
     type: Number,
-    default: 100
+    default: 100,
   },
   isBeginning: {
     type: Boolean,
-    default: true
+    default: true,
   },
   isEnd: {
     type: Boolean,
-    default: false
+    default: false,
   },
   isNormal: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 </script>
 
@@ -29,7 +29,7 @@ defineProps({
     :class="[
       `swiper-${classkey}-custom-prev`,
       isBeginning && 'md:hidden',
-      isNormal ? 'left-3 opacity-60' : 'left-0  -translate-x-full'
+      isNormal ? 'left-3 opacity-60' : 'left-0  -translate-x-full',
     ]"
   >
     <svg
@@ -53,7 +53,7 @@ defineProps({
     :class="[
       `swiper-${classkey}-custom-next`,
       isEnd && 'md:hidden',
-      isNormal ? 'right-3 opacity-60' : 'right-0 translate-x-full '
+      isNormal ? 'right-3 opacity-60' : 'right-0 translate-x-full ',
     ]"
   >
     <svg

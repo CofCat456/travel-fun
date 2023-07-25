@@ -6,12 +6,12 @@ import 'swiper/css/pagination';
 defineProps({
   isNormal: {
     type: Boolean,
-    defalut: false
+    defalut: false,
   },
   noPadding: {
     type: Boolean,
-    defalut: false
-  }
+    defalut: false,
+  },
 });
 </script>
 
@@ -20,16 +20,16 @@ defineProps({
     class="mx-auto w-full"
     :class="[
       isNormal ? ' lg:max-w-cc-width' : ' lg:max-w-cc-big-width',
-      noPadding ? 'p-0' : 'px-3 py-6 md:px-4 xl:px-0'
+      noPadding ? 'p-0' : 'px-3 py-6 md:px-4 xl:px-0',
     ]"
   >
-    <slot></slot>
+    <slot />
     <div class="xl:mx-4">
-      <slot name="title"> </slot>
+      <slot name="title" />
     </div>
     <div class="relative" :class="[noPadding ? 'px-0' : isNormal ? 'md:px-4 xl:px-0' : 'xl:px-4']">
-      <slot name="swiper"></slot>
+      <slot name="swiper" />
     </div>
-    <slot name="btn"> </slot>
+    <slot name="btn" />
   </section>
 </template>

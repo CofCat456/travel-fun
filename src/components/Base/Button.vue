@@ -2,25 +2,25 @@
 defineProps({
   type: {
     type: String,
-    default: 'button'
+    default: 'button',
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   isLoading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   isFull: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 </script>
 
 <template>
-  <button :type="type" :class="['btn', isFull && 'w-full']" :disabled="isLoading || disabled">
+  <button :type="type" class="btn" :class="[isFull && 'w-full']" :disabled="isLoading || disabled">
     <slot v-if="isLoading" name="loading">
       <svg
         class="h-6 w-6 animate-spin py-1 text-white"
@@ -35,15 +35,15 @@ defineProps({
           r="10"
           stroke="currentColor"
           stroke-width="4"
-        ></circle>
+        />
         <path
           class="opacity-75"
           fill="currentColor"
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
+        />
       </svg>
     </slot>
-    <slot v-else name="icon"> </slot>
+    <slot v-else name="icon" />
     <slot> text </slot>
   </button>
 </template>

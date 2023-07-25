@@ -5,18 +5,17 @@ import {
   FlightTakeoffOutlined,
   PersonOutlineFilled,
   PersonOutlineOutlined,
-  ShoppingCartOutlined
+  ShoppingCartOutlined,
 } from '@vicons/material';
 import { NBadge, NIcon } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 
-import { websiteConfig } from '@/config/website.config';
-
 import Container from '../layout/Container.vue';
 import { useCartStore, useUserStore } from '../stores';
 import HamburgerBtn from './HamburgerBtn.vue';
+import { websiteConfig } from '@/config/website.config';
 
 const route = useRoute();
 
@@ -39,7 +38,7 @@ const isHome = computed(() => ['Home', 'City', 'Country'].includes(route.name));
         <HamburgerBtn />
         <div class="flex items-center gap-8 lg:w-[526px]">
           <RouterLink :to="{ name: 'Home' }">
-            <img class="h-10 object-cover" :src="websiteConfig.logoImage" alt="logo" />
+            <img class="h-10 object-cover" :src="websiteConfig.logoImage" alt="logo">
           </RouterLink>
           <ul class="hidden h-full flex-1 items-center gap-1 md:flex">
             <li class="h-full flex-1">
@@ -48,42 +47,54 @@ const isHome = computed(() => ['Home', 'City', 'Country'].includes(route.name));
               </button>
             </li>
             <li class="flex flex-1 items-center justify-center gap-2 text-sm">
-              <n-icon size="24"> <ConfirmationNumberOutlined /> </n-icon>
+              <NIcon size="24">
+                <ConfirmationNumberOutlined />
+              </NIcon>
               景點套票
             </li>
             <li class="flex flex-1 items-center justify-center gap-2 text-sm">
-              <n-icon size="24"> <FlightTakeoffOutlined /> </n-icon>
+              <NIcon size="24">
+                <FlightTakeoffOutlined />
+              </NIcon>
               觀光行程
             </li>
           </ul>
         </div>
         <div class="flex items-center justify-between lg:w-[256px]">
           <div class="hidden place-content-center md:grid">
-            <n-icon size="24" class="icon-hover"> <FavoriteBorderOutlined /> </n-icon>
+            <NIcon size="24" class="icon-hover">
+              <FavoriteBorderOutlined />
+            </NIcon>
           </div>
-          <RouterLink v-if="loginStatus" custom :to="{ name: 'AdminHome' }" v-slot="{ navigate }">
+          <RouterLink v-if="loginStatus" v-slot="{ navigate }" custom :to="{ name: 'AdminHome' }">
             <button
               type="button"
               class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-accent px-4 py-2 text-base lg:flex"
               @click="navigate"
             >
-              <n-icon size="24"> <PersonOutlineOutlined /> </n-icon>
+              <NIcon size="24">
+                <PersonOutlineOutlined />
+              </NIcon>
               會員專區
             </button>
           </RouterLink>
-          <RouterLink v-else custom :to="{ name: 'Login' }" v-slot="{ navigate }">
+          <RouterLink v-else v-slot="{ navigate }" custom :to="{ name: 'Login' }">
             <button
               type="button"
               class="hidden w-[144px] items-center justify-center gap-[6px] rounded-[50px] bg-cc-other-8 px-4 py-2 text-base transition-colors duration-300 hover:bg-cc-accent lg:flex"
               @click="navigate"
             >
-              <n-icon size="24"> <PersonOutlineFilled /> </n-icon>
+              <NIcon size="24">
+                <PersonOutlineFilled />
+              </NIcon>
               登入 / 註冊
             </button>
           </RouterLink>
-          <n-badge color="#EE5220" :max="10" :value="totalNum">
-            <n-icon size="24" color="white" class="icon-hover"> <ShoppingCartOutlined /></n-icon>
-          </n-badge>
+          <NBadge color="#EE5220" :max="10" :value="totalNum">
+            <NIcon size="24" color="white" class="icon-hover">
+              <ShoppingCartOutlined />
+            </NIcon>
+          </NBadge>
         </div>
       </div>
     </Container>

@@ -17,7 +17,7 @@ const useUserStore = defineStore('user', () => {
       const res = await apiUserSignin(data);
 
       const {
-        data: { success, token, expired }
+        data: { success, token, expired },
       } = res;
 
       if (success) {
@@ -25,7 +25,8 @@ const useUserStore = defineStore('user', () => {
         loginStatus.value = true;
         router.push({ name: 'AdminHome' });
       }
-    } finally {
+    }
+    finally {
       isLoading.value = false;
     }
   };
@@ -37,7 +38,7 @@ const useUserStore = defineStore('user', () => {
       const res = await apiUserLogout();
 
       const {
-        data: { success }
+        data: { success },
       } = res;
 
       if (success) {
@@ -45,7 +46,8 @@ const useUserStore = defineStore('user', () => {
         loginStatus.value = false;
         router.push({ name: 'Home' });
       }
-    } finally {
+    }
+    finally {
       isLoading.value = false;
     }
   };
@@ -58,17 +60,18 @@ const useUserStore = defineStore('user', () => {
       const res = await apiUserCheckSignin();
 
       const {
-        data: { success }
+        data: { success },
       } = res;
 
-      if (success && document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1')) {
+      if (success && document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1'))
         loginStatus.value = true;
-      } else {
+      else
         loginStatus.value = false;
-      }
-    } catch {
+    }
+    catch {
       router.push({ name: 'Home' });
-    } finally {
+    }
+    finally {
       loadingRef?.value?.hide();
     }
   };

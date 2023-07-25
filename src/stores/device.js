@@ -8,11 +8,10 @@ const useDeviceStore = defineStore('device', () => {
   const windowWidth = ref(window.innerWidth);
 
   watchEffect(() => {
-    if (windowWidth.value < 768) {
+    if (windowWidth.value < 768)
       isMobile.value = true;
-    } else {
+    else
       isMobile.value = false;
-    }
   });
 
   onMounted(() => {

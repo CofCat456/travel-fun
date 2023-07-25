@@ -8,21 +8,21 @@ import { densityOptions } from '../setting';
 const props = defineProps({
   ...NDataTable.props,
   actionColumn: Object,
-  data: Array
+  data: Array,
 });
 
 const emit = defineEmits(['reload']);
 
 const tableConfig = ref({
   striped: false,
-  size: 'medium'
+  size: 'medium',
 });
 
 const pagination = ref({
   pageSize: 10,
   prefix({ itemCount }) {
     return `總共有 ${itemCount} 個產品`;
-  }
+  },
 });
 
 // 切換斑馬線
@@ -50,65 +50,61 @@ const getBindValues = computed(() => {
     ...unref(props),
     columns,
     size: unref(getTableSize),
-    striped: tableConfig.value.striped
+    striped: tableConfig.value.striped,
   };
 });
 </script>
 
 <template>
   <div class="flex justify-between pb-4">
-    <!--頂部左側區域-->
+    <!-- 頂部左側區域 -->
     <div class="flex flex-1 items-center">
-      <slot name="tableTitle"></slot>
+      <slot name="tableTitle" />
     </div>
 
     <div class="flex flex-1 items-center justify-end">
-      <!--顶部右侧區域-->
-      <slot name="toolbar"></slot>
+      <!-- 顶部右侧區域 -->
+      <slot name="toolbar" />
 
       <!-- 斑馬紋 -->
-      <n-tooltip trigger="hover">
+      <NTooltip trigger="hover">
         <template #trigger>
-          <n-switch
+          <NSwitch
+            v-model:value="tableConfig.striped"
             class="mx-3"
             @update:value="handleStriped"
-            v-model:value="tableConfig.striped"
           />
         </template>
         <span>表格斑馬紋線條</span>
-      </n-tooltip>
+      </NTooltip>
 
-      <n-divider vertical />
+      <NDivider vertical />
 
-      <n-space size="large">
+      <NSpace size="large">
         <!-- 刷新 -->
-        <n-tooltip trigger="hover">
+        <NTooltip trigger="hover">
           <template #trigger>
-            <n-icon size="18">
+            <NIcon size="18">
               <ReloadOutlined @click="reload" />
-            </n-icon>
+            </NIcon>
           </template>
           <span>刷新</span>
-        </n-tooltip>
+        </NTooltip>
 
         <!-- 密度 -->
-        <n-dropdown
+        <NDropdown
+          v-model:value="tableConfig.size"
           :options="densityOptions"
           @select="densitySelect"
-          v-model:value="tableConfig.size"
         >
-          <n-icon size="18">
+          <NIcon size="18">
             <ColumnHeightOutlined />
-          </n-icon>
-        </n-dropdown>
-      </n-space>
+          </NIcon>
+        </NDropdown>
+      </NSpace>
     </div>
   </div>
   <div class="s-table">
-    <n-data-table ref="tableElRef" :pagination="pagination" v-bind="getBindValues">
-      <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
-        <slot :name="item" v-bind="data"></slot>
-      </template>
-    </n-data-table>
+    <NDataTable :pagination="pagination" v-bind="getBindValues" />
   </div>
 </template>

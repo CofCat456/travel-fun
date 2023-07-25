@@ -18,5 +18,5 @@ export const productProps = {
   imageUrl: String,
   imagesUrl: Array,
   features: String,
-  content: String
+  content: String,
 };

@@ -6,7 +6,7 @@ import Container from '@/layout/Container.vue';
 
 defineProps({
   name: String,
-  products: Array
+  products: Array,
 });
 
 const productMap = ref(null);
@@ -15,7 +15,9 @@ const productMap = ref(null);
 <template>
   <div class="my-6 bg-cc-other-7 py-6">
     <Container>
-      <h3 class="mb-3 text-xl font-bold md:my-6 md:text-[28px]">認識 {{ name }}</h3>
+      <h3 class="mb-3 text-xl font-bold md:my-6 md:text-[28px]">
+        認識 {{ name }}
+      </h3>
       <div
         class="flex min-h-[240px] flex-col flex-wrap gap-8 overflow-hidden md:mb-6 md:flex-row md:gap-0 md:rounded-m md:shadow-md"
       >
@@ -35,7 +37,9 @@ const productMap = ref(null);
           <div
             class="absolute bottom-1/2 left-6 translate-y-1/2 font-bold md:left-auto md:bottom-6 md:right-6 md:translate-y-0"
           >
-            <h4 class="mb-2 text-lg md:text-2xl">看地圖搜尋{{ name }}活動</h4>
+            <h4 class="mb-2 text-lg md:text-2xl">
+              看地圖搜尋{{ name }}活動
+            </h4>
             <p class="flex items-center gap-1">
               點擊前往
               <svg

@@ -6,7 +6,7 @@ import Title from '@/components/Title.vue';
 import Container from '@/layout/Container.vue';
 
 const { hotCitys = [] } = defineProps({
-  hotCitys: Array
+  hotCitys: Array,
 });
 
 // TODO: 資料來源
@@ -26,18 +26,20 @@ const otherCity = computed(() => {
       <Title title="熱門城市" sec-title="探索最熱門的城市，發現更多令人驚嘆的旅程！" />
       <div v-if="hotCitys" class="grid grid-rows-2 gap-3 md:grid-flow-col md:gap-6">
         <RouterLink
+          v-slot="{ navigate }"
           custom
           :to="{ name: 'City', params: { cityName: `${mainCity.enName.toLowerCase()}` } }"
-          v-slot="{ navigate }"
         >
           <div class="relative col-span-2 row-span-2 overflow-hidden rounded-m" @click="navigate">
             <img
               :src="mainCity.image"
               :alt="mainCity.name"
               class="clear-scale h-full w-full cursor-pointer object-cover transition-transform duration-500"
-            />
+            >
             <div class="absolute left-3 bottom-3 font-bold text-white">
-              <h3 class="mb-1">{{ mainCity.name }}</h3>
+              <h3 class="mb-1">
+                {{ mainCity.name }}
+              </h3>
               <p>{{ mainCity.enName }}</p>
             </div>
           </div>
@@ -45,9 +47,9 @@ const otherCity = computed(() => {
         <RouterLink
           v-for="city in otherCity"
           :key="city.name"
+          v-slot="{ navigate }"
           custom
           :to="{ name: 'City', params: { cityName: `${city.enName.toLowerCase()}` } }"
-          v-slot="{ navigate }"
         >
           <div class="relative overflow-hidden rounded-m" @click="navigate">
             <img
@@ -55,10 +57,14 @@ const otherCity = computed(() => {
               :alt="city.name"
               class="clear-scale h-full w-full cursor-pointer object-cover transition-transform duration-500"
               loading="lazy"
-            />
+            >
             <div class="absolute left-3 bottom-3 font-bold text-white">
-              <p class="text-area-title mb-1">{{ city.name }}</p>
-              <p class="text-sm">{{ city.enName }}</p>
+              <p class="text-area-title mb-1">
+                {{ city.name }}
+              </p>
+              <p class="text-sm">
+                {{ city.enName }}
+              </p>
             </div>
           </div>
         </RouterLink>

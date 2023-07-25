@@ -5,18 +5,18 @@ import { sortMap } from '../utlis/context';
 
 defineProps({
   sort: String,
-  productTotal: Number
+  productTotal: Number,
 });
 
 const isOpen = ref(false);
 
-const toggleHandler = () => {
+function toggleHandler() {
   isOpen.value = !isOpen.value;
-};
+}
 
-const closeHandler = () => {
+function closeHandler() {
   isOpen.value = false;
-};
+}
 </script>
 
 <template>
@@ -27,11 +27,15 @@ const closeHandler = () => {
     <ul v-show="isOpen" class="dropdown-menu" @click="closeHandler">
       <slot name="dropdown-item">
         <li class="active">
-          <p class="px-4 py-2">active</p>
+          <p class="px-4 py-2">
+            active
+          </p>
         </li>
 
         <li>
-          <p class="px-4 py-2">not active</p>
+          <p class="px-4 py-2">
+            not active
+          </p>
         </li>
       </slot>
     </ul>
