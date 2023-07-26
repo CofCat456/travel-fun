@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { apiUserCheckSignin, apiUserLogout, apiUserSignin } from '../utlis/api';
+import { apiUserLogout, apiUserSignin } from '../utlis/api';
 
 const useUserStore = defineStore('user', () => {
   const router = useRouter();
@@ -52,31 +52,7 @@ const useUserStore = defineStore('user', () => {
     }
   };
 
-  // TODO: https://router.vuejs.org/zh/guide/advanced/navigation-guards.html
-  const checkSignin = async (loadingRef) => {
-    loadingRef?.value?.show();
-
-    try {
-      const res = await apiUserCheckSignin();
-
-      const {
-        data: { success },
-      } = res;
-
-      if (success && document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1'))
-        loginStatus.value = true;
-      else
-        loginStatus.value = false;
-    }
-    catch {
-      router.push({ name: 'Home' });
-    }
-    finally {
-      loadingRef?.value?.hide();
-    }
-  };
-
-  return { isLoading, loginStatus, signin, logout, checkSignin };
+  return { isLoading, loginStatus, signin, logout };
 });
 
 export default useUserStore;

@@ -31,7 +31,6 @@ function closeHandler() {
             active
           </p>
         </li>
-
         <li>
           <p class="px-4 py-2">
             not active

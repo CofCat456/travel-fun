@@ -7,8 +7,9 @@ import {
   NLayoutSider,
   NMessageProvider,
 } from 'naive-ui';
-import { onMounted, provide, ref } from 'vue';
+import { ref } from 'vue';
 
+import { storeToRefs } from 'pinia';
 import AsideMenu from '../components/Admin/AsideMenu.vue';
 import Logo from '../components/Admin/Logo.vue';
 import MainView from '../components/Admin/MainView.vue';
@@ -16,7 +17,8 @@ import PageHeader from '../components/Admin/PageHeader.vue';
 import Loading from '../components/Loading.vue';
 import { useUserStore } from '../stores';
 
-const user = useUserStore();
+const userStore = useUserStore();
+const { loginStatus } = storeToRefs(userStore);
 
 const loadingRef = ref(null);
 const collapsed = ref(false);
@@ -41,12 +43,6 @@ const themeOverrides = {
     itemColorActive: '#EE5220',
   },
 };
-
-provide('loading', loadingRef);
-
-onMounted(() => {
-  user.checkSignin(loadingRef);
-});
 </script>
 
 <template>
@@ -73,7 +69,7 @@ onMounted(() => {
             <PageHeader v-model:collapsed="collapsed" />
           </NLayoutHeader>
           <NLayoutContent embedded class="min-h-screen py-2">
-            <MainView v-if="user.loginStatus" />
+            <MainView v-if="loginStatus" />
           </NLayoutContent>
         </NLayout>
       </NLayout>

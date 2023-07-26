@@ -62,6 +62,15 @@ function mapToArray(map) {
   return Array.from(map, ([key, value]) => ({ label: value, value: key }));
 }
 
+function checkToken() {
+  const token = document.cookie.replace(
+    /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
+    '$1',
+  );
+
+  return token === '';
+}
+
 export {
   createRouterOption,
   currency,
@@ -69,4 +78,5 @@ export {
   imageTransformHandler,
   mapToArray,
   scrollTo,
+  checkToken,
 };

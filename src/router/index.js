@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import { apiUserCheckSignin } from '../utlis/api';
 
 const { VITE_TITLE } = import.meta.env;
 
@@ -79,12 +80,14 @@ const router = createRouter({
           component: () => import('../views/admin/Home/AdminHomeView.vue'),
           meta: {
             title: 'Dashboard',
+            requiresAuth: true,
           },
         },
         {
           path: 'list',
           meta: {
             title: '列表頁面',
+            requiresAuth: true,
           },
           children: [
             {
@@ -93,6 +96,7 @@ const router = createRouter({
               component: () => import('../views/admin/Product/AdminProducts.vue'),
               meta: {
                 title: '產品列表',
+                requiresAuth: true,
               },
             },
           ],
@@ -105,13 +109,31 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, from, next) => {
-  const title = to.meta.title;
+router.beforeEach(async (to, from, next) => {
+  const title = to.meta?.title;
+  const requiresAuth = to.meta?.requiresAuth;
 
   if (title)
     document.title = to.meta.title;
 
-  next();
+  if (requiresAuth) {
+    try {
+      const res = await apiUserCheckSignin();
+
+      const { data: { success } } = res;
+
+      if (success)
+        next();
+      else
+        next({ name: 'Home' });
+    }
+    catch {
+      next({ name: 'Home' });
+    }
+  }
+  else {
+    next();
+  }
 });
 
 export default router;
