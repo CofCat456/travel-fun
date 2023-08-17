@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { NDatePicker } from 'naive-ui';
 import { computed, ref } from 'vue';
 
@@ -6,15 +6,18 @@ import Button from '@/components/Base/Button.vue';
 import Title from '@/components/Title.vue';
 import Container from '@/layout/Container.vue';
 import { currency } from '@/utlis/global';
+import type { Cart, Plan } from '@/types';
 
-const { id } = defineProps({
-  id: String,
-  unit: String,
-  plans: Array,
-  adding: Boolean,
-});
+const { id } = defineProps<{
+  id: string
+  unit: string
+  plans: Plan[]
+  adding: boolean
+}>();
 
-const emit = defineEmits(['addCart']);
+const emit = defineEmits<{
+  (e: 'addCart', cart: { data: Cart }): void
+}>();
 
 const date = ref(Date.now());
 const qty = ref(1);
@@ -38,11 +41,11 @@ function decrement() {
 }
 
 function addCart() {
-  const data = { product_id: id, qty: qty.value, buy_date: date.value };
+  const data: Cart = { product_id: id, qty: qty.value, buy_date: date.value };
   emit('addCart', { data });
 }
 
-function disablePreviousDate(ts) {
+function disablePreviousDate(ts: number) {
   const currentDate = new Date();
 
   const inputDateTime = new Date(ts);
@@ -55,12 +58,12 @@ function disablePreviousDate(ts) {
 </script>
 
 <template>
-  <div v-if="plans?.length >= 0" id="plan">
+  <div v-if="plans && plans?.length >= 0" id="plan">
     <Container>
       <Title page title="選擇方案" />
       <div
-        v-for="plan in plans || []"
-        :key="plan"
+        v-for="{ content, origin_price, price } in plans || []"
+        :key="content"
         class="bordr mb-4 rounded-m border-cc-other-5/50 bg-cc-other-1"
         :class="showDetail && 'shadow-xl'"
       >
@@ -69,15 +72,15 @@ function disablePreviousDate(ts) {
             <h4 class="mb-5 font-bold">
               方案名稱
             </h4>
-            <div id="list" v-html="plan.content" />
+            <div id="list" v-html="content" />
           </div>
           <div class="flex items-end">
             <div class="mr-4 whitespace-nowrap text-right">
               <h5 class="font-bold">
-                {{ currency(plan.price, 'NT$ ') }}
+                {{ currency(price, 'NT$ ') }}
               </h5>
               <span class="text-sm text-cc-other-4 line-through">
-                {{ currency(plan.origin_price, 'NT$ ') }}
+                {{ currency(origin_price, 'NT$ ') }}
               </span>
             </div>
             <Button @click="toggleShowDetail">
@@ -109,7 +112,7 @@ function disablePreviousDate(ts) {
                     票數
                   </h6>
                   <span class="mr-2 whitespace-nowrap text-sm text-cc-other-9">
-                    {{ currency(plan.price, 'NT$ ') }}/{{ `每${unit}` }}
+                    {{ currency(price, 'NT$ ') }}/{{ `每${unit}` }}
                   </span>
                   <div class="inline-flex items-center">
                     <button type="button" :disabled="qty <= 1" @click="decrement">
@@ -131,7 +134,7 @@ function disablePreviousDate(ts) {
                     <input
                       v-model="qty"
                       type="text"
-                      readonly="readonly"
+                      readonly
                       class="w-11 border-none bg-transparent text-center text-lg outline-none"
                     >
                     <button type="button" @click="increment">
@@ -158,7 +161,7 @@ function disablePreviousDate(ts) {
                 <div class="flex items-center">
                   <span class="flex-1 whitespace-nowrap text-sm text-cc-other-9"> 總金額 </span>
                   <h5 class="font-bold">
-                    {{ currency(qty * plan.price, 'NT$ ') }}
+                    {{ currency(qty * price, 'NT$ ') }}
                   </h5>
                 </div>
               </div>

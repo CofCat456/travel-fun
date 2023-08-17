@@ -1,9 +1,11 @@
-<script setup>
-defineProps({
-  page: Boolean,
-  title: String,
-  secTitle: String,
-});
+<script setup lang="ts">
+export interface TitleProps {
+  page?: boolean
+  title: string
+  secTitle?: string
+}
+
+defineProps<TitleProps>();
 </script>
 
 <template>

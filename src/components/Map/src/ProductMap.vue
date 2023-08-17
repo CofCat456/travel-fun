@@ -1,66 +1,31 @@
-<script setup>
-import { Loader } from '@googlemaps/js-api-loader';
+<script setup lang="ts">
 import { CloseOutlined } from '@vicons/material';
 import { NButton, NIcon, NModal, NRate, NSpace } from 'naive-ui';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
+import { GoogleMap, InfoWindow, Marker, MarkerClusterer } from '@voomap/map';
+import type { Coordinates, Product } from '@/types';
 
 import { currency } from '@/utlis/global';
 
-import { useGo } from '@/composables/product';
-
-const { products } = defineProps({
-  products: Array,
-});
-
-const { goProduct } = useGo();
+const { products } = defineProps<{
+  products: Product[]
+}>();
 
 const { VITE_GOOGLE_MAP_API_KEY } = import.meta.env;
 
-const states = ref({
-  google: null,
-  map: null,
-  markers: null,
+const center = reactive({
+  lat: 25.0425,
+  lng: 121.5468,
 });
 
 const showMap = ref(false);
 
-async function initMap() {
-  const loader = new Loader({
-    apiKey: VITE_GOOGLE_MAP_API_KEY,
-    version: 'weekly',
-    libraries: ['places'],
-    language: 'zh-TW',
-  });
-  states.value.google = await loader.load();
-  states.value.map = new states.value.google.maps.Map(document.getElementById('map'), {
-    center: { lat: 25.0425, lng: 121.5468 },
-    zoom: 11,
-    mapTypeControl: false,
-    fullscreenControl: false,
-  });
+function penTo(coordinates: Coordinates) {
+  Object.assign(center, coordinates);
 }
 
-async function handleLoadMarkers() {
-  products.forEach((product) => {
-    const { id, coordinates } = product;
-    const marker = new states.value.google.maps.Marker({
-      position: { lat: coordinates.lat, lng: coordinates.lng },
-      map: states.value.map,
-      draggable: true,
-    });
-
-    marker.addListener('click', () => goProduct(id));
-  });
-}
-
-async function penTo(coordinates) {
-  states.value.map.panTo(coordinates);
-}
-
-async function openMap() {
+function openMap() {
   showMap.value = true;
-  await initMap();
-  handleLoadMarkers();
 }
 
 function closeMap() {
@@ -75,33 +40,33 @@ defineExpose({
 
 <template>
   <NModal v-model:show="showMap" mask-closable>
-    <div class="flex h-screen w-full p-8">
+    <div class="flex h-screen w-full md:p-8 p-0">
       <div
         class="z-10 w-[400px] overflow-y-auto bg-cc-other-1 shadow-[6px_0_5px_-3px_rgba(0,0,0,.2)]"
       >
         <ul class="flex flex-col p-[10px]">
-          <template v-for="product in products" :key="product.title">
+          <template v-for="{ title, evaluate, evaluateNum, price, coordinates, imageUrl } in products" :key="title">
             <div
               class="product-map-card mb-[10px] flex cursor-pointer border border-cc-other-6"
-              @click="penTo(product.coordinates)"
+              @click="penTo(coordinates)"
             >
               <div class="aspect-square w-[120px] overflow-hidden">
-                <img :src="product.imageUrl" class="img" loading="lazy" :alt="product.title">
+                <img :src="imageUrl" class="img" loading="lazy" :alt="title">
               </div>
               <div class="flex min-w-0 flex-1 flex-col p-[10px]">
                 <p class="text-sm-content line-clamp-3 mb-1">
-                  {{ product.title }}
+                  {{ title }}
                 </p>
                 <div class="flex flex-1 items-end justify-between">
                   <div class="flex flex-col gap-1">
                     <NSpace size="small">
-                      <NRate readonly allow-half size="small" :default-value="product.evaluate" />
+                      <NRate readonly allow-half size="small" :default-value="evaluate" />
                       <p class="text-sm-content text-cc-other-3">
-                        ({{ product.evaluateNum }})
+                        ({{ evaluateNum }})
                       </p>
                     </NSpace>
                     <h6 class="font-bold">
-                      {{ currency(product.price, 'NT$ ') }}
+                      {{ currency(price, 'NT$ ') }}
                     </h6>
                   </div>
                   <NButton type="primary" ghost>
@@ -113,7 +78,23 @@ defineExpose({
           </template>
         </ul>
       </div>
-      <div id="map" class="flex-1 rounded-m" />
+      <GoogleMap
+        disable-default-u-i
+        class="flex-1 rounded-m"
+        :api-key="VITE_GOOGLE_MAP_API_KEY"
+        :center="center"
+        :zoom="11"
+      >
+        <MarkerClusterer>
+          <Marker v-for="{ id, coordinates, title } in products" :key="id" :position="coordinates">
+            <InfoWindow>
+              <div class="p-3">
+                {{ title }}
+              </div>
+            </infowindow>
+          </Marker>
+        </Markerclusterer>
+      </GoogleMap>
       <button
         type="button"
         class="fixed top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cc-other-1 shadow-2xl"

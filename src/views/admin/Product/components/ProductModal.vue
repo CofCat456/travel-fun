@@ -1,5 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { SearchOutlined } from '@vicons/antd';
+import type {
+  FormRules,
+  UploadCustomRequestOptions,
+  UploadFileInfo,
+} from 'naive-ui';
 import {
   NButton,
   NDatePicker,
@@ -12,41 +17,49 @@ import {
   NInputGroupLabel,
   NInputNumber,
   NModal,
-  NRate,
-  NSelect,
-  NSwitch,
+  NRate, NSelect, NSwitch,
   NTabPane,
   NTabs,
   NUpload,
   useMessage,
 } from 'naive-ui';
 import { v4 } from 'uuid';
-import { computed, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 
+import { useSearch } from '@voomap/core';
 import Ckeditor from '@/components/Ckeditor.vue';
-import { useGeocodeAddress } from '@/components/Map';
 import { apiAdminUploadImage } from '@/utlis/api';
 import { categoryMap, cityMap, unitMap } from '@/utlis/context';
 import { mapToArray } from '@/utlis/global';
+import type { Product } from '@/types';
 
-const { isNew, tempProduct = {} } = defineProps({
-  isNew: Boolean,
-  isLoading: Boolean,
-  tempProduct: Object,
-  showModal: Boolean,
-});
-const emit = defineEmits(['addProduct', 'updateProduct', 'uploadImage', 'update:showModal']);
+const { isNew, tempProduct } = defineProps<{
+  isNew: boolean
+  isLoading: boolean
+  tempProduct: Product
+  showModal: boolean
+}>();
+
+const emit = defineEmits<{
+  (e: 'addProduct', product: Product): void
+  (e: 'updateProduct', product: Product): void
+  (e: 'uploadImage'): void
+  (e: 'update:showModal'): void
+}>();
+
+const { VITE_GOOGLE_MAP_API_KEY } = import.meta.env;
+
 const message = useMessage();
-const { coordinates, response, isSearching, geocodeAddress } = useGeocodeAddress();
+const { isLoading: isSearching, coordinates, getCoordinates } = useSearch(VITE_GOOGLE_MAP_API_KEY);
 
-const formRef = ref(null);
-const productValue = ref({
+const formRef = ref<InstanceType<typeof NForm>>();
+const productValue: Product = reactive({
   id: '',
   title: '',
-  city: null,
+  city: '',
   address: '',
-  category: null,
-  unit: null,
+  category: '',
+  unit: '',
   evaluate: 0,
   evaluateNum: 0,
   origin_price: 0,
@@ -69,6 +82,7 @@ const productValue = ref({
 const citySelectShow = ref(false);
 const categorySelectShow = ref(false);
 const unitSelectShow = ref(false);
+
 function onCreate() {
   return {
     origin_price: 0,
@@ -77,7 +91,7 @@ function onCreate() {
   };
 }
 
-const rules = computed(() => ({
+const rules = computed<FormRules>(() => ({
   title: {
     required: true,
     trigger: ['blur', 'input'],
@@ -147,40 +161,44 @@ const getDefaultFileList = computed(() =>
     name: `${tempProduct?.title} 的圖片`,
     status: 'finished',
     url: imageUrl,
-  })),
+  })) as UploadFileInfo[],
 );
 
-function disablePreviousDate(ts) {
+function disablePreviousDate(ts: number) {
   return ts > Date.now();
 }
 
 function resetForm() {
-  productValue.value = {
+  Object.assign(productValue, {
+    id: '',
     title: '',
-    city: null,
+    city: '',
     address: '',
-    category: null,
-    unit: null,
+    category: '',
+    unit: '',
     evaluate: 0,
     evaluateNum: 0,
-    origin_price: 0,
+    collectStatus: undefined,
     price: 0,
-    date: Date.now(),
-    description: '',
-    is_enabled: false,
-    features: '',
-    plans: [],
-    content: '',
+    origin_price: 0,
+    date: 0,
     coordinates: {
       lat: 0,
       lng: 0,
     },
-  };
+    description: undefined,
+    is_enabled: false,
+    imageUrl: '',
+    imagesUrl: [],
+    features: '',
+    content: '',
+    plans: [],
+  });
 }
 
-async function customRequest({ file, onFinish, onError }) {
+async function customRequest({ file, onFinish, onError }: UploadCustomRequestOptions) {
   const formData = new FormData();
-  formData.append('file-to-upload', file.file);
+  formData.append('file-to-upload', file.file as Blob);
 
   try {
     const res = await apiAdminUploadImage(formData);
@@ -191,7 +209,9 @@ async function customRequest({ file, onFinish, onError }) {
 
     if (success) {
       message.success('上傳成功');
-      productValue.value.imagesUrl.push(imageUrl);
+
+      if (Array.isArray(productValue.imagesUrl))
+        productValue.imagesUrl.push(imageUrl);
     }
 
     onFinish();
@@ -203,48 +223,27 @@ async function customRequest({ file, onFinish, onError }) {
   }
 }
 
-function handleRemoveUploadFile(options) {
-  productValue.value.imagesUrl = productValue.value.imagesUrl.filter(
-    imageUrl => imageUrl !== options?.file?.url,
-  );
+async function handleAutoChange(address: string) {
+  await getCoordinates(address);
+  productValue.coordinates = { ...coordinates };
 }
 
-async function handleGetGeometry(address) {
-  if (address === '') {
-    message.error('地址不得為空');
-    return;
-  }
-
-  await geocodeAddress(address);
-
-  const { lat, lng } = coordinates.value;
-
-  productValue.value.coordinates = {
-    lat,
-    lng,
-  };
-
-  switch (response.value.type) {
-    case 'success':
-      message.success(response.value.text);
-      break;
-    default:
-      message.error(response.value.text);
-      break;
-  }
+function handleRemoveUploadFile({ file }: { file: UploadFileInfo }) {
+  productValue.imagesUrl = productValue?.imagesUrl?.filter(
+    imageUrl => imageUrl !== file.url,
+  );
 }
 
 function onSubmit() {
   formRef.value?.validate((errors) => {
     if (!errors) {
-      const data = {
-        data: {
-          ...productValue.value,
-        },
-      };
-      const status = isNew ? 'addProduct' : 'updateProduct';
-      console.log(status, data);
-      emit(status, data);
+      // eslint-disable-next-line no-console
+      console.log(productValue);
+
+      if (isNew)
+        emit('addProduct', productValue);
+      else
+        emit('updateProduct', productValue);
     }
   });
 }
@@ -252,7 +251,7 @@ function onSubmit() {
 watch(
   () => tempProduct,
   (curr) => {
-    productValue.value = {
+    Object.assign(productValue, {
       id: curr?.id ?? '',
       title: curr?.title ?? '',
       city: curr?.city ?? null,
@@ -267,12 +266,12 @@ watch(
       description: curr?.description ?? '',
       is_enabled: curr?.is_enabled ?? false,
       features: curr.features,
-      plans: curr?.plan ?? [],
+      plans: curr?.plans ?? [],
       content: curr?.content ?? '',
       imageUrl: curr?.imageUrl ?? '',
       imagesUrl: curr?.imagesUrl ?? [],
       coordinates: curr?.coordinates ?? { lat: 0, lng: 0 },
-    };
+    });
   },
   { deep: true },
 );
@@ -334,7 +333,7 @@ watch(
                     type="primary"
                     ghost
                     :loading="isSearching"
-                    @click="handleGetGeometry(productValue.address)"
+                    @click="handleAutoChange(productValue.address)"
                   >
                     搜尋
                   </NButton>
@@ -470,7 +469,7 @@ watch(
               @remove="handleRemoveUploadFile"
             />
           </NTabPane>
-          <NTabPane name="活動特色" display-directive="show" tab="產品特色">
+          <NTabPane v-if="productValue.features" name="活動特色" display-directive="show" tab="產品特色">
             <Ckeditor v-model:value="productValue.features" />
           </NTabPane>
           <NTabPane name="活動方案" display-directive="show" tab="產品方案">
@@ -484,14 +483,14 @@ watch(
                     <NInputNumber
                       v-model:value="value.origin_price"
                       placeholder="輸入原價"
-                      :disabled="isSearching"
-                      :loading="isSearching"
+                      :disabled="isLoading"
+                      :loading="isLoading"
                     />
                     <NInputNumber
                       v-model:value="value.price"
                       placeholder="輸入售價"
-                      :disabled="isSearching"
-                      :loading="isSearching"
+                      :disabled="isLoading"
+                      :loading="isLoading"
                     />
                   </div>
                   <Ckeditor v-model:value="value.content" />
@@ -499,7 +498,7 @@ watch(
               </template>
             </NDynamicInput>
           </NTabPane>
-          <NTabPane name="活動內容" display-directive="show" tab="產品內容">
+          <NTabPane v-if="productValue.content" name="活動內容" display-directive="show" tab="產品內容">
             <Ckeditor v-model:value="productValue.content" />
           </NTabPane>
         </NTabs>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { NBreadcrumb, NBreadcrumbItem } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
@@ -16,7 +16,7 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { productList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred }
+const { productList, getByNewest, getByPopular, getByRecommended, getByPreferred }
   = storeToRefs(productStore);
 
 const { getFilterData } = productStore;
@@ -51,9 +51,9 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
   <Container>
     <div class="mb-6">
       <NBreadcrumb separator=">">
-        <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
+        <template v-for="{ title, pathName } in getBreadcrumbs" :key="title">
           <NBreadcrumbItem v-if="pathName">
-            <RouterLink :to="{ name: pathName, params }">
+            <RouterLink :to="{ name: pathName }">
               {{ title }}
             </RouterLink>
           </NBreadcrumbItem>
@@ -64,23 +64,18 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
       </NBreadcrumb>
     </div>
   </Container>
-  <SwiperProduct title="Top 10 商品" :products="getFilterData(getByAllPopular)" />
+  <SwiperProduct title="Top 10 商品" :products="getFilterData(getByPopular)" />
   <SwiperProduct
     :title="`精選${getCountryName}活動`"
-    :products="getFilterData(getByAllPreferred)"
+    :products="getFilterData(getByPreferred)"
   />
-  <SwiperProduct title="為您推薦" :products="getFilterData(getByAllRecommended)" />
+  <SwiperProduct title="為您推薦" :products="getFilterData(getByRecommended)" />
   <SwiperProduct
     title="最新上架"
     :btn="{ text: `查看所有${getCountryName}所有活動` }"
-    :products="getFilterData(getByAllNewest)"
+    :products="getFilterData(getByNewest)"
     @btn-click="goProducts"
   />
   <Know :name="getCountryName" :products="getFilterData(productList)" />
-  <SwiperCity
-    :title="`${getCountryName}熱門城市`"
-    :slides-per-view="6"
-    :slides-per-group="6"
-    :space-between="16"
-  />
+  <SwiperCity :title="`${getCountryName}熱門城市`" />
 </template>

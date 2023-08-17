@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   FullscreenExitOutlined,
   FullscreenOutlined,
@@ -15,11 +15,13 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '../../stores';
 import { websiteConfig } from '@/config/website.config';
 
-defineProps({
-  collapsed: Boolean,
-});
+defineProps<{
+  collapsed: boolean
+}>();
 
-defineEmits(['update:collapsed']);
+defineEmits<{
+  (e: 'update:collapsed'): void
+}>();
 
 const route = useRoute();
 const router = useRouter();
@@ -28,7 +30,7 @@ const user = useUserStore();
 
 const isFullscreen = ref(false);
 
-function generator(routerList) {
+function generator(routerList: Array<any>) {
   return routerList.map((item) => {
     const currentMenu = {
       ...item,
@@ -38,7 +40,7 @@ function generator(routerList) {
     };
     // 是否有子菜單，並遞迴處理
     if (item.children && item.children.length > 0)
-      currentMenu.children = generator(item.children, currentMenu);
+      currentMenu.children = generator(item.children);
 
     return currentMenu;
   });
@@ -79,7 +81,7 @@ function toggleFullScreen() {
     document.exitFullscreen();
 }
 
-function dropdownSelect(key) {
+function dropdownSelect(key: string) {
   router.push({ name: key });
 }
 
@@ -132,7 +134,7 @@ async function avatarSelect() {
     </div>
     <!-- 右側菜單 -->
     <div class="flex items-center">
-      <div v-for="item in iconList" :key="item.icon" class="layout-header-trigger">
+      <div v-for="item in iconList" :key="item.tips" class="layout-header-trigger">
         <NTooltip placement="bottom">
           <template #trigger>
             <NIcon size="18">

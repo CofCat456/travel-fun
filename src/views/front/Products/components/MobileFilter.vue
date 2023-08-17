@@ -1,19 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import FilterMenu from '@/components/Base/Menu/FilterMenu.vue';
-import { cityMap, countryMap, sortMap } from '@/utlis/context';
+import type { Sort } from '@/types';
 
-defineProps({
-  isCity: Boolean,
-  currEnTarget: String,
-  array: Array,
-  currSort: String,
-  sortArray: Array,
-});
+defineProps<{
+  isCity: boolean
+  currEnTarget: string
+  array: Record<string, string>[]
+  currSort: string
+  sortArray: Record<string, Sort>[] }>();
 
-defineEmits(['updateParams', 'updateSort', 'openMap']);
-
-const cityText = city => `${cityMap.get(city.key)}市`;
-const countryText = country => countryMap.get(country);
+defineEmits<{
+  (e: 'update:params'): void
+  (e: 'update:sort'): void
+  (e: 'openMap'): void
+}>();
 </script>
 
 <template>
@@ -22,14 +22,14 @@ const countryText = country => countryMap.get(country);
       <div class="mx-5 inline-flex flex-1 items-center gap-2 overflow-x-auto">
         <FilterMenu :title="isCity ? '城市' : '國家'">
           <li
-            v-for="item in array || []"
-            :key="item"
-            class="flex cursor-pointer items-center justify-between border-t border-cc-other-5/50 px-4 py-2"
-            @click="$emit('updateParams', item.key)"
+            v-for="{ label, key } in array || []"
+            :key="key"
+            class="flex cursor-pointer items-center justify-between border-b border-cc-other-5/50 px-4 py-2"
+            @click="$emit('update:params', key)"
           >
-            {{ isCity ? cityText(item) : countryText(item) }}
+            {{ label }}
             <svg
-              v-if="item.key === currEnTarget"
+              v-if="key === currEnTarget"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -43,18 +43,17 @@ const countryText = country => countryMap.get(country);
         </FilterMenu>
         <FilterMenu title="排列">
           <li
-            v-for="query in sortArray || []"
-            :key="query"
-            class="flex cursor-pointer items-center justify-between border-t border-cc-other-5/50 px-4 py-2"
-            @click="$emit('updateSort', query.value)"
+            v-for="{ label, value } in sortArray || []"
+            :key="value"
+            class="flex cursor-pointer items-center justify-between border-b border-cc-other-5/50 px-4 py-2"
+            @click="$emit('update:sort', value)"
           >
-            {{ sortMap.get(query.value) }}
+            {{ label }}
             <svg
-              v-if="query.value === currSort"
+              v-if="value === currSort"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
+              viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor"
               class="h-5 w-5 text-cc-accent"
             >

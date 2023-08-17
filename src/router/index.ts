@@ -7,6 +7,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'Front',
       component: () => import('../layout/FrontLayout.vue'),
       children: [
         {
@@ -71,6 +72,7 @@ const router = createRouter({
     },
     {
       path: '/admin',
+      name: 'Dashboard',
       component: () => import('../layout/Dashboard.vue'),
       children: [
         {

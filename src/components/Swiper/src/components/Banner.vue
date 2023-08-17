@@ -1,21 +1,33 @@
-<script setup>
+<script setup lang="ts">
 import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { computed } from 'vue';
 
+import type { SwiperOptions } from 'swiper/types';
 import { useSwiper } from '../hooks/useSwiper';
 import SwiperLayout from '../Layout.vue';
-import { basicProps } from '../props';
 import CustomNavigation from './CustomNavigation.vue';
 
-const props = defineProps({
-  ...basicProps,
-});
+const {
+  slidesPerView = 1.75,
+  slidesPerGroup = 1,
+  spaceBetween = 10,
+  speed = 600,
+  loop = true,
+  centeredSlides = true,
+} = defineProps<SwiperOptions & {
+  imagesUrl: string[]
+}>();
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();
 
 const getBindValues = computed(() => ({
-  ...props,
+  slidesPerView,
+  slidesPerGroup,
+  spaceBetween,
+  speed,
+  loop,
+  centeredSlides,
   modules: [Navigation, Pagination],
   navigation: {
     prevEl: '.swiper-banner-custom-prev',
@@ -26,7 +38,7 @@ const getBindValues = computed(() => ({
 function pagination() {
   return {
     clickable: true,
-    renderBullet: (index, className) => {
+    renderBullet: (_: number, className: string) => {
       return `<span class="${className}"></span>`;
     },
   };
@@ -42,7 +54,7 @@ function pagination() {
         @swiper="onSwiper"
         @slide-change="onSlideChange"
       >
-        <SwiperSlide v-for="imageUrl in imagesUrl" :key="imageUrl" class="bg-sky-300">
+        <SwiperSlide v-for="imageUrl in imagesUrl || []" :key="imageUrl" class="bg-sky-300">
           <img :src="imageUrl">
         </SwiperSlide>
       </Swiper>

@@ -1,25 +1,13 @@
-<script setup>
-defineProps({
-  classkey: {
-    type: String,
-    default: '',
-  },
-  opacity: {
-    type: Number,
-    default: 100,
-  },
-  isBeginning: {
-    type: Boolean,
-    default: true,
-  },
-  isEnd: {
-    type: Boolean,
-    default: false,
-  },
-  isNormal: {
-    type: Boolean,
-    default: false,
-  },
+<script setup lang="ts">
+withDefaults(defineProps<{
+  classkey: string
+  opacity?: number
+  isBeginning: boolean
+  isEnd: boolean
+  isNormal?: boolean
+}>(), {
+  opacity: 100,
+  isBeginning: true,
 });
 </script>
 

@@ -1,24 +1,30 @@
-<script setup>
+<script setup lang="ts">
 import { ColumnHeightOutlined, ReloadOutlined } from '@vicons/antd';
+import type { DataTableColumns, DataTableProps, PaginationProps } from 'naive-ui';
 import { NDataTable, NDivider, NDropdown, NIcon, NSpace, NSwitch, NTooltip } from 'naive-ui';
 import { computed, ref, unref } from 'vue';
 
 import { densityOptions } from '../setting';
+import type { Product } from '@/types';
 
-const props = defineProps({
-  ...NDataTable.props,
-  actionColumn: Object,
-  data: Array,
-});
+interface Props {
+  loading: boolean
+  columns: DataTableColumns<Product>
+  data: Product[]
+  actionColumn: any
+}
 
-const emit = defineEmits(['reload']);
+const props = defineProps<Props>();
 
-const tableConfig = ref({
+const emit = defineEmits<{ (e: 'reload'): void
+}>();
+
+const tableConfig = ref<DataTableProps>({
   striped: false,
   size: 'medium',
 });
 
-const pagination = ref({
+const pagination = ref<PaginationProps>({
   pageSize: 10,
   prefix({ itemCount }) {
     return `總共有 ${itemCount} 個產品`;
@@ -26,12 +32,12 @@ const pagination = ref({
 });
 
 // 切換斑馬線
-function handleStriped(value) {
+function handleStriped(value: boolean) {
   tableConfig.value.striped = value;
 }
 
 // 密度切换
-function densitySelect(type) {
+function densitySelect(type: 'small' | 'medium' | 'large') {
   tableConfig.value.size = type;
 }
 
@@ -41,7 +47,7 @@ const reload = () => emit('reload');
 const getTableSize = computed(() => tableConfig.value.size);
 
 // 表格設定
-const getBindValues = computed(() => {
+const getBindValues = computed<DataTableProps>(() => {
   const columns = props.actionColumn
     ? [...(props.columns || []), unref(props.actionColumn)]
     : [...(props.columns || [])];
@@ -69,11 +75,7 @@ const getBindValues = computed(() => {
       <!-- 斑馬紋 -->
       <NTooltip trigger="hover">
         <template #trigger>
-          <NSwitch
-            v-model:value="tableConfig.striped"
-            class="mx-3"
-            @update:value="handleStriped"
-          />
+          <NSwitch v-model:value="tableConfig.striped" class="mx-3" @update:value="handleStriped" />
         </template>
         <span>表格斑馬紋線條</span>
       </NTooltip>
@@ -92,11 +94,7 @@ const getBindValues = computed(() => {
         </NTooltip>
 
         <!-- 密度 -->
-        <NDropdown
-          v-model:value="tableConfig.size"
-          :options="densityOptions"
-          @select="densitySelect"
-        >
+        <NDropdown v-model:value="tableConfig.size" :options="densityOptions" @select="densitySelect">
           <NIcon size="18">
             <ColumnHeightOutlined />
           </NIcon>

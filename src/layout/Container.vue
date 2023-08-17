@@ -1,14 +1,8 @@
-<script setup>
-defineProps({
-  full: {
-    type: Boolean,
-    default: false,
-  },
-  center: {
-    type: Boolean,
-    default: false,
-  },
-});
+<script setup lang="ts">
+defineProps<{
+  full?: boolean
+  center?: boolean
+}>();
 </script>
 
 <template>

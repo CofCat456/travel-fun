@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 
 import { categoryMap } from '@/utlis/context';
 
-const { category } = defineProps({
-  isActive: Boolean,
-  category: String,
-});
+const { category } = defineProps<{
+  isActive: boolean
+  category: string
+}>();
 
-const getCategory = computed(() => categoryMap.get(category) || '所有活動');
+const getCategory = computed<string>(() => categoryMap.get(category) || '所有活動');
 </script>
 
 <template>

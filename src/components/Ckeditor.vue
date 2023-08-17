@@ -1,17 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import '@ckeditor/ckeditor5-build-classic/build/translations/zh-cn';
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { component as ckeditor } from '@ckeditor/ckeditor5-vue';
 
-import { MyAdapterPlugin } from '@/utlis/myUploadAdapter';
+import { MyAdapterPlugin } from '../utlis/myUploadAdapter';
 
-defineProps({
-  disabled: Boolean,
-  value: String,
-});
+defineProps<{
+  disabled?: boolean
+  value: string
+}>();
 
-const emit = defineEmits(['ready', 'foucs', 'blur', 'destroy', 'update:value']);
+const emit = defineEmits<{
+  (e: 'ready'): void
+  (e: 'foucs'): void
+  (e: 'blur'): void
+  (e: 'destroy'): void
+  (e: 'update:value', value: string): void
+}>();
 
 const editor = ClassicEditor;
 
@@ -54,7 +60,7 @@ function onEditorBlur() {
   emit('blur');
 }
 
-function onEditorInput(value) {
+function onEditorInput(value: string) {
   emit('update:value', value);
 }
 

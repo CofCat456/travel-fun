@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   ConfirmationNumberOutlined,
   FavoriteBorderOutlined,
@@ -14,8 +14,8 @@ import { RouterLink, useRoute } from 'vue-router';
 
 import Container from '../layout/Container.vue';
 import { useCartStore, useUserStore } from '../stores';
+import { websiteConfig } from '../config/website.config';
 import HamburgerBtn from './HamburgerBtn.vue';
-import { websiteConfig } from '@/config/website.config';
 
 const route = useRoute();
 
@@ -25,13 +25,13 @@ const cartStore = useCartStore();
 const { loginStatus } = storeToRefs(userStore);
 const { totalNum } = storeToRefs(cartStore);
 
-const isHome = computed(() => ['Home', 'City', 'Country'].includes(route.name));
+const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.name!.toString()));
 </script>
 
 <template>
   <header
     class="top-0 z-20 flex h-16 justify-center bg-black/30 px-6 py-3 text-white backdrop-blur-[25px]"
-    :class="isHome ? 'fixed left-0 right-0' : 'sticky'"
+    :class="isFixed ? 'fixed left-0 right-0' : 'sticky'"
   >
     <Container>
       <div class="flex w-full justify-between">

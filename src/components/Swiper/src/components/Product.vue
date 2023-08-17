@@ -1,49 +1,50 @@
-<script setup>
+<script setup lang="ts">
 import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { v4 } from 'uuid';
 import { computed } from 'vue';
 
+import type { SwiperOptions } from 'swiper/types';
 import { useSwiper } from '../hooks/useSwiper';
 import SwiperLayout from '../Layout.vue';
-import { basicProps } from '../props';
 import CustomNavigation from './CustomNavigation.vue';
+import type { Product } from '@/types';
+import type { TitleProps } from '@/components/Title.vue';
 import Title from '@/components/Title.vue';
 import Button from '@/components/Base/Button.vue';
 import { ProductCard } from '@/components/Card';
 
-const props = defineProps({
-  ...basicProps,
-  title: {
-    type: String,
-    default: '',
-  },
-  secTitle: {
-    type: String,
-    default: '',
-  },
-  products: {
-    type: Array,
-    default: () => [],
-  },
-});
+const {
+  slidesPerView = 6,
+  slidesPerGroup = 6,
+  spaceBetween = 24,
+  speed = 1200,
+  loop = true,
+  btn = { text: '', pathName: '' },
+} = defineProps<TitleProps & SwiperOptions & {
+  products: Product[]
+  btn?: {
+    text: string
+    pathName?: string
+  }
+}>();
 
-defineEmits(['btnClick']);
+defineEmits<{
+  (e: 'btnClick'): void
+}>();
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();
 
 const btnUUID = v4();
 
 const getBindValues = computed(() => {
-  const { slidesPerView, slidesPerGroup } = props;
-
   return {
-    ...props,
+    slidesPerView,
+    slidesPerGroup,
+    spaceBetween,
+    speed,
+    loop,
     modules: [Navigation],
-    navigation: {
-      prevEl: `.swiper-${btnUUID}-custom-prev`,
-      nextEl: `.swiper-${btnUUID}-custom-next`,
-    },
     breakpoints: {
       '@0.00': {
         slidesPerView: 1.5,
@@ -51,18 +52,22 @@ const getBindValues = computed(() => {
         speed: 300,
       },
       '@0.75': {
-        slidesPerView: slidesPerView - 2,
-        slidesPerGroup: slidesPerView - 2,
+        slidesPerView: Number(slidesPerView) - 2,
+        slidesPerGroup: Number(slidesPerView) - 2,
         speed: 800,
       },
       '@1.00': {
-        slidesPerView: slidesPerView - 1,
+        slidesPerView: Number(slidesPerView) - 1,
         slidesPerGroup: slidesPerGroup - 1,
         speed: 1000,
       },
       '@1.50': {
         slidesPerView,
       },
+    },
+    navigation: {
+      prevEl: `.swiper-${btnUUID}-custom-prev`,
+      nextEl: `.swiper-${btnUUID}-custom-next`,
     },
   };
 });
@@ -75,10 +80,6 @@ const getBindValues = computed(() => {
     </template>
     <template #swiper>
       <Swiper
-        :navigation="{
-          prevEl: `.swiper-${btnUUID}-custom-prev`,
-          nextEl: `.swiper-${btnUUID}-custom-next`,
-        }"
         v-bind="getBindValues"
         @swiper="onSwiper"
         @slide-change="onSlideChange"

@@ -2,10 +2,11 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
 import { apiUserGetCarts, apiUserPostCart } from '../utlis/api';
+import type { Cart } from '../types';
 
 const useCartStore = defineStore('cart', () => {
   const isLoading = ref(false);
-  const cartList = ref([]);
+  const cartList = ref<Cart[]>([]);
 
   const totalNum = computed(() => cartList.value.length);
 
@@ -22,7 +23,7 @@ const useCartStore = defineStore('cart', () => {
       cartList.value = carts;
   };
 
-  const addCart = async (data) => {
+  const addCart = async (data: { data: Cart }) => {
     isLoading.value = true;
 
     try {

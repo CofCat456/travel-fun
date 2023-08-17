@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router';
 export function useGo() {
   const router = useRouter();
 
-  const goProduct = (id) => {
+  const goProduct = (id: string) => {
     const { href } = router.resolve({
       name: 'Product',
       params: {

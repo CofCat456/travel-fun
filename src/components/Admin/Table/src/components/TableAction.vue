@@ -1,16 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { DownOutlined } from '@vicons/antd';
+import type { DropdownOption } from 'naive-ui';
 import { NButton, NDropdown, NIcon } from 'naive-ui';
 import { computed } from 'vue';
+import type { Action } from '../types';
 
-const { actions, dropDownActions } = defineProps({
-  actions: Array,
-  dropDownActions: Array,
-  style: String,
-  select: Function,
-});
+const { actions, dropDownActions } = defineProps<{
+  actions: Action[]
+  dropDownActions: DropdownOption[]
+  style: string
+  select: () => void
+}>();
 
-const getActions = computed(() => {
+const getActions = computed<Action[]>(() => {
   return actions.map((action) => {
     return {
       ...action,

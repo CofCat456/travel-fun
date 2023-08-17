@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { EscalatorWarningOutlined } from '@vicons/material';
 import { NIcon } from 'naive-ui';
 import { RouterLink } from 'vue-router';

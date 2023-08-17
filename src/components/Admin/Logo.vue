@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { websiteConfig } from '@/config/website.config';
 
-defineProps({
-  collapsed: Boolean,
-});
+defineProps<{
+  collapsed: boolean
+}>();
 </script>
 
 <template>

@@ -1,13 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { NCard, NSelect } from 'naive-ui';
+import type { SelectMixedOption } from 'naive-ui/es/select/src/interface';
+import type { Sort } from '@/types';
 
-defineProps({
-  currSort: String,
-  sortArray: Array,
-  productTotal: Number,
-});
+defineProps<{
+  currSort: string
+  sortArray: SelectMixedOption[]
+  productTotal: number
+}>();
 
-defineEmits(['updateSort']);
+defineEmits<{
+  (e: 'update:sort', item: Sort): void
+}>();
 </script>
 
 <template>
@@ -26,7 +30,7 @@ defineEmits(['updateSort']);
           :consistent-menu-width="false"
           :options="sortArray || []"
           :value="currSort || ''"
-          @update-value="(value) => $emit('updateSort', value)"
+          @update-value="(value) => $emit('update:sort', value)"
         />
       </div>
     </div>

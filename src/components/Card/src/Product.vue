@@ -1,17 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { FavoriteBorderOutlined, FavoriteOutlined, LocationOnOutlined } from '@vicons/material';
 import { NIcon, NRate, NSpace } from 'naive-ui';
 
 import { currency } from '@/utlis/global';
 import { cityMap } from '@/utlis/context';
-import { productProps } from '@/utlis/props';
-import { useGo } from '@/composables/product';
+import { useGo } from '@/composables/go';
+import type { Product } from '@/types';
 
-defineProps({
-  ...productProps,
-  notRanking: Boolean,
-  ranking: Number,
-});
+defineProps<Product & {
+  notRanking?: boolean
+  ranking?: number
+}>();
 
 const { goProduct } = useGo();
 </script>

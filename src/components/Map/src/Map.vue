@@ -1,68 +1,30 @@
-<script setup>
-import { Loader } from '@googlemaps/js-api-loader';
-import { computed, onMounted, ref } from 'vue';
+<script setup lang="ts">
+import { GoogleMap, InfoWindow, Marker } from '@voomap/map';
 import Title from '../../Title.vue';
+import type { Coordinates } from '@/types';
 
-const { title, coordinates = {} } = defineProps({
-  title: String,
-  coordinates: Object,
-});
+const { title, coordinates } = defineProps<{
+  title: string
+  coordinates: Coordinates
+}>();
 
 const { VITE_GOOGLE_MAP_API_KEY } = import.meta.env;
-
-const states = ref({
-  google: null,
-  map: null,
-  markers: null,
-});
-const info = ref(null);
-
-const googleMapsUrl = computed(() => {
-  return `https://www.google.com/maps?q=${coordinates.lat}, ${coordinates.lng}`;
-});
-
-async function initMap() {
-  const loader = new Loader({
-    apiKey: VITE_GOOGLE_MAP_API_KEY,
-    version: 'weekly',
-    libraries: ['places'],
-    language: 'zh-TW',
-  });
-
-  states.value.google = await loader.load();
-  states.value.map = new states.value.google.maps.Map(document.getElementById('map'), {
-    center: { ...coordinates },
-    zoom: 11,
-    mapTypeControl: false,
-    fullscreenControl: false,
-  });
-
-  info.value = new states.value.google.maps.InfoWindow({
-    content: title,
-  });
-}
-
-async function handleLoadMarkers() {
-  const marker = new states.value.google.maps.Marker({
-    position: { ...coordinates },
-    map: states.value.map,
-    draggable: true,
-  });
-
-  marker.addListener('click', () => window.open(googleMapsUrl.value));
-  marker.addListener('mouseover', () => info.value.open(states.value.map, marker));
-  marker.addListener('mouseout', () => info.value.close());
-}
-
-onMounted(async () => {
-  await initMap();
-  handleLoadMarkers();
-});
 </script>
 
 <template>
   <div class="w-full">
     <Title title="地點" />
-    <div id="map" class="h-[400px] rounded-m overflow-hidden" />
+    <div class="rounded-m w-full h-[400px] overflow-hidden">
+      <GoogleMap
+        disable-default-u-i
+        :api-key="VITE_GOOGLE_MAP_API_KEY"
+        :center="coordinates"
+        :zoom="20"
+      >
+        <Marker :title="title" :position="coordinates">
+          <InfoWindow initial-state />
+        </Marker>
+      </GoogleMap>
+    </div>
   </div>
 </template>

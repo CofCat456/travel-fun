@@ -1,9 +1,7 @@
-<script setup>
-defineProps({
-  title: String,
-  description: String,
-  image: String,
-});
+<script setup lang="ts">
+import type { New } from '@/types';
+
+defineProps<New>();
 </script>
 
 <template>

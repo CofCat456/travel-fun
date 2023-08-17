@@ -1,17 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { NDrawer, NDrawerContent } from 'naive-ui';
 import { ref } from 'vue';
 
-defineProps({
-  title: {
-    type: String,
-    default: '',
-  },
-  value: {
-    type: String,
-    default: '',
-  },
-});
+defineProps<{
+  title: string
+}>();
 
 const show = ref(false);
 </script>
@@ -34,7 +27,7 @@ const show = ref(false);
   </div>
   <NDrawer v-model:show="show" placement="bottom">
     <NDrawerContent :title="title" closable>
-      <ul style="margin: 0" @click="hideBottomSheet">
+      <ul style="margin: 0">
         <slot />
       </ul>
     </NDrawerContent>

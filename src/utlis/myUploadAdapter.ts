@@ -1,7 +1,7 @@
 import { apiAdminUploadImage } from './api';
 import { imageTransformHandler } from './global';
 
-function MyUploadAdapter(loader) {
+function MyUploadAdapter(loader: any) {
   const upload = async () => {
     const file = await loader.file;
     const imageFormData = imageTransformHandler(file);
@@ -12,8 +12,8 @@ function MyUploadAdapter(loader) {
   return { upload };
 }
 
-function MyAdapterPlugin(editor) {
-  editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+function MyAdapterPlugin(editor: any) {
+  editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
     return MyUploadAdapter(loader);
   };
 }

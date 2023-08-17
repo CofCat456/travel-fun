@@ -1,9 +1,9 @@
-<script setup>
-defineProps({
-  bgUrl: String,
-  center: Boolean,
-  multiply: Boolean,
-});
+<script setup lang="ts">
+defineProps<{
+  bgUrl: string
+  center?: boolean
+  multiply?: boolean
+}>();
 </script>
 
 <template>

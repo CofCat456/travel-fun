@@ -1,13 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { PlusOutlined } from '@vicons/antd';
 import { NButton, NCard, NIcon } from 'naive-ui';
 import Swal from 'sweetalert2';
-import { computed, h, onMounted, ref } from 'vue';
+import { computed, h, onMounted, reactive, ref } from 'vue';
 
 import { columns } from './columns';
 import ProductModal from './components/ProductModal.vue';
-import { BasicTable } from '@/components/Admin/Table';
-import TableAction from '@/components/Admin/Table/src/components/TableAction.vue';
+import { BasicTable, TableAction } from '@/components/Admin/Table';
 import {
   apiAdminDeleteProducts,
   apiAdminGetAllProducts,
@@ -16,12 +15,36 @@ import {
 } from '@/utlis/api';
 import { categoryMap, cityMap } from '@/utlis/context';
 import { currency, formatDate2YMD } from '@/utlis/global';
+import type { Product } from '@/types';
 
 const isTableLoading = ref(false);
 const isLoading = ref(false);
 const isNew = ref(true);
-const products = ref([]);
-const tempProduct = ref({});
+const products = ref<Product[]>([]);
+const tempProduct: Product = reactive({
+  id: '',
+  title: '',
+  city: '',
+  address: '',
+  category: '',
+  unit: '',
+  evaluate: 0,
+  evaluateNum: 0,
+  origin_price: 0,
+  price: 0,
+  date: Date.now(),
+  description: '',
+  is_enabled: false,
+  imageUrl: '',
+  imagesUrl: [],
+  features: '',
+  plans: [],
+  content: '',
+  coordinates: {
+    lat: 0,
+    lng: 0,
+  },
+});
 const showModal = ref(false);
 
 const getTableData = computed(() =>
@@ -35,10 +58,10 @@ const getTableData = computed(() =>
   })),
 );
 
-function openProductModal(status, product = {}) {
+function openProductModal(status: boolean, product = {}) {
   showModal.value = true;
   isNew.value = status;
-  tempProduct.value = { ...product };
+  Object.assign(tempProduct, { ...product });
 }
 
 function closeProductModal() {
@@ -63,11 +86,15 @@ async function getProducts() {
   }
 }
 
-async function addProduct(product) {
+async function addProduct(product: Product) {
   isLoading.value = true;
 
+  const data = {
+    data: { ...product },
+  };
+
   try {
-    const res = await apiAdminPostProducts(product);
+    const res = await apiAdminPostProducts(data);
 
     const {
       data: { success },
@@ -83,15 +110,19 @@ async function addProduct(product) {
   }
 }
 
-async function updateProduct(product) {
+async function updateProduct(product: Product) {
   isLoading.value = true;
 
   const {
-    data: { id },
+    id,
   } = product;
 
+  const data = {
+    data: { ...product },
+  };
+
   try {
-    const res = await apiAdminPutProducts(id, product);
+    const res = await apiAdminPutProducts(id, data);
 
     const {
       data: { success },
@@ -107,15 +138,19 @@ async function updateProduct(product) {
   }
 }
 
-async function updateEnabled(product) {
+async function updateEnabled(product: Product) {
   isTableLoading.value = true;
 
   const {
-    data: { id },
+    id,
   } = product;
 
+  const data = {
+    data: { ...product },
+  };
+
   try {
-    const res = await apiAdminPutProducts(id, product);
+    const res = await apiAdminPutProducts(id, data);
 
     const {
       data: { success },
@@ -129,7 +164,7 @@ async function updateEnabled(product) {
   }
 }
 
-async function deleteProduct(id) {
+async function deleteProduct(id: string) {
   const res = await apiAdminDeleteProducts(id);
 
   const {
@@ -140,7 +175,7 @@ async function deleteProduct(id) {
     getProducts();
 }
 
-function openDeleteModal(id, title) {
+function openDeleteModal(id: string, title: string) {
   Swal.fire({
     title: '刪除產品',
     text: `您正在刪除 ${title} 產品`,
@@ -160,8 +195,8 @@ const getActionColumn = computed(() => ({
   title: '操作',
   key: 'action',
   fixed: 'right',
-  render(row) {
-    const product = products.value.find(item => item.id === row.id);
+  render(row: any) {
+    const product = products.value.find(item => item.id === row.id) as Product;
 
     return h(TableAction, {
       style: 'button',
@@ -185,13 +220,16 @@ const getActionColumn = computed(() => ({
           key: 'disabled',
         },
       ],
-      select: (key) => {
+      select: (key: string) => {
+        if (!product)
+          return;
+
         if (key === 'enabled')
           product.is_enabled = true;
         else
           product.is_enabled = false;
 
-        updateEnabled({ data: { ...product } });
+        updateEnabled(product);
       },
     });
   },

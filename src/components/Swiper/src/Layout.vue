@@ -1,18 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-defineProps({
-  isNormal: {
-    type: Boolean,
-    defalut: false,
-  },
-  noPadding: {
-    type: Boolean,
-    defalut: false,
-  },
-});
+defineProps<{
+  isNormal?: boolean
+  noPadding?: boolean
+}>();
 </script>
 
 <template>

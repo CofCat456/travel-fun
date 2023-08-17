@@ -1,10 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { DashboardOutlined, TableOutlined } from '@vicons/antd';
+import type { Component } from 'vue';
 import { NIcon, NMenu } from 'naive-ui';
 import { h } from 'vue';
 import { RouterLink } from 'vue-router';
 
-function renderIcon(icon) {
+function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 

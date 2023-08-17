@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { NAutoComplete, NForm, NFormItemGi, NGrid, NInput } from 'naive-ui';
 import { computed, ref } from 'vue';
 
@@ -8,7 +8,7 @@ import { useUserStore } from '@/stores';
 
 const userStore = useUserStore();
 
-const formRef = ref(null);
+const formRef = ref<InstanceType<typeof NForm>>();
 const userValue = ref({
   username: '',
   password: '',

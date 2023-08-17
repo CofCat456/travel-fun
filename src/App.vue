@@ -1,37 +1,56 @@
-<script setup>
-import { RouterView, useRouter } from 'vue-router';
-import { apiUserCheckSignin } from './utlis/api';
+<script setup lang="ts">
+import {
+  NConfigProvider, NLoadingBarProvider,
+  NMessageProvider,
+} from 'naive-ui';
+import { computed } from 'vue';
+import { RouterView, useRoute } from 'vue-router';
 
-const router = useRouter();
+const route = useRoute();
 
-router.beforeEach(async (to, from, next) => {
-  const title = to.meta?.title;
-  const requiresAuth = to.meta?.requiresAuth;
+const getThemeOverrides = computed(() => {
+  const isAdmin = !!route.meta.requiresAuth;
 
-  if (title)
-    document.title = to.meta.title;
+  const frontCardOverrides = {
+    borderColor: '#D4D4D4',
+  };
 
-  if (requiresAuth) {
-    try {
-      const res = await apiUserCheckSignin();
+  const adminCardOverrides = {
+    borderRadius: '12px',
+  };
 
-      const { data: { success } } = res;
-
-      if (success)
-        next();
-      else
-        next({ name: 'Home' });
-    }
-    catch {
-      next({ name: 'Home' });
-    }
-  }
-  else {
-    next();
-  }
+  return {
+    common: {
+      primaryColor: '#0F4BB4',
+      primaryColorHover: '#68A0E8',
+      primaryColorPressed: '#072A81',
+      primaryColorSuppl: '#CDE4FB',
+      borderRadius: '5px',
+      textColorBase: '#181818',
+      textColor1: '#181818',
+      textColor2: '#181818',
+      textColor3: '#181818',
+    },
+    Breadcrumb: {
+      itemTextColor: '#0F4BB4',
+      itemTextColorHover: '#0F4BB4',
+      itemTextColorPressed: '#EE5220',
+      itemColorHover: '#CDE4FB',
+    },
+    Rate: {
+      itemColorActive: '#EE5220',
+    },
+    Card: isAdmin ? adminCardOverrides : frontCardOverrides,
+  };
 });
 </script>
 
 <template>
-  <RouterView />
+  <NConfigProvider :theme-overrides="getThemeOverrides">
+    <NLoadingBarProvider>
+      <NMessageProvider>
+        <RouterView />
+      </NMessageProvider>
+    </NLoadingBarProvider>
+  </NConfigProvider>
 </template>

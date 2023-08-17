@@ -1,35 +1,37 @@
-<script setup>
+<script setup lang="ts">
 import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { computed } from 'vue';
 
+import type { SwiperOptions } from 'swiper/types';
 import { useSwiper } from '../hooks/useSwiper';
-import { basicProps } from '../props';
 import SwiperLayout from '../Layout.vue';
 import CustomNavigation from './CustomNavigation.vue';
 import Title from '@/components/Title.vue';
 import { NewCard } from '@/components/Card';
+import type { New } from '@/types';
 
-const props = defineProps({
-  ...basicProps,
-  news: Array,
-});
+const {
+  slidesPerView = 3,
+  slidesPerGroup = 3,
+  spaceBetween = 24,
+  speed = 600,
+} = defineProps<SwiperOptions & {
+  news: New[]
+}>();
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();
 
 const getBindValues = computed(() => {
-  const { slidesPerView, spaceBetween } = props;
-
   return {
-    ...props,
+    speed,
+    slidesPerView,
+    slidesPerGroup,
+    spaceBetween,
     modules: [Navigation],
-    navigation: {
-      prevEl: '.swiper-news-custom-prev',
-      nextEl: '.swiper-news-custom-next',
-    },
     breakpoints: {
       '@0.00': {
-        direction: 'vertical',
+        direction: 'vertical' as 'horizontal' | 'vertical',
       },
       '@0.75': {
         slidesPerView: 2,
@@ -45,6 +47,10 @@ const getBindValues = computed(() => {
         spaceBetween,
       },
     },
+    navigation: {
+      prevEl: '.swiper-news-custom-prev',
+      nextEl: '.swiper-news-custom-next',
+    },
   };
 });
 </script>
@@ -59,10 +65,6 @@ const getBindValues = computed(() => {
     </template>
     <template #swiper>
       <Swiper
-        :navigation="{
-          prevEl: '.swiper-news-custom-prev',
-          nextEl: '.swiper-news-custom-next',
-        }"
         v-bind="getBindValues"
         @swiper="onSwiper"
         @slide-change="onSlideChange"

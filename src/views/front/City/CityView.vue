@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { NBreadcrumb, NBreadcrumbItem } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
@@ -16,7 +16,7 @@ const router = useRouter();
 
 const productStore = useProductStore();
 
-const { productList, getByAllNewest, getByAllPopular, getByAllRecommended, getByAllPreferred }
+const { productList, getByNewest, getByPopular, getByRecommended, getByPreferred }
   = storeToRefs(productStore);
 
 const { getFilterData } = productStore;
@@ -54,7 +54,7 @@ const goProducts = () => router.push({ name: 'CityProducts' });
   <Container>
     <div class="mb-6">
       <NBreadcrumb separator=">">
-        <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
+        <template v-for="{ title, pathName, params } in getBreadcrumbs" :key="title">
           <NBreadcrumbItem v-if="pathName">
             <RouterLink :to="{ name: pathName, params }">
               {{ title }}
@@ -69,22 +69,22 @@ const goProducts = () => router.push({ name: 'CityProducts' });
   </Container>
   <SwiperProduct
     title="Top 10 商品"
-    :products="getFilterData(getByAllPopular, route.params.cityName)"
+    :products="getFilterData(getByPopular, route.params.cityName as string)"
   />
   <SwiperProduct
     :title="`精選${getCityName}活動`"
-    :products="getFilterData(getByAllPreferred, route.params.cityName)"
+    :products="getFilterData(getByPreferred, route.params.cityName as string)"
   />
   <SwiperProduct
     title="為您推薦"
-    :products="getFilterData(getByAllRecommended, route.params.cityName)"
+    :products="getFilterData(getByRecommended, route.params.cityName as string)"
   />
   <SwiperProduct
     title="最新上架"
     :btn="{ text: `查看所有${getCityName}所有活動` }"
-    :products="getFilterData(getByAllNewest, route.params.cityName)"
+    :products="getFilterData(getByNewest, route.params.cityName as string)"
     @btn-click="goProducts"
   />
-  <Know :name="getCityName" :products="getFilterData(productList, route.params.cityName)" />
-  <SwiperCity title="探索其他城市" :space-between="16" :curr-city="getCityName" />
+  <Know :name="getCityName" :products="getFilterData(productList, route.params.cityName as string)" />
+  <SwiperCity title="探索其他城市" :curr-city="getCityName" />
 </template>

@@ -11,10 +11,8 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    alias: [{ find: '@', replacement: `${resolve(__dirname, 'src')}/` }],
-  },
-  server: {
-    open: true,
-    host: '0.0.0.0',
+    alias: [
+      { find: '@/', replacement: `${resolve(__dirname, 'src')}/` },
+    ],
   },
 });

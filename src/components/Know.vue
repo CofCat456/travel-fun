@@ -1,15 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
+import type { Product } from '../types';
 
 import { ProductMap } from '@/components/Map';
 import Container from '@/layout/Container.vue';
 
-defineProps({
-  name: String,
-  products: Array,
-});
+defineProps<{
+  name: string
+  products: Product[]
+}>();
 
-const productMap = ref(null);
+const productMap = ref<InstanceType<typeof ProductMap>>();
 </script>
 
 <template>
@@ -27,6 +28,7 @@ const productMap = ref(null);
           新北市有許多知名觀光景點。體驗原住民文化、享受泡湯的烏來，懷舊風情的九份，感受大自然力量的東北角、野柳，鶯歌陶瓷、三峽老街等。都是假日散心的好去處。嚴選新北市自由行特色商品及活動行程，讓你與親朋好友搭乘便利交通工具輕鬆出遊新北市，享用特色美食，自由行就是這麼簡單！
         </p>
         <div
+          v-if="productMap"
           class="relative h-28 cursor-pointer rounded-m bg-no-repeat object-cover object-center shadow-md transition-all duration-300 hover:brightness-[.8] md:h-auto md:w-96 md:rounded-none md:shadow-none"
           style="
             background-image: linear-gradient(90deg, #fff7eb, rgba(255, 247, 234, 0.2)),

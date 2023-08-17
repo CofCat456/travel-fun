@@ -1,7 +1,7 @@
-<script setup>
-import { NBreadcrumb, NBreadcrumbItem, NSpace } from 'naive-ui';
+<script setup lang="ts">
+import { NBreadcrumb, NBreadcrumbItem, NSpace, useLoadingBar } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { computed, inject, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
 import Content from './components/Content.vue';
@@ -15,10 +15,10 @@ import Container from '@/layout/Container.vue';
 import { SwiperBanner, SwiperProduct } from '@/components/Swiper';
 import { Map } from '@/components/Map';
 
+const loadingBar = useLoadingBar();
+
 const route = useRoute();
 const router = useRouter();
-
-const loading = inject('loading');
 
 const cartStore = useCartStore();
 const productStore = useProductStore();
@@ -28,6 +28,8 @@ const { product, getByRecommended } = storeToRefs(productStore);
 
 const { addCart } = cartStore;
 const { getProduct, getFilterData } = productStore;
+
+const productId = route.params.productId as string;
 
 const getBreadcrumbs = computed(() => [
   {
@@ -51,17 +53,23 @@ const getBreadcrumbs = computed(() => [
 
 // 確定路由變更時但組件被複用，能重新獲取產品
 onBeforeRouteUpdate(async (to) => {
-  const { productId } = to.params;
+  loadingBar.start();
+
+  const { productId } = to.params as { productId: string };
 
   try {
-    await getProduct(loading, productId);
+    await getProduct(productId);
   }
   catch {
-    router.go(-1);
+    loadingBar.error();
+    router.back();
+  }
+  finally {
+    loadingBar.finish();
   }
 });
 
-onMounted(() => getProduct(loading, route.params.productId));
+onMounted(() => getProduct(productId));
 </script>
 
 <template>
@@ -69,7 +77,7 @@ onMounted(() => getProduct(loading, route.params.productId));
     <Container class="py-5">
       <div class="my-4">
         <NBreadcrumb separator=">">
-          <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
+          <template v-for="{ title, pathName, params } in getBreadcrumbs" :key="title">
             <NBreadcrumbItem v-if="pathName">
               <RouterLink :to="{ name: pathName, params }">
                 {{ title }}
@@ -96,7 +104,7 @@ onMounted(() => getProduct(loading, route.params.productId));
         :slides-per-group="1"
         :space-between="10"
         :speed="600"
-        :images-url="product.imagesUrl"
+        :images-url="product.imagesUrl || []"
       />
       <div class="flex gap-8">
         <div v-if="product.features" class="w-8/12">
@@ -125,7 +133,7 @@ onMounted(() => getProduct(loading, route.params.productId));
     <div class="bg-cc-other-7/80">
       <SwiperProduct
         title="更多推薦"
-        :products="getFilterData(getByRecommended, '', product.cateogry)"
+        :products="getFilterData(getByRecommended, '', product.category)"
       />
     </div>
   </template>

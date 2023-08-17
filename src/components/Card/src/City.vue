@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
 import { cityMap } from '@/utlis/context';
 
-const { city } = defineProps({
-  city: String,
-});
+const { city } = defineProps<{
+  city: string
+}>();
 
-const getName = computed(() => cityMap.get(city));
+const getName = computed<string>(() => cityMap.get(city));
 
 const getImage = computed(() => `/images/city/city_${city}.jpg`);
 </script>

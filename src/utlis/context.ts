@@ -1,3 +1,5 @@
+import { Sort } from '../types';
+
 export const countryMap = new Map().set('taiwan', '台灣');
 
 export const cityMap = new Map()
@@ -24,11 +26,11 @@ export const categoryMap = new Map().set('tickets', '門票').set('package', '�
 
 export const unitMap = new Map().set('張', '張');
 
-export const sortMap = new Map()
-  .set('', '熱門程度')
-  .set('userRating', '用戶評價')
-  .set('priceLowToHigh', '價格：低到高')
-  .set('newArrivals', '最新上架');
+export const sortMap = new Map<Sort, string>()
+  .set(Sort.Popular, '熱門程度')
+  .set(Sort.UserRating, '用戶評價')
+  .set(Sort.PriceLowToHigh, '價格：低到高')
+  .set(Sort.NewArrivals, '最新上架');
 
 export const iconsConfig = {};
 

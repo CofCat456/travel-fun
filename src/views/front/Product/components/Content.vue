@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import Title from '@/components/Title.vue';
 
-defineProps({
-  content: String,
-});
+defineProps<{
+  content: string
+}>();
 </script>
 
 <template>

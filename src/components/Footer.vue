@@ -1,5 +1,5 @@
-<script setup>
-import { websiteConfig } from '@/config/website.config';
+<script setup lang="ts">
+import { websiteConfig } from '../config/website.config';
 </script>
 
 <template>

@@ -1,12 +1,9 @@
 <script setup>
 import {
-  NConfigProvider,
   NLayout,
   NLayoutContent,
   NLayoutHeader,
   NLayoutSider,
-  NLoadingBarProvider,
-  NMessageProvider,
 } from 'naive-ui';
 import { ref } from 'vue';
 
@@ -16,61 +13,34 @@ import MainView from '../components/Admin/MainView.vue';
 import PageHeader from '../components/Admin/PageHeader.vue';
 
 const collapsed = ref(false);
-
-const themeOverrides = {
-  common: {
-    primaryColor: '#0F4BB4',
-    primaryColorHover: '#68A0E8',
-    primaryColorPressed: '#072A81',
-    primaryColorSuppl: '#CDE4FB',
-    borderRadius: '5px',
-    borderColor: '#D4D4D4',
-    textColorBase: '#181818',
-    textColor1: '#181818',
-    textColor2: '#181818',
-    textColor3: '#181818',
-  },
-  Card: {
-    borderRadius: '12px',
-  },
-  Rate: {
-    itemColorActive: '#EE5220',
-  },
-};
 </script>
 
 <template>
-  <NLoadingBarProvider>
-    <NConfigProvider :theme-overrides="themeOverrides">
-      <NMessageProvider>
-        <NLayout has-sider>
-          <NLayoutSider
-            class="min-h-screen"
-            bordered
-            show-trigger="bar"
-            collapse-mode="width"
-            :width="200"
-            :collapsed-width="64"
-            :native-scrollbar="false"
-            :collapsed="collapsed"
-            @collapse="collapsed = true"
-            @expand="collapsed = false"
-          >
-            <Logo :collapsed="collapsed" />
-            <AsideMenu />
-          </NLayoutSider>
-          <NLayout embedded class="px-3">
-            <NLayoutHeader>
-              <PageHeader v-model:collapsed="collapsed" />
-            </NLayoutHeader>
-            <NLayoutContent embedded class="min-h-screen py-2">
-              <MainView />
-            </NLayoutContent>
-          </NLayout>
-        </NLayout>
-      </NMessageProvider>
-    </NConfigProvider>
-  </NLoadingBarProvider>
+  <NLayout has-sider>
+    <NLayoutSider
+      class="min-h-screen"
+      bordered
+      show-trigger="bar"
+      collapse-mode="width"
+      :width="200"
+      :collapsed-width="64"
+      :native-scrollbar="false"
+      :collapsed="collapsed"
+      @collapse="collapsed = true"
+      @expand="collapsed = false"
+    >
+      <Logo :collapsed="collapsed" />
+      <AsideMenu />
+    </NLayoutSider>
+    <NLayout embedded class="px-3">
+      <NLayoutHeader>
+        <PageHeader v-model:collapsed="collapsed" />
+      </NLayoutHeader>
+      <NLayoutContent embedded class="min-h-screen py-2">
+        <MainView />
+      </NLayoutContent>
+    </NLayout>
+  </NLayout>
 </template>
 
 <style scoped>

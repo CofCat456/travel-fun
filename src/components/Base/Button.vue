@@ -1,26 +1,17 @@
-<script setup>
-defineProps({
-  type: {
-    type: String,
-    default: 'button',
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
-  isFull: {
-    type: Boolean,
-    default: false,
-  },
+<script setup lang="ts">
+withDefaults(defineProps<{
+  type?: 'submit' | 'reset' | 'button'
+  disabled?: boolean
+  isLoading?: boolean
+  isFull?: boolean
+}
+>(), {
+  type: 'button',
 });
 </script>
 
 <template>
-  <button :type="type" class="btn" :class="[isFull && 'w-full']" :disabled="isLoading || disabled">
+  <button :type="type" class="btn" :class="isFull ? 'w-full' : ''" :disabled="isLoading || disabled">
     <slot v-if="isLoading" name="loading">
       <svg
         class="h-6 w-6 animate-spin py-1 text-white"

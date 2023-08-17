@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { StarFilled } from '@vicons/material';
 import { NIcon } from 'naive-ui';
 import { scrollTo } from '@/utlis/global';
 
-defineProps({
-  evaluate: Number,
-  evaluateNum: Number,
-  address: String,
-});
+defineProps<{
+  evaluate: number
+  evaluateNum: number
+  address: string
+}>();
 </script>
 
 <template>

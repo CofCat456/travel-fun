@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { AirplanemodeActiveOutlined } from '@vicons/material';
 import { NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NMenu } from 'naive-ui';
 import { storeToRefs } from 'pinia';
@@ -8,18 +8,18 @@ import { useRoute, useRouter } from 'vue-router';
 import Filter from './components/Filter.vue';
 import MobileFilter from './components/MobileFilter.vue';
 import { ProductCard } from '@/components/Card';
-import Loading from '@/components/Loading.vue';
 import { ProductMap } from '@/components/Map';
 import { SwiperCategory } from '@/components/Swiper';
 import Container from '@/layout/Container.vue';
 import { useDeviceStore, useProductStore } from '@/stores';
 import { categoryMap, cityMap, countryMap, sortMap } from '@/utlis/context';
 import { createRouterOption } from '@/utlis/global';
+import { Sort } from '@/types';
 
-const { mode, sort } = defineProps({
-  mode: String,
-  sort: String,
-});
+const { mode, sort = Sort.Popular } = defineProps<{
+  mode: string
+  sort?: Sort
+}>();
 
 const route = useRoute();
 const router = useRouter();
@@ -31,24 +31,28 @@ const { isMobile } = storeToRefs(deviceStore);
 
 const { getFilterData, getSortData, getProducts } = productStore;
 
-const loadingRef = ref(null);
-const productMap = ref(null);
+const productMap = ref<InstanceType<typeof ProductMap>>();
 
+// TODO: need to refactor
+const cityName = computed(() => route.params.cityName as string);
+const countryName = computed(() => route.params.countryName as string);
+const category = computed(() => route.params.category as string) || Sort.Popular;
 const isCity = computed(() => mode === 'city');
-const getParams = computed(() => (isCity.value ? route.params.cityName : route.params.countryName));
-const getCityName = computed(() => cityMap.get(route.params.cityName));
-const getCountryName = computed(() => countryMap.get(route.params.countryName));
-const getCategory = computed(() => categoryMap.get(route.params.category) ?? '所有活動');
-const getCategorys = computed(() => ['', ...categoryMap.keys()]);
+const getParams = computed(() => (isCity.value ? cityName.value : countryName.value));
+const getCityName = computed(() => cityMap.get(cityName.value));
+const getCountryName = computed<string>(() => countryMap.get(countryName.value));
+const getCategory = computed<string>(() => categoryMap.get(category.value) ?? '所有活動');
+const getCategorys = computed<string[]>(() => ['', ...categoryMap.keys()]);
 
-const getFilterList = computed(() =>
-  Array.from(sortMap, ([key, value]) => ({ label: value, value: key })),
+const getFilterList = computed<Record<string, Sort>[]>(() =>
+  Array.from(sortMap, ([key, value]) => ({ label: value, value: key })) as any,
 );
-const getEnCitys = computed(() =>
+
+const getEnCitys = computed<Record<string, string>[]>(() =>
   Array.from(cityMap, ([key, value]) => ({ label: `${value}市`, key })),
 );
 
-const getEnCountrys = computed(() =>
+const getEnCountrys = computed<Record<string, string>[]>(() =>
   Array.from(countryMap, ([key, value]) => ({ label: value, key })),
 );
 
@@ -67,7 +71,7 @@ const getBreadcrumbs = computed(() => {
         {
           title: getCityName.value,
           pathName: 'City',
-          params: { cityName: route.params.cityName },
+          params: { cityName: cityName.value },
         },
         {
           title: getCategory.value,
@@ -91,15 +95,15 @@ const getBreadcrumbs = computed(() => {
 
 const getProductList = computed(() =>
   getFilterData(
-    getSortData(sort || 'popular'),
-    isCity.value ? route.params.cityName : '',
-    route.params.category,
+    getSortData(sort),
+    isCity.value ? cityName.value : '',
+    category.value,
     0,
   ),
 );
 
-function updateCity(city) {
-  const routerOption = createRouterOption(city, route.params.category, sort);
+function updateCity(city: string) {
+  const routerOption = createRouterOption(city, category.value, sort);
 
   return router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -107,8 +111,8 @@ function updateCity(city) {
   });
 }
 
-function updateCategory(category) {
-  const routerOption = createRouterOption(route.params.cityName, category, sort);
+function updateCategory(category: string) {
+  const routerOption = createRouterOption(cityName.value, category, sort);
 
   router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -116,8 +120,8 @@ function updateCategory(category) {
   });
 }
 
-function updateSort(item) {
-  const routerOption = createRouterOption(route.params.cityName, route.params.category, item);
+function updateSort(item: Sort) {
+  const routerOption = createRouterOption(cityName.value, category.value, item);
 
   return router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -125,14 +129,14 @@ function updateSort(item) {
   });
 }
 
-onMounted(() => getProducts(loadingRef));
+onMounted(() => getProducts());
 </script>
 
 <template>
   <div class="bg-cc-other-7/80 py-2 md:py-6">
     <Container>
       <NBreadcrumb separator=">">
-        <template v-for="{ title, pathName, params = null } in getBreadcrumbs" :key="title">
+        <template v-for="{ title, pathName, params } in getBreadcrumbs" :key="title">
           <NBreadcrumbItem v-if="pathName">
             <RouterLink :to="{ name: pathName, params }">
               {{ title }}
@@ -154,7 +158,7 @@ onMounted(() => getProducts(loadingRef));
           {{ `${isCity ? getCityName : getCountryName} ${getCategory}` }}
         </h1>
         <SwiperCategory
-          :curr-category="route.params.category"
+          :curr-category="category"
           :categorys="getCategorys"
           @update-category="updateCategory"
         />
@@ -170,7 +174,7 @@ onMounted(() => getProducts(loadingRef));
     :sort-array="getFilterList"
     @update-params="updateCity"
     @update-sort="updateSort"
-    @open-map="openMap"
+    @open-map="productMap?.openMap"
   />
   <Container>
     <div class="flex py-6">
@@ -181,7 +185,7 @@ onMounted(() => getProducts(loadingRef));
             background-image: linear-gradient(90deg, #fff7eb, rgba(255, 247, 234, 0.2)),
               url(/images/map.jpg);
           "
-          @click="productMap.openMap"
+          @click="productMap?.openMap"
         >
           <div class="absolute bottom-4 left-4 rounded-m font-bold">
             <h6 class="mb-2 font-medium">
@@ -216,7 +220,7 @@ onMounted(() => getProducts(loadingRef));
             </div>
           </template>
           <NMenu
-            :default-value="isCity ? route.params.cityName : route.params.countryName"
+            :default-value="isCity ? cityName : countryName"
             :root-indent="25"
             :options="isCity ? getEnCitys : getEnCountrys"
             @update-value="updateCity"
@@ -233,7 +237,7 @@ onMounted(() => getProducts(loadingRef));
           :curr-sort="sort"
           :product-total="getProductList.length"
           :sort-array="getFilterList"
-          @update-sort="updateSort"
+          @update:sort="updateSort"
         />
         <div class="relative grid gap-x-5 gap-y-8 md:grid-cols-2 md:py-8 lg:grid-cols-4">
           <ProductCard
@@ -242,7 +246,6 @@ onMounted(() => getProducts(loadingRef));
             v-bind="product"
             not-ranking
           />
-          <Loading ref="loadingRef" loader="spinner" :width="30" :height="30" :full-page="false" />
         </div>
       </main>
     </div>

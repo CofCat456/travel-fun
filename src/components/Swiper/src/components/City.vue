@@ -1,33 +1,44 @@
-<script setup>
+<script setup lang="ts">
 import { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { v4 } from 'uuid';
 import { computed } from 'vue';
 
+import type { SwiperOptions } from 'swiper/types';
 import { useSwiper } from '../hooks/useSwiper';
 import SwiperLayout from '../Layout.vue';
-import { basicProps } from '../props';
 import CustomNavigation from './CustomNavigation.vue';
 import Title from '@/components/Title.vue';
 import { CityCard } from '@/components/Card';
 import { cityMap } from '@/utlis/context';
 
-const props = defineProps({
-  ...basicProps,
-  title: String,
-  secTitle: String,
-  currCity: String,
-});
+const {
+  slidesPerView = 6,
+  slidesPerGroup = 6,
+  spaceBetween = 16,
+  speed = 1200,
+  currCity,
+  btn = { text: '', pathName: '' },
+} = defineProps<SwiperOptions & {
+  title: string
+  secTitle?: string
+  currCity?: string
+  btn?: {
+    text: string
+    pathName: string
+  }
+}>();
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();
 
 const btnUUID = v4();
 
 const getBindValues = computed(() => {
-  const { slidesPerView } = props;
-
   return {
-    ...props,
+    slidesPerView,
+    slidesPerGroup,
+    spaceBetween,
+    speed,
     modules: [Navigation],
     navigation: {
       prevEl: `.swiper-${btnUUID}-custom-prev`,
@@ -57,10 +68,10 @@ const getBindValues = computed(() => {
 });
 
 const getCitys = computed(() => {
-  if (!props.currCity)
+  if (!currCity)
     return [...cityMap.keys()];
 
-  return [...cityMap.keys()].filter(city => cityMap.get(city) !== props.currCity);
+  return [...cityMap.keys()].filter(city => cityMap.get(city) !== currCity);
 });
 </script>
 

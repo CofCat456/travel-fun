@@ -3,7 +3,22 @@ import LogoImage from '../assets/logoImg.svg';
 import DarkLogoImage from '../assets/logoImg_dark.svg';
 import UserImage from '../assets/user.jpg';
 
-export const websiteConfig = Object.freeze({
+interface Socia {
+  icon: string
+  href: string
+}
+
+interface WebsiteConfig {
+  title: string
+  username: string
+  userImage: string
+  logo: string
+  logoImage: string
+  darkLogoImage: string
+  socia: Socia[]
+}
+
+export const websiteConfig: WebsiteConfig = Object.freeze({
   title: 'Travel Fun',
   username: 'CofCat',
   userImage: UserImage,

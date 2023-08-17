@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { TableRowsRound } from '@vicons/material';
 import { NIcon } from 'naive-ui';
 </script>

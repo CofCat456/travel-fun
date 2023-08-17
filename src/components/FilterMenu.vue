@@ -1,12 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
 import { sortMap } from '../utlis/context';
+import type { Sort } from '@/types';
 
-defineProps({
-  sort: String,
-  productTotal: Number,
-});
+defineProps<{
+  sort: Sort
+  productTotal: number
+}>();
 
 const isOpen = ref(false);
 

@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { NAffix } from 'naive-ui';
 
 import Button from '@/components/Base/Button.vue';
 import { currency, scrollTo } from '@/utlis/global';
 
-defineProps({
-  price: Number,
-  originPrice: Number,
-});
+defineProps<{
+  price: number
+  originPrice: number
+}>();
 </script>
 
 <template>
