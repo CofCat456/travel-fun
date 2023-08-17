@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import {
   NLayout,
   NLayoutContent,
@@ -36,7 +36,7 @@ const collapsed = ref(false);
       <NLayoutHeader>
         <PageHeader v-model:collapsed="collapsed" />
       </NLayoutHeader>
-      <NLayoutContent embedded class="min-h-screen py-2">
+      <NLayoutContent embedded class="py-2">
         <MainView />
       </NLayoutContent>
     </NLayout>
