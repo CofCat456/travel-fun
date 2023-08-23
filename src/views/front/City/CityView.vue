@@ -9,7 +9,7 @@ import Know from '@/components/Know.vue';
 import { SwiperCity, SwiperProduct } from '@/components/Swiper';
 import Container from '@/layout/Container.vue';
 import { useProductStore } from '@/stores';
-import { cityMap } from '@/utlis/context';
+import { cityMap } from '@/utils/context';
 
 const route = useRoute();
 const router = useRouter();

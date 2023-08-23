@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { sortMap } from '../utlis/context';
+import { sortMap } from '../utils/context';
 import type { Sort } from '@/types';
 
 defineProps<{

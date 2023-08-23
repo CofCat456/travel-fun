@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
-import { cityMap } from '@/utlis/context';
+import { cityMap } from '@/utils/context';
 
 const { city } = defineProps<{
   city: string

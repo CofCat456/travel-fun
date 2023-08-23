@@ -48,6 +48,19 @@ const menuOptions = [
           ),
         key: 'products',
       },
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'AdminShopCarts',
+              },
+            },
+            { default: () => '購物車列表' },
+          ),
+        key: 'shopCarts',
+      },
     ],
   },
 ];

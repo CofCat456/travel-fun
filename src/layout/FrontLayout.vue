@@ -5,9 +5,9 @@ import { onMounted, ref } from 'vue';
 import { RouterView, useRouter } from 'vue-router';
 
 import Footer from '../components/Footer.vue';
-import Header from '../components/Header.vue';
+import Header from '../components/Header';
 import { useCartStore, useProductStore } from '../stores';
-import { apiUserCheckSignin, apiUserGetAllProducts, apiUserGetCarts } from '../utlis/api';
+import { apiUserCheckSignin, apiUserGetAllProducts, apiUserGetCarts } from '../utils/api';
 
 const router = useRouter();
 
@@ -50,7 +50,7 @@ onMounted(async () => {
   await getInitialProducts();
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   const title = to.meta?.title as string;
   const requiresAuth = to.meta?.requiresAuth;
 

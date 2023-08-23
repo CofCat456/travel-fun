@@ -4,7 +4,7 @@ import '@ckeditor/ckeditor5-build-classic/build/translations/zh-cn';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { component as ckeditor } from '@ckeditor/ckeditor5-vue';
 
-import { MyAdapterPlugin } from '../utlis/myUploadAdapter';
+import { MyAdapterPlugin } from '../utils/myUploadAdapter';
 
 defineProps<{
   disabled?: boolean

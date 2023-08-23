@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
-import { apiUSerGetProduct, apiUserGetAllProducts } from '../utlis/api';
+import { apiUSerGetProduct, apiUserGetAllProducts } from '../utils/api';
 import { Sort } from '@/types';
 import type { Product } from '@/types';
 

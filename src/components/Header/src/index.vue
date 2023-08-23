@@ -5,25 +5,22 @@ import {
   FlightTakeoffOutlined,
   PersonOutlineFilled,
   PersonOutlineOutlined,
-  ShoppingCartOutlined,
 } from '@vicons/material';
-import { NBadge, NIcon } from 'naive-ui';
+import { NIcon } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
-
-import Container from '../layout/Container.vue';
-import { useCartStore, useUserStore } from '../stores';
-import { websiteConfig } from '../config/website.config';
-import HamburgerBtn from './HamburgerBtn.vue';
+import HamburgerBtn from '../../HamburgerBtn.vue';
+import ShopCart from './shopCart.vue';
+import { websiteConfig } from '@/config/website.config';
+import { useUserStore } from '@/stores';
+import Container from '@/layout/Container.vue';
 
 const route = useRoute();
 
 const userStore = useUserStore();
-const cartStore = useCartStore();
 
 const { loginStatus } = storeToRefs(userStore);
-const { totalNum } = storeToRefs(cartStore);
 
 const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.name!.toString()));
 </script>
@@ -90,11 +87,7 @@ const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.na
               登入 / 註冊
             </button>
           </RouterLink>
-          <NBadge color="#EE5220" :max="10" :value="totalNum">
-            <NIcon size="24" color="white" class="icon-hover">
-              <ShoppingCartOutlined />
-            </NIcon>
-          </NBadge>
+          <ShopCart />
         </div>
       </div>
     </Container>

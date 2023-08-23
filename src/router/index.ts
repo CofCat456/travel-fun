@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import { useCartStore } from '@/stores';
 
 const { VITE_TITLE } = import.meta.env;
 
@@ -68,6 +69,18 @@ const router = createRouter({
             title: '旅遊行程 - Travel Fun',
           },
         },
+        {
+          path: 'cart',
+          name: 'Cart',
+          component: () => import('../views/front/Cart/CartView.vue'),
+          meta: {
+            title: '購物車 - Travel Fun',
+          },
+          async beforeEnter(_to, _from) {
+            const cartStore = useCartStore();
+            await cartStore.getCarts();
+          },
+        },
       ],
     },
     {
@@ -97,6 +110,15 @@ const router = createRouter({
               component: () => import('../views/admin/Product/AdminProducts.vue'),
               meta: {
                 title: '產品列表',
+                requiresAuth: true,
+              },
+            },
+            {
+              path: 'shopCarts',
+              name: 'AdminShopCarts',
+              component: () => import('../views/admin/ShopCart/AdminShopCarts.vue'),
+              meta: {
+                title: '購物車列表',
                 requiresAuth: true,
               },
             },

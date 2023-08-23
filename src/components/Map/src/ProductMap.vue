@@ -5,7 +5,7 @@ import { reactive, ref } from 'vue';
 import { GoogleMap, InfoWindow, Marker, MarkerClusterer } from '@voomap/map';
 import type { Coordinates, Product } from '@/types';
 
-import { currency } from '@/utlis/global';
+import { currency } from '@/utils/global';
 
 const { products } = defineProps<{
   products: Product[]

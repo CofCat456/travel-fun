@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
-import { apiUserGetCarts, apiUserPostCart } from '../utlis/api';
+import { apiUserGetCarts, apiUserPostCart } from '../utils/api';
 import type { Cart } from '../types';
 
 const useCartStore = defineStore('cart', () => {
@@ -15,7 +15,8 @@ const useCartStore = defineStore('cart', () => {
 
     const {
       data: {
-        data: { success, carts },
+        success,
+        data: { carts },
       },
     } = res;
 

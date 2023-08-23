@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { StarFilled } from '@vicons/material';
 import { NIcon } from 'naive-ui';
-import { scrollTo } from '@/utlis/global';
+import { scrollTo } from '@/utils/global';
 
 defineProps<{
   evaluate: number

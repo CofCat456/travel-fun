@@ -2,7 +2,7 @@
 import { NAffix } from 'naive-ui';
 
 import Button from '@/components/Base/Button.vue';
-import { currency, scrollTo } from '@/utlis/global';
+import { currency, scrollTo } from '@/utils/global';
 
 defineProps<{
   price: number

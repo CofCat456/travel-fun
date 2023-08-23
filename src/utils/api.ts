@@ -103,6 +103,8 @@ function apiUserGetProducts(category: string = '') {
 const apiUSerGetProduct = (id: string) => request.get(`${api.user.product}/${id}`);
 const apiUserGetCarts = () => request.get(api.user.cart);
 const apiUserPostCart = (data: any) => request.post(api.user.cart, data);
+const apiUserDeleteCart = (id: string) => request.delete(`${api.user.cart}/${id}`);
+const apiUserDeleteCarts = () => request.delete(`${api.user.cart}/s`);
 
 // API Admin
 const apiAdminGetProducts = (page: number) => request.get(`${api.admin.product}s?page=${page}`);
@@ -133,5 +135,7 @@ export {
   apiUserGetProducts,
   apiUserLogout,
   apiUserPostCart,
+  apiUserDeleteCart,
+  apiUserDeleteCarts,
   apiUserSignin,
 };

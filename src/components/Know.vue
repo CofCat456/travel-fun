@@ -14,7 +14,7 @@ const productMap = ref<InstanceType<typeof ProductMap>>();
 </script>
 
 <template>
-  <div class="my-6 bg-cc-other-7 py-6">
+  <div class="my-6 bg-cc-other-7/80 py-6">
     <Container>
       <h3 class="mb-3 text-xl font-bold md:my-6 md:text-[28px]">
         認識 {{ name }}

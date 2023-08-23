@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { apiUserLogout, apiUserSignin } from '../utlis/api';
+import { apiUserLogout, apiUserSignin } from '../utils/api';
 
 const useUserStore = defineStore('user', () => {
   const router = useRouter();

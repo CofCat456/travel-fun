@@ -2,8 +2,8 @@
 import { FavoriteBorderOutlined, FavoriteOutlined, LocationOnOutlined } from '@vicons/material';
 import { NIcon, NRate, NSpace } from 'naive-ui';
 
-import { currency } from '@/utlis/global';
-import { cityMap } from '@/utlis/context';
+import { currency } from '@/utils/global';
+import { cityMap } from '@/utils/context';
 import { useGo } from '@/composables/go';
 import type { Product } from '@/types';
 

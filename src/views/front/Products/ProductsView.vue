@@ -12,8 +12,8 @@ import { ProductMap } from '@/components/Map';
 import { SwiperCategory } from '@/components/Swiper';
 import Container from '@/layout/Container.vue';
 import { useDeviceStore, useProductStore } from '@/stores';
-import { categoryMap, cityMap, countryMap, sortMap } from '@/utlis/context';
-import { createRouterOption } from '@/utlis/global';
+import { categoryMap, cityMap, countryMap, sortMap } from '@/utils/context';
+import { createRouterOption } from '@/utils/global';
 import { Sort } from '@/types';
 
 const { mode, sort = Sort.Popular } = defineProps<{

@@ -10,7 +10,7 @@ import SwiperLayout from '../Layout.vue';
 import CustomNavigation from './CustomNavigation.vue';
 import Title from '@/components/Title.vue';
 import { CityCard } from '@/components/Card';
-import { cityMap } from '@/utlis/context';
+import { cityMap } from '@/utils/context';
 
 const {
   slidesPerView = 6,

@@ -22,7 +22,7 @@ const otherCity = computed(() => {
 </script>
 
 <template>
-  <div class="bg-cc-other-7 pt-12 pb-6 md:pb-20">
+  <div class="bg-cc-other-7/80 pt-12 pb-6 md:pb-20">
     <Container>
       <Title title="熱門城市" sec-title="探索最熱門的城市，發現更多令人驚嘆的旅程！" />
       <div v-if="hotCitys" class="grid grid-rows-2 gap-3 md:grid-flow-col md:gap-6">

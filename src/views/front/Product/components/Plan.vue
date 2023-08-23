@@ -5,7 +5,7 @@ import { computed, ref } from 'vue';
 import Button from '@/components/Base/Button.vue';
 import Title from '@/components/Title.vue';
 import Container from '@/layout/Container.vue';
-import { currency } from '@/utlis/global';
+import { currency } from '@/utils/global';
 import type { Cart, Plan } from '@/types';
 
 const { id } = defineProps<{

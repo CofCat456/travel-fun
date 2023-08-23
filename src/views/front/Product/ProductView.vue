@@ -9,7 +9,7 @@ import LeftSidebar from './components/LeftSidebar.vue';
 import RightSidebar from './components/RightSidebar.vue';
 import TopWrapper from './components/TopWrapper.vue';
 import Plan from './components/Plan.vue';
-import { cityMap } from '@/utlis/context';
+import { cityMap } from '@/utils/context';
 import { useCartStore, useProductStore } from '@/stores';
 import Container from '@/layout/Container.vue';
 import { SwiperBanner, SwiperProduct } from '@/components/Swiper';
