@@ -11,10 +11,6 @@ const route = useRoute();
 const getThemeOverrides = computed(() => {
   const isAdmin = !!route.meta.requiresAuth;
 
-  const frontCardOverrides = {
-    borderColor: '#D4D4D4',
-  };
-
   const adminCardOverrides = {
     borderRadius: '12px',
   };
@@ -40,7 +36,7 @@ const getThemeOverrides = computed(() => {
     Rate: {
       itemColorActive: '#EE5220',
     },
-    Card: isAdmin ? adminCardOverrides : frontCardOverrides,
+    Card: isAdmin ? adminCardOverrides : {},
   };
 });
 </script>

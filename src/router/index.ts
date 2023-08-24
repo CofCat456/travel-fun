@@ -107,7 +107,7 @@ const router = createRouter({
               name: 'Done',
               component: () => import('../views/front/Book/components/Done.vue'),
               meta: {
-                title: '付款完成 - Travel Fun',
+                title: '訂購完成 - Travel Fun',
               },
             },
           ],

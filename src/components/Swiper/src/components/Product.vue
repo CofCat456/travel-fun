@@ -23,6 +23,8 @@ const {
   btn = { text: '', pathName: '' },
 } = defineProps<TitleProps & SwiperOptions & {
   products: Product[]
+  isNormal?: boolean
+  noPadding?: boolean
   btn?: {
     text: string
     pathName?: string
@@ -74,7 +76,7 @@ const getBindValues = computed(() => {
 </script>
 
 <template>
-  <SwiperLayout>
+  <SwiperLayout :is-normal="isNormal" :no-padding="noPadding">
     <template #title>
       <Title :title="title" :sec-title="secTitle" />
     </template>

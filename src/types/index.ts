@@ -56,7 +56,15 @@ export interface Order {
   is_paid?: boolean
   message: string
   num?: number
-  products?: Record<string, Product>
+  products?: Record<string, {
+    buy_date: number
+    final_total: number
+    id: string
+    product: Product
+    product_id: string
+    qty: number
+    total: number
+  }>
   total?: number
   user: User
 }
