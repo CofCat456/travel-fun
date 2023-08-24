@@ -14,7 +14,7 @@ const request = axios.create({
   timeout: 5000,
 });
 
-export function successMsg(title: string, text: string) {
+export function successMsg(title: string, text?: string) {
   return Swal.fire({
     toast: true,
     position: 'top-end',
@@ -27,7 +27,7 @@ export function successMsg(title: string, text: string) {
   });
 }
 
-export function errorMsg(title: string, text: string) {
+export function errorMsg(title: string, text?: string) {
   return Swal.fire({
     toast: true,
     position: 'top-end',
@@ -84,6 +84,7 @@ const api = {
     cart: `api/${VITE_PATH}/cart`,
     coupon: `api/${VITE_PATH}/coupon`,
     order: `api/${VITE_PATH}/order`,
+    pay: `api/${VITE_PATH}/pay`,
   },
   admin: {
     product: `api/${VITE_PATH}/admin/product`,
@@ -109,7 +110,9 @@ const apiUserPostCart = (data: any) => request.post(api.user.cart, data);
 const apiUserDeleteCart = (id: string) => request.delete(`${api.user.cart}/${id}`);
 const apiUserDeleteCarts = () => request.delete(`${api.user.cart}/s`);
 const apiUserPostCoupon = (data: any) => request.post(api.user.coupon, data);
+const apiUserGetOrder = (id: string) => request.get(`${api.user.order}/${id}`);
 const apiUserPostOrder = (data: any) => request.post(api.user.order, data);
+const apiUserPostPay = (id: string) => request.post(`${api.user.pay}/${id}`);
 
 // API Admin
 const apiAdminGetProducts = (page: number) => request.get(`${api.admin.product}s?page=${page}`);
@@ -152,5 +155,7 @@ export {
   apiUserDeleteCart,
   apiUserDeleteCarts,
   apiUserPostCoupon,
+  apiUserGetOrder,
   apiUserPostOrder,
+  apiUserPostPay,
 };

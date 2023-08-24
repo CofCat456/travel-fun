@@ -82,12 +82,35 @@ const router = createRouter({
           },
         },
         {
-          path: 'order',
-          name: 'Order',
-          component: () => import('../views/front/Order/OrderView.vue'),
-          meta: {
-            title: '填寫資料 - Travel Fun',
-          },
+          path: 'booking',
+          name: 'Book',
+          component: () => import('../views/front/Book/BookView.vue'),
+          children: [
+            {
+              path: 'order',
+              name: 'Order',
+              component: () => import('../views/front/Book/components/Order.vue'),
+              meta: {
+                title: '填寫資料 - Travel Fun',
+              },
+            },
+            {
+              path: 'pay/:orderId',
+              name: 'Pay',
+              component: () => import('../views/front/Book/components/Pay.vue'),
+              meta: {
+                title: '付款 - Travel Fun',
+              },
+            },
+            {
+              path: 'done/:orderId',
+              name: 'Done',
+              component: () => import('../views/front/Book/components/Done.vue'),
+              meta: {
+                title: '付款完成 - Travel Fun',
+              },
+            },
+          ],
         },
       ],
     },
