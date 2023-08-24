@@ -81,6 +81,14 @@ const router = createRouter({
             await cartStore.getCarts();
           },
         },
+        {
+          path: 'order',
+          name: 'Order',
+          component: () => import('../views/front/Order/OrderView.vue'),
+          meta: {
+            title: '填寫資料 - Travel Fun',
+          },
+        },
       ],
     },
     {
@@ -114,11 +122,11 @@ const router = createRouter({
               },
             },
             {
-              path: 'shopCarts',
-              name: 'AdminShopCarts',
-              component: () => import('../views/admin/ShopCart/AdminShopCarts.vue'),
+              path: 'orders',
+              name: 'AdminOrders',
+              component: () => import('../views/admin/Order/AdminOrders.vue'),
               meta: {
-                title: '購物車列表',
+                title: '訂單列表',
                 requiresAuth: true,
               },
             },

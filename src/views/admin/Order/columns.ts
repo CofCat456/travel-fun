@@ -9,38 +9,36 @@ export const columns = [
   },
   {
     title: '名稱',
-    key: 'title',
-    width: 100,
+    key: 'user.name',
+    width: 30,
     ellipsis: {
       tooltip: true,
     },
   },
   {
-    title: '分類',
-    key: 'category',
-    width: 40,
-  },
-  {
-    title: '地區',
-    key: 'city',
-    width: 40,
+    title: 'Email',
+    key: 'user.email',
+    width: 60,
+    ellipsis: {
+      tooltip: true,
+    },
   },
   {
     title: '地址',
-    key: 'address',
-    width: 100,
+    key: 'user.address',
+    width: 80,
     ellipsis: {
       tooltip: true,
     },
   },
   {
-    title: '售價',
-    key: 'price',
-    width: 40,
+    title: '金額',
+    key: 'total',
+    width: 50,
   },
   {
-    title: '上架時間',
-    key: 'date',
+    title: '下單時間',
+    key: 'create_at',
     width: 50,
     ellipsis: {
       tooltip: true,

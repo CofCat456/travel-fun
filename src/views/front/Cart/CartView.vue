@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { NBreadcrumb, NBreadcrumbItem, NButton, NCard, NIcon } from 'naive-ui';
+import { NBreadcrumb, NBreadcrumbItem, NButton, NCard, NEmpty, NIcon } from 'naive-ui';
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { KeyboardArrowRightOutlined } from '@vicons/material';
 import Carts from './components/Carts.vue';
-import Button from '@/components/Base/Button.vue';
 import Container from '@/layout/Container.vue';
 import { currency } from '@/utils/global';
 
@@ -12,15 +11,15 @@ import { SwiperProduct } from '@/components/Swiper';
 
 import { useCartStore, useProductStore } from '@/stores';
 import { apiUserDeleteCarts } from '@/utils/api';
-import type { Cart } from '@/types';
 
 const productStore = useProductStore();
 const cartStore = useCartStore();
 
 const { getByRecommended } = storeToRefs(productStore);
-const { cartList } = storeToRefs(cartStore);
+const { cartList, finalTotal } = storeToRefs(cartStore);
 
 const { getFilterData } = productStore;
+const { getCarts } = cartStore;
 
 const isLoading = ref(false);
 
@@ -34,10 +33,6 @@ const getBreadcrumbs = computed(() => [
   },
 ]);
 
-const getTotal = computed(() => cartList.value.reduce((previous, current: Cart) => {
-  return previous + current.final_total!;
-}, 0));
-
 async function deleteCarts() {
   isLoading.value = true;
 
@@ -49,7 +44,7 @@ async function deleteCarts() {
     } = res;
 
     if (success)
-      cartStore.getCarts();
+      getCarts();
   }
   finally {
     isLoading.value = false;
@@ -82,8 +77,9 @@ async function deleteCarts() {
           footer: true,
         }"
       >
-        <Carts :cart-list="cartList" @delete="cartStore.getCarts" />
-        <template #footer>
+        <Carts v-if="cartList?.length !== 0" :cart-list="cartList" @delete="getCarts" />
+        <NEmpty v-else class="py-5" description="您的購物車是空的" />
+        <template v-if="cartList?.length !== 0" #footer>
           <div class="flex flex-col items-baseline gap-2">
             <NButton text :loading="isLoading" @click="deleteCarts">
               清空購物車
@@ -91,13 +87,13 @@ async function deleteCarts() {
             <div class="w-full inline-flex items-center justify-end">
               <div class="inline-flex items-end gap-1">
                 <span>{{ cartList.length }} 件商品合計</span>
-                <h4 class="text-cc-primary font-bold">
-                  {{ currency(getTotal, 'NT$ ') }}
+                <h4 class="text-cc-primry font-bold">
+                  {{ currency(finalTotal, 'NT$ ') }}
                 </h4>
               </div>
-              <Button class="ml-2">
+              <RouterLink :to="{ name: 'Order' }" class="btn ml-2">
                 前往結賬
-              </Button>
+              </RouterLink>
             </div>
           </div>
         </template>

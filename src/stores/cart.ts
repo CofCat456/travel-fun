@@ -7,6 +7,8 @@ import type { Cart } from '../types';
 const useCartStore = defineStore('cart', () => {
   const isLoading = ref(false);
   const cartList = ref<Cart[]>([]);
+  const total = ref(0);
+  const finalTotal = ref(0);
 
   const totalNum = computed(() => cartList.value.length);
 
@@ -16,12 +18,15 @@ const useCartStore = defineStore('cart', () => {
     const {
       data: {
         success,
-        data: { carts },
+        data: { carts, total: cart_total, final_total },
       },
     } = res;
 
-    if (success)
+    if (success) {
       cartList.value = carts;
+      total.value = cart_total;
+      finalTotal.value = final_total;
+    }
   };
 
   const addCart = async (data: { data: Cart }) => {
@@ -39,6 +44,8 @@ const useCartStore = defineStore('cart', () => {
   return {
     isLoading,
     cartList,
+    total,
+    finalTotal,
     totalNum,
     getCarts,
     addCart,

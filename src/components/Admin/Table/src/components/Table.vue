@@ -5,12 +5,11 @@ import { NDataTable, NDivider, NDropdown, NIcon, NSpace, NSwitch, NTooltip } fro
 import { computed, ref, unref } from 'vue';
 
 import { densityOptions } from '../setting';
-import type { Product } from '@/types';
 
 interface Props {
   loading: boolean
-  columns: DataTableColumns<Product>
-  data: Product[]
+  columns: DataTableColumns
+  data: any
   actionColumn: any
 }
 

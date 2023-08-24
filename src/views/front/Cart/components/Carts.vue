@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NButton, NEllipsis, NEmpty, NGi, NGrid, NIcon, NTooltip } from 'naive-ui';
+import { NButton, NEllipsis, NGi, NGrid, NIcon, NTooltip } from 'naive-ui';
 import { DeleteOutlineOutlined } from '@vicons/material';
 import { ref } from 'vue';
 import { currency, formatDate2YMD } from '@/utils/global';
@@ -36,7 +36,7 @@ async function deleteCart(id: string) {
 </script>
 
 <template>
-  <NGrid v-if="cartList?.length !== 0" :y-gap="8" :cols="1">
+  <NGrid :y-gap="8" :cols="1">
     <template
       v-for="{ id, product, buy_date, final_total } in cartList"
       :key="id"
@@ -56,7 +56,7 @@ async function deleteCart(id: string) {
             <span>{{ formatDate2YMD(buy_date) }}</span>
           </h3>
           <h6 class="font-bold text-cc-primary w-2/12">
-            {{ currency(final_total, 'NT$ ') }}
+            {{ currency(final_total!, 'NT$ ') }}
           </h6>
           <div class="w-1/12">
             <NTooltip trigger="hover">
@@ -74,5 +74,4 @@ async function deleteCart(id: string) {
       </NGi>
     </template>
   </NGrid>
-  <NEmpty v-else class="py-5" description="您的購物車是空的" />
 </template>

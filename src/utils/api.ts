@@ -82,10 +82,13 @@ const api = {
     checkSigin: 'api/user/check',
     product: `api/${VITE_PATH}/product`,
     cart: `api/${VITE_PATH}/cart`,
+    coupon: `api/${VITE_PATH}/coupon`,
+    order: `api/${VITE_PATH}/order`,
   },
   admin: {
     product: `api/${VITE_PATH}/admin/product`,
     upload: `api/${VITE_PATH}/admin/upload`,
+    order: `api/${VITE_PATH}/admin/order`,
   },
 };
 
@@ -105,13 +108,15 @@ const apiUserGetCarts = () => request.get(api.user.cart);
 const apiUserPostCart = (data: any) => request.post(api.user.cart, data);
 const apiUserDeleteCart = (id: string) => request.delete(`${api.user.cart}/${id}`);
 const apiUserDeleteCarts = () => request.delete(`${api.user.cart}/s`);
+const apiUserPostCoupon = (data: any) => request.post(api.user.coupon, data);
+const apiUserPostOrder = (data: any) => request.post(api.user.order, data);
 
 // API Admin
 const apiAdminGetProducts = (page: number) => request.get(`${api.admin.product}s?page=${page}`);
 const apiAdminGetAllProducts = () => request.get(`${api.admin.product}s/all`);
-const apiAdminPostProducts = (data: Data) => request.post(api.admin.product, data);
-const apiAdminPutProducts = (id: string, data: Data) => request.put(`${api.admin.product}/${id}`, data);
-const apiAdminDeleteProducts = (id: string) => request.delete(`${api.admin.product}/${id}`);
+const apiAdminPostProduct = (data: Data) => request.post(api.admin.product, data);
+const apiAdminPutProduct = (id: string, data: Data) => request.put(`${api.admin.product}/${id}`, data);
+const apiAdminDeleteProduct = (id: string) => request.delete(`${api.admin.product}/${id}`);
 function apiAdminUploadImage(formData: FormData) {
   return request.post(api.admin.upload, formData, {
     headers: {
@@ -119,23 +124,33 @@ function apiAdminUploadImage(formData: FormData) {
     },
   });
 }
+const apiAdminGetOrders = () => request.get(`${api.admin.order}s`);
+const apiAdminPutOrder = (id: string, data: any) => request.put(`${api.admin.order}/${id}`, data);
+const apiAdminDeleteOrder = (id: string) => request.delete(`${api.admin.order}/${id}`);
+const apiAdminDeleteAllOrders = () => request.delete(`${api.admin.order}/all`);
 
 export {
   api,
-  apiAdminDeleteProducts,
   apiAdminGetAllProducts,
   apiAdminGetProducts,
-  apiAdminPostProducts,
-  apiAdminPutProducts,
+  apiAdminPostProduct,
+  apiAdminPutProduct,
+  apiAdminDeleteProduct,
   apiAdminUploadImage,
+  apiAdminGetOrders,
+  apiAdminPutOrder,
+  apiAdminDeleteOrder,
+  apiAdminDeleteAllOrders,
+  apiUserSignin,
+  apiUserLogout,
   apiUserCheckSignin,
   apiUserGetAllProducts,
   apiUserGetCarts,
   apiUSerGetProduct,
   apiUserGetProducts,
-  apiUserLogout,
   apiUserPostCart,
   apiUserDeleteCart,
   apiUserDeleteCarts,
-  apiUserSignin,
+  apiUserPostCoupon,
+  apiUserPostOrder,
 };

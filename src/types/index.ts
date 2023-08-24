@@ -42,6 +42,25 @@ export interface Cart {
   buy_date: number
 }
 
+// 訂單
+export interface User {
+  name: string
+  email: string
+  tel: string
+  address: string
+}
+
+export interface Order {
+  create_at?: number
+  id?: string
+  is_paid?: boolean
+  message: string
+  num?: number
+  products?: Record<string, Product>
+  total?: number
+  user: User
+}
+
 // 新聞
 export interface New {
   title: string

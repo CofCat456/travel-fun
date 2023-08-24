@@ -1,5 +1,5 @@
 // 換算金錢
-function currency(val, symbol = '') {
+function currency(val: number, symbol: string = ''): string {
   if (!val)
     return 0;
   const arr = val.toString().split('.');
@@ -8,7 +8,7 @@ function currency(val, symbol = '') {
 }
 
 // 轉換日期 (ISO 8601 to 年/月/日)
-function formatDate2YMD(dateTimeString) {
+function formatDate2YMD(dateTimeString: number): string {
   const date = new Date(dateTimeString);
 
   const year = date.getFullYear();
@@ -26,7 +26,7 @@ function formatDate2YMD(dateTimeString) {
 }
 
 // 生成 routerOption
-function createRouterOption(cityName, category, sort = '') {
+function createRouterOption(cityName: string, category: string, sort = '') {
   const routerOption = {
     params: { category },
   };
@@ -41,7 +41,7 @@ function createRouterOption(cityName, category, sort = '') {
 }
 
 // JS 錨點
-function scrollTo(id) {
+function scrollTo(id: string) {
   const element = document.getElementById(id);
   const top = element.offsetTop;
   window.scroll({ top, behavior: 'smooth' });

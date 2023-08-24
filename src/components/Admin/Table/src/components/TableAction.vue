@@ -7,9 +7,9 @@ import type { Action } from '../types';
 
 const { actions, dropDownActions } = defineProps<{
   actions: Action[]
-  dropDownActions: DropdownOption[]
+  dropDownActions?: DropdownOption[]
   style: string
-  select: () => void
+  select?: () => void
 }>();
 
 const getActions = computed<Action[]>(() => {

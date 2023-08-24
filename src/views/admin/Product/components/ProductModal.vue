@@ -279,10 +279,10 @@ watch(
 
 <template>
   <NModal
+    style="width: 768px"
     class="custom-card"
     preset="card"
     size="huge"
-    style="width: 768px"
     :title="`${modalStatus}產品`"
     :bordered="false"
     :show="showModal"
@@ -294,11 +294,11 @@ watch(
         <NTabs type="line" animated>
           <NTabPane name="產品內容" display-directive="show:lazy" tab="產品內容">
             <NGrid :cols="2" :x-gap="24">
-              <NFormItemGi :span="2" path="id" label="ID">
+              <NFormItemGi :span="2" label="ID" path="id">
                 <NInput type="text" placeholder="產品 ID" disabled :value="productValue.id" />
               </NFormItemGi>
 
-              <NFormItemGi :span="2" path="title" label="名稱">
+              <NFormItemGi :span="2" label="名稱" path="title">
                 <NInput
                   v-model:value="productValue.title"
                   type="text"
@@ -306,7 +306,7 @@ watch(
                 />
               </NFormItemGi>
 
-              <NFormItemGi path="city" label="城市">
+              <NFormItemGi label="城市" path="city">
                 <NSelect
                   v-model:show="citySelectShow"
                   v-model:value="productValue.city"
@@ -321,7 +321,7 @@ watch(
                 </NSelect>
               </NFormItemGi>
 
-              <NFormItemGi path="address" label="地址">
+              <NFormItemGi label="地址" path="address">
                 <NInputGroup>
                   <NInput
                     v-model:value="productValue.address"
@@ -340,7 +340,7 @@ watch(
                 </NInputGroup>
               </NFormItemGi>
 
-              <NFormItemGi path="category" label="分類">
+              <NFormItemGi label="分類" path="category">
                 <NSelect
                   v-model:show="categorySelectShow"
                   v-model:value="productValue.category"
@@ -355,7 +355,7 @@ watch(
                 </NSelect>
               </NFormItemGi>
 
-              <NFormItemGi path="unit" label="單位">
+              <NFormItemGi label="單位" path="unit">
                 <NSelect
                   v-model:show="unitSelectShow"
                   v-model:value="productValue.unit"
@@ -370,11 +370,11 @@ watch(
                 </NSelect>
               </NFormItemGi>
 
-              <NFormItemGi path="evaluate" label="評價">
+              <NFormItemGi label="評價" path="evaluate">
                 <NRate v-model:value="productValue.evaluate" allow-half />
               </NFormItemGi>
 
-              <NFormItemGi path="evaluateNum" label="評價總人數">
+              <NFormItemGi label="評價總人數" path="evaluateNum">
                 <NInputNumber
                   v-model:value="productValue.evaluateNum"
                   style="width: 100%"
@@ -384,7 +384,7 @@ watch(
                 />
               </NFormItemGi>
 
-              <NFormItemGi path="origin_price" label="原價">
+              <NFormItemGi label="原價" path="origin_price">
                 <NInputNumber
                   v-model:value="productValue.origin_price"
                   style="width: 100%"
@@ -399,7 +399,7 @@ watch(
                 </NInputNumber>
               </NFormItemGi>
 
-              <NFormItemGi path="price" label="售價">
+              <NFormItemGi label="售價" path="price">
                 <NInputNumber
                   v-model:value="productValue.price"
                   style="width: 100%"
@@ -414,7 +414,7 @@ watch(
                 </NInputNumber>
               </NFormItemGi>
 
-              <NFormItemGi path="date" label="上架日期">
+              <NFormItemGi label="上架日期" path="date">
                 <NDatePicker
                   v-model:value="productValue.date"
                   type="date"
@@ -422,7 +422,7 @@ watch(
                 />
               </NFormItemGi>
 
-              <NFormItemGi path="geometry" label="座標查詢">
+              <NFormItemGi label="座標查詢" path="geometry">
                 <NInputGroup>
                   <NInputGroupLabel>經度</NInputGroupLabel>
                   <NInputNumber
@@ -437,7 +437,7 @@ watch(
                 </NInputGroup>
               </NFormItemGi>
 
-              <NFormItemGi :span="2" path="description" label="描述">
+              <NFormItemGi :span="2" label="描述" path="description">
                 <NInput
                   v-model:value="productValue.description"
                   type="textarea"
@@ -449,7 +449,7 @@ watch(
                 />
               </NFormItemGi>
 
-              <NFormItemGi :span="2" path="is_enabled" label="啟用產品">
+              <NFormItemGi :span="2" label="啟用產品" path="is_enabled">
                 <NSwitch v-model:value="productValue.is_enabled">
                   <template #checked>
                     啟用

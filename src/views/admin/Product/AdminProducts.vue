@@ -8,10 +8,10 @@ import { columns } from './columns';
 import ProductModal from './components/ProductModal.vue';
 import { BasicTable, TableAction } from '@/components/Admin/Table';
 import {
-  apiAdminDeleteProducts,
+  apiAdminDeleteProduct,
   apiAdminGetAllProducts,
-  apiAdminPostProducts,
-  apiAdminPutProducts,
+  apiAdminPostProduct,
+  apiAdminPutProduct,
 } from '@/utils/api';
 import { categoryMap, cityMap } from '@/utils/context';
 import { currency, formatDate2YMD } from '@/utils/global';
@@ -52,8 +52,8 @@ const getTableData = computed(() =>
     ...product,
     category: categoryMap.get(product.category),
     city: cityMap.get(product.city),
-    origin_price: currency(product.origin_price),
-    price: currency(product.price),
+    origin_price: currency(product.origin_price, 'NT$ '),
+    price: currency(product.price, 'NT$ '),
     date: formatDate2YMD(product.date),
   })),
 );
@@ -94,7 +94,7 @@ async function addProduct(product: Product) {
   };
 
   try {
-    const res = await apiAdminPostProducts(data);
+    const res = await apiAdminPostProduct(data);
 
     const {
       data: { success },
@@ -122,7 +122,7 @@ async function updateProduct(product: Product) {
   };
 
   try {
-    const res = await apiAdminPutProducts(id, data);
+    const res = await apiAdminPutProduct(id, data);
 
     const {
       data: { success },
@@ -150,7 +150,7 @@ async function updateEnabled(product: Product) {
   };
 
   try {
-    const res = await apiAdminPutProducts(id, data);
+    const res = await apiAdminPutProduct(id, data);
 
     const {
       data: { success },
@@ -165,7 +165,7 @@ async function updateEnabled(product: Product) {
 }
 
 async function deleteProduct(id: string) {
-  const res = await apiAdminDeleteProducts(id);
+  const res = await apiAdminDeleteProduct(id);
 
   const {
     data: { success },
@@ -191,7 +191,7 @@ function openDeleteModal(id: string, title: string) {
 }
 
 const getActionColumn = computed(() => ({
-  width: 120,
+  width: 100,
   title: '操作',
   key: 'action',
   fixed: 'right',

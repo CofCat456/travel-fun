@@ -54,12 +54,12 @@ const menuOptions = [
             RouterLink,
             {
               to: {
-                name: 'AdminShopCarts',
+                name: 'AdminOrders',
               },
             },
-            { default: () => '購物車列表' },
+            { default: () => '訂單列表' },
           ),
-        key: 'shopCarts',
+        key: 'orders',
       },
     ],
   },

@@ -10,7 +10,7 @@ export const columns = [
   {
     title: '名稱',
     key: 'title',
-    width: 100,
+    width: 60,
     ellipsis: {
       tooltip: true,
     },
@@ -36,7 +36,7 @@ export const columns = [
   {
     title: '售價',
     key: 'price',
-    width: 40,
+    width: 50,
   },
   {
     title: '上架時間',

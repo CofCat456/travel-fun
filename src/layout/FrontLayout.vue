@@ -18,7 +18,7 @@ const isDone = ref(false);
 const cartStore = useCartStore();
 const productStore = useProductStore();
 
-const { cartList } = storeToRefs(cartStore);
+const { cartList, total, finalTotal } = storeToRefs(cartStore);
 const { productList } = storeToRefs(productStore);
 
 async function getInitialProducts() {
@@ -33,6 +33,8 @@ async function getInitialProducts() {
 
     productList.value = getProductsRes?.data?.products ?? [];
     cartList.value = getCartsRes?.data?.data?.carts ?? [];
+    total.value = getCartsRes?.data?.data?.total;
+    finalTotal.value = getCartsRes?.data?.data?.final_total;
 
     // eslint-disable-next-line no-console
     console.log(productList.value, cartList.value);
