@@ -6,10 +6,10 @@ import { computed } from 'vue';
 import type { Action } from '../types';
 
 const { actions, dropDownActions } = defineProps<{
+  style: string
   actions: Action[]
   dropDownActions?: DropdownOption[]
-  style: string
-  select?: () => void
+  select?: (key: string) => void
 }>();
 
 const getActions = computed<Action[]>(() => {
