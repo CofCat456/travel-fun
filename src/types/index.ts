@@ -69,6 +69,17 @@ export interface Order {
   user: User
 }
 
+// 優惠卷
+export interface Coupon {
+  code: string
+  due_date: number
+  id: string
+  is_enabled: number
+  num: number
+  percent: number
+  title: string
+}
+
 // 新聞
 export interface New {
   title: string

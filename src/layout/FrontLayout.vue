@@ -89,7 +89,7 @@ router.beforeEach(async (to, _from, next) => {
 <template>
   <section class="flex min-h-screen flex-col">
     <Header />
-    <div class="relative flex-1">
+    <div class="relative flex-1 flex flex-col items-stretch">
       <RouterView v-if="isDone" />
     </div>
     <Footer />

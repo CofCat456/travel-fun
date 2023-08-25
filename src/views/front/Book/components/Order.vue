@@ -17,7 +17,7 @@ import type {
 } from 'naive-ui';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { apiUserPostOrder, errorMsg } from '@/utils/api';
+import { apiUserPostCoupon, apiUserPostOrder, errorMsg } from '@/utils/api';
 import type { Order } from '@/types';
 import Menu from '@/views/front/Book/components/Menu.vue';
 import { useCartStore } from '@/stores';
@@ -30,6 +30,8 @@ const { cartList, total, finalTotal } = storeToRefs(cartStore);
 const { getCarts } = cartStore;
 
 const isLoading = ref(false);
+const isCouponLoading = ref(false);
+const couponCode = ref('');
 const formRef = ref<InstanceType<typeof NForm>>();
 
 const orderValue: Order = reactive({
@@ -101,6 +103,28 @@ async function addOrder(order: Order) {
   }
   finally {
     isLoading.value = false;
+  }
+}
+
+async function useCoupon(code: string) {
+  isCouponLoading.value = true;
+
+  const data = {
+    data: { code },
+  };
+
+  try {
+    const res = await apiUserPostCoupon(data);
+
+    const {
+      data: { success },
+    } = res;
+
+    if (success)
+      await getCarts();
+  }
+  finally {
+    isCouponLoading.value = false;
   }
 }
 
@@ -179,8 +203,12 @@ onMounted(() => {
       <NCollapse default-expanded-names="1" accordion>
         <NCollapseItem title="使用或輸入折扣碼" name="1">
           <NInputGroup>
-            <NInput :style="{ width: '50%' }" placeholder="請輸入優惠碼" />
-            <NButton type="primary" ghost>
+            <NInput
+              v-model:value="couponCode"
+              :style="{ width: '50%' }"
+              placeholder="請輸入優惠碼"
+            />
+            <NButton type="primary" ghost :loading="isCouponLoading" @click="useCoupon(couponCode)">
               套用優惠卷
             </NButton>
           </NInputGroup>

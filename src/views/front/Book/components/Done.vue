@@ -112,13 +112,13 @@ onMounted(() => {
             </NEllipsis>
             <div class="flex gap-6 items-center">
               <div class="inline-flex items-center gap-2">
-                <NIcon size="24">
+                <NIcon size="20">
                   <DateRangeOutlined />
                 </NIcon>
                 {{ formatDate2YMD(product.date) }}
               </div>
               <div class="inline-flex items-center gap-2">
-                <NIcon size="24">
+                <NIcon size="20">
                   <PeopleOutlineFilled />
                 </NIcon>
                 <!-- TODO: product 人數 -->

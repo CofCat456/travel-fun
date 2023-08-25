@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { PlusOutlined } from '@vicons/antd';
-import { NButton, NCard, NIcon } from 'naive-ui';
-import Swal from 'sweetalert2';
+import { NButton, NCard, NIcon, useDialog } from 'naive-ui';
 import { computed, h, onMounted, reactive, ref } from 'vue';
 
 import { columns } from './columns';
 import ProductModal from './components/ProductModal.vue';
 import { BasicTable, TableAction } from '@/components/Admin/Table';
 import {
-  apiAdminDeleteProduct,
+  apiAdminDelProduct,
   apiAdminGetAllProducts,
   apiAdminPostProduct,
   apiAdminPutProduct,
@@ -16,6 +15,8 @@ import {
 import { categoryMap, cityMap } from '@/utils/context';
 import { currency, formatDate2YMD } from '@/utils/global';
 import type { Product } from '@/types';
+
+const dialog = useDialog();
 
 const isTableLoading = ref(false);
 const isLoading = ref(false);
@@ -58,7 +59,31 @@ const getTableData = computed(() =>
   })),
 );
 
-function openProductModal(status: boolean, product = {}) {
+function openProductModal(status: boolean, product = {
+  id: '',
+  title: '',
+  city: '',
+  address: '',
+  category: '',
+  unit: '',
+  evaluate: 0,
+  evaluateNum: 0,
+  collectStatus: undefined,
+  price: 0,
+  origin_price: 0,
+  date: 0,
+  coordinates: {
+    lat: 0,
+    lng: 0,
+  },
+  description: undefined,
+  is_enabled: false,
+  imageUrl: '',
+  imagesUrl: [],
+  features: '',
+  content: '',
+  plans: [],
+}) {
   showModal.value = true;
   isNew.value = status;
   Object.assign(tempProduct, { ...product });
@@ -164,8 +189,8 @@ async function updateEnabled(product: Product) {
   }
 }
 
-async function deleteProduct(id: string) {
-  const res = await apiAdminDeleteProduct(id);
+async function delProduct(id: string) {
+  const res = await apiAdminDelProduct(id);
 
   const {
     data: { success },
@@ -175,18 +200,22 @@ async function deleteProduct(id: string) {
     getProducts();
 }
 
-function openDeleteModal(id: string, title: string) {
-  Swal.fire({
-    title: '刪除產品',
-    text: `您正在刪除 ${title} 產品`,
-    icon: 'warning',
-    showLoaderOnConfirm: true,
-    showCancelButton: true,
-    confirmButtonColor: '#0F4BB4',
-    cancelButtonColor: '#d33',
-    confirmButtonText: '確定刪除',
-    cancelButtonText: '取消',
-    preConfirm: () => deleteProduct(id),
+function openDelModal(id: string, title: string) {
+  const d = dialog.warning({
+    title: '警告',
+    content: `你確定刪除 ${title} 產品嗎？`,
+    positiveText: '確定',
+    negativeText: '再想想',
+    onPositiveClick: async () => {
+      try {
+        d.loading = true;
+        await delProduct(id);
+      }
+      finally {
+        d.loading = false;
+        d.destroy();
+      }
+    },
   });
 }
 
@@ -207,7 +236,7 @@ const getActionColumn = computed(() => ({
         },
         {
           label: '删除',
-          onClick: () => openDeleteModal(row.id, row.title),
+          onClick: () => openDelModal(row.id, row.title),
         },
       ],
       dropDownActions: [
@@ -256,7 +285,7 @@ onMounted(() => {
               <PlusOutlined />
             </NIcon>
           </template>
-          新建
+          新增
         </NButton>
       </template>
     </BasicTable>

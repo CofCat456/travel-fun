@@ -1,5 +1,5 @@
 // 換算金錢
-function currency(val: number, symbol: string = ''): string {
+export function currency(val: number, symbol: string = ''): string {
   if (!val)
     return 0;
   const arr = val.toString().split('.');
@@ -8,7 +8,7 @@ function currency(val: number, symbol: string = ''): string {
 }
 
 // 轉換日期 (ISO 8601 to 年/月/日)
-function formatDate2YMD(dateTimeString: number): string {
+export function formatDate2YMD(dateTimeString: number): string {
   const date = new Date(dateTimeString);
 
   const year = date.getFullYear();
@@ -25,8 +25,14 @@ function formatDate2YMD(dateTimeString: number): string {
   return formattedDate;
 }
 
+// 轉換日期 unix timestamp
+export function formatUnix2YMD(unix: number): string {
+  const date = new Date(unix * 1000);
+  return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
+}
+
 // 生成 routerOption
-function createRouterOption(cityName: string, category: string, sort = '') {
+export function createRouterOption(cityName: string, category: string, sort = '') {
   const routerOption = {
     params: { category },
   };
@@ -41,14 +47,14 @@ function createRouterOption(cityName: string, category: string, sort = '') {
 }
 
 // JS 錨點
-function scrollTo(id: string) {
+export function scrollTo(id: string) {
   const element = document.getElementById(id);
-  const top = element.offsetTop;
+  const top = element?.offsetTop;
   window.scroll({ top, behavior: 'smooth' });
 }
 
 // 轉換照片格式
-function imageTransformHandler(file) {
+export function imageTransformHandler(file: any) {
   if (!file)
     return null;
 
@@ -58,11 +64,11 @@ function imageTransformHandler(file) {
 }
 
 // 轉換 Map
-function mapToArray(map) {
+export function mapToArray(map: any) {
   return Array.from(map, ([key, value]) => ({ label: value, value: key }));
 }
 
-function checkToken() {
+export function checkToken() {
   const token = document.cookie.replace(
     /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
     '$1',
@@ -70,13 +76,3 @@ function checkToken() {
 
   return token === '';
 }
-
-export {
-  createRouterOption,
-  currency,
-  formatDate2YMD,
-  imageTransformHandler,
-  mapToArray,
-  scrollTo,
-  checkToken,
-};

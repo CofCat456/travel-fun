@@ -55,7 +55,7 @@ const getBreadcrumbs = computed(() => {
 </script>
 
 <template>
-  <section class="bg-cc-other-7/80 py-4" :class="getStep !== 'Done' ? 'absolute inset-0' : ''">
+  <section class="bg-cc-other-7/80 py-4 flex-1">
     <Container :size="getStep === 'Done' ? 'sm' : 'md'">
       <NBreadcrumb separator=">">
         <template v-for="{ title, pathName } in getBreadcrumbs" :key="title">
@@ -69,7 +69,7 @@ const getBreadcrumbs = computed(() => {
           </NBreadcrumbItem>
         </template>
       </NBreadcrumb>
-      <div class="flex items-baseline gap-6 pt-4 flex-col">
+      <div class="flex items-baseline gap-6 pt-4" :class="getStep === 'Done' ? 'flex-col' : 'flex-row'">
         <RouterView />
       </div>
     </Container>

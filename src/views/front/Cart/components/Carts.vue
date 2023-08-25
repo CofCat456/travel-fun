@@ -3,7 +3,7 @@ import { NButton, NEllipsis, NGi, NGrid, NIcon, NTooltip } from 'naive-ui';
 import { DeleteOutlineOutlined } from '@vicons/material';
 import { ref } from 'vue';
 import { currency, formatDate2YMD } from '@/utils/global';
-import { apiUserDeleteCart } from '@/utils/api';
+import { apiUserDelCart } from '@/utils/api';
 import type { Cart } from '@/types';
 
 defineProps<{
@@ -20,7 +20,7 @@ async function deleteCart(id: string) {
   isLoading.value = true;
 
   try {
-    const res = await apiUserDeleteCart(id);
+    const res = await apiUserDelCart(id);
 
     const {
       data: { success },

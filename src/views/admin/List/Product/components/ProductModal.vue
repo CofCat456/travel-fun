@@ -155,6 +155,7 @@ const rules = computed<FormRules>(() => ({
 }));
 
 const modalStatus = computed(() => `${isNew ? '新增' : '編輯'}`);
+
 const getDefaultFileList = computed(() =>
   tempProduct?.imagesUrl?.map(imageUrl => ({
     id: v4(),
@@ -166,34 +167,6 @@ const getDefaultFileList = computed(() =>
 
 function disablePreviousDate(ts: number) {
   return ts > Date.now();
-}
-
-function resetForm() {
-  Object.assign(productValue, {
-    id: '',
-    title: '',
-    city: '',
-    address: '',
-    category: '',
-    unit: '',
-    evaluate: 0,
-    evaluateNum: 0,
-    collectStatus: undefined,
-    price: 0,
-    origin_price: 0,
-    date: 0,
-    coordinates: {
-      lat: 0,
-      lng: 0,
-    },
-    description: undefined,
-    is_enabled: false,
-    imageUrl: '',
-    imagesUrl: [],
-    features: '',
-    content: '',
-    plans: [],
-  });
 }
 
 async function customRequest({ file, onFinish, onError }: UploadCustomRequestOptions) {
@@ -252,25 +225,25 @@ watch(
   () => tempProduct,
   (curr) => {
     Object.assign(productValue, {
-      id: curr?.id ?? '',
-      title: curr?.title ?? '',
-      city: curr?.city ?? null,
-      address: curr?.address ?? '',
-      category: curr?.category ?? null,
-      unit: curr?.unit ?? null,
-      evaluate: curr?.evaluate ?? 0,
-      evaluateNum: curr?.evaluateNum ?? 0,
-      origin_price: curr?.origin_price ?? 0,
-      price: curr?.price ?? 0,
+      id: curr?.id,
+      title: curr?.title,
+      city: curr?.city,
+      address: curr?.address,
+      category: curr?.category,
+      unit: curr?.unit,
+      evaluate: curr?.evaluate,
+      evaluateNum: curr?.evaluateNum,
+      origin_price: curr?.origin_price,
+      price: curr?.price,
       date: Date.now(),
-      description: curr?.description ?? '',
-      is_enabled: curr?.is_enabled ?? false,
+      description: curr?.description,
+      is_enabled: curr?.is_enabled,
       features: curr.features,
-      plans: curr?.plans ?? [],
-      content: curr?.content ?? '',
-      imageUrl: curr?.imageUrl ?? '',
-      imagesUrl: curr?.imagesUrl ?? [],
-      coordinates: curr?.coordinates ?? { lat: 0, lng: 0 },
+      plans: curr?.plans,
+      content: curr?.content,
+      imageUrl: curr?.imageUrl,
+      imagesUrl: curr?.imagesUrl,
+      coordinates: curr?.coordinates,
     });
   },
   { deep: true },
@@ -286,8 +259,11 @@ watch(
     :title="`${modalStatus}產品`"
     :bordered="false"
     :show="showModal"
+    :segmented="{
+      content: 'soft',
+      footer: false,
+    }"
     @update:show="(status) => $emit('update:showModal', status)"
-    @after-leave="resetForm"
   >
     <div class="max-h-[500px] space-y-6 overflow-auto">
       <NForm ref="formRef" :model="productValue" :rules="rules">

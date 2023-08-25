@@ -93,18 +93,18 @@ watch(
   () => tempOrder,
   (curr) => {
     Object.assign(orderValue, {
-      create_at: curr?.create_at ?? 0,
-      id: curr?.id ?? '',
-      is_paid: curr?.is_paid ?? false,
-      message: curr?.message ?? '',
-      num: curr?.num ?? 0,
-      products: curr?.products ?? {},
-      total: curr?.total ?? 0,
+      create_at: curr?.create_at,
+      id: curr?.id,
+      is_paid: curr?.is_paid,
+      message: curr?.message,
+      num: curr?.num,
+      products: curr?.products,
+      total: curr?.total,
       user: {
-        name: curr?.user?.name ?? '',
-        email: curr?.user?.email ?? '',
-        tel: curr?.user?.tel ?? '',
-        address: curr?.user?.address ?? '',
+        name: curr?.user?.name,
+        email: curr?.user?.email,
+        tel: curr?.user?.tel,
+        address: curr?.user?.address,
       },
     });
   },
@@ -121,6 +121,10 @@ watch(
     title="編輯訂單"
     :bordered="false"
     :show="showModal"
+    :segmented="{
+      content: 'soft',
+      footer: false,
+    }"
     @update:show="(status) => $emit('update:showModal', status)"
   >
     <div class="max-h-[500px] space-y-6 overflow-auto">

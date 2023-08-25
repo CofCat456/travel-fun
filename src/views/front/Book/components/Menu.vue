@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   NCard,
+  NGradientText,
   NGrid,
   NGridItem,
 } from 'naive-ui';
@@ -35,6 +36,12 @@ defineEmits<{
         </NGridItem>
         <NGridItem class="font-bold text-right text-xl text-cc-primary">
           {{ currency(finalTotal, 'NT$ ') }}
+        </NGridItem>
+
+        <NGridItem v-if="total !== finalTotal" :span="2">
+          <NGradientText type="success">
+            已套用優惠卷!
+          </NGradientText>
         </NGridItem>
 
         <NGridItem :span="2">

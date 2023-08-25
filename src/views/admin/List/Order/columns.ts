@@ -26,7 +26,7 @@ export const columns = [
   {
     title: '地址',
     key: 'user.address',
-    width: 80,
+    width: 60,
     ellipsis: {
       tooltip: true,
     },
@@ -34,12 +34,12 @@ export const columns = [
   {
     title: '金額',
     key: 'total',
-    width: 50,
+    width: 30,
   },
   {
     title: '下單時間',
     key: 'create_at',
-    width: 50,
+    width: 40,
     ellipsis: {
       tooltip: true,
     },

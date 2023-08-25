@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import { NCard } from 'naive-ui';
-import Swal from 'sweetalert2';
+import { NButton, NCard, NIcon, useDialog } from 'naive-ui';
 import { computed, h, onMounted, reactive, ref } from 'vue';
 
+import { DeleteSweepOutlined } from '@vicons/material';
 import { columns } from './columns';
 import OrderModal from './components/OrderModal.vue';
 import { BasicTable, TableAction } from '@/components/Admin/Table';
 import {
-  apiAdminDeleteOrder,
-  apiAdminGetOrders, apiAdminPutOrder,
+  apiAdminDelOrder,
+  apiAdminDelOrders,
+  apiAdminGetOrders,
+  apiAdminPutOrder,
 } from '@/utils/api';
 import type { Order } from '@/types';
-import { currency, formatDate2YMD } from '@/utils/global';
+import { currency, formatUnix2YMD } from '@/utils/global';
+
+const dialog = useDialog();
 
 const isTableLoading = ref(false);
 const isLoading = ref(false);
@@ -36,19 +40,10 @@ const showModal = ref(false);
 const getTableData = computed(() =>
   [...orders.value].map(order => ({
     ...order,
-    create_at: formatDate2YMD(order.create_at!),
+    create_at: formatUnix2YMD(order.create_at!),
     total: currency(order.total!, 'NT$ '),
   })),
 );
-
-function openOrderModal(order = {}) {
-  showModal.value = true;
-  Object.assign(tempOrder, { ...order });
-}
-
-function closeOrderModal() {
-  showModal.value = false;
-}
 
 async function getOrders() {
   isTableLoading.value = true;
@@ -59,9 +54,6 @@ async function getOrders() {
     const {
       data: { success },
     } = res;
-
-    // eslint-disable-next-line no-console
-    console.log(res);
 
     if (success)
       orders.value = res.data.orders;
@@ -99,8 +91,8 @@ async function updateOrder(order: Order) {
   }
 }
 
-async function deleteOrder(id: string) {
-  const res = await apiAdminDeleteOrder(id);
+async function delOrder(id: string) {
+  const res = await apiAdminDelOrder(id);
 
   const {
     data: { success },
@@ -110,18 +102,75 @@ async function deleteOrder(id: string) {
     getOrders();
 }
 
-function openDeleteModal(id: string) {
-  Swal.fire({
-    title: '刪除產品',
-    text: `您正在刪除編號 ${id} 訂單`,
-    icon: 'warning',
-    showLoaderOnConfirm: true,
-    showCancelButton: true,
-    confirmButtonColor: '#0F4BB4',
-    cancelButtonColor: '#d33',
-    confirmButtonText: '確定刪除',
-    cancelButtonText: '取消',
-    preConfirm: () => deleteOrder(id),
+async function delOrders() {
+  const res = await apiAdminDelOrders();
+
+  const {
+    data: { success },
+  } = res;
+
+  if (success)
+    getOrders();
+}
+
+function openOrderModal(order = {
+  create_at: Date.now(),
+  id: '',
+  is_paid: false,
+  message: '',
+  num: 0,
+  products: {},
+  total: 0,
+  user: {
+    name: '',
+    email: '',
+    tel: '',
+    address: '',
+  },
+}) {
+  showModal.value = true;
+  Object.assign(tempOrder, { ...order });
+}
+
+function closeOrderModal() {
+  showModal.value = false;
+}
+
+function openDelModal(id: string) {
+  const d = dialog.warning({
+    title: '警告',
+    content: `您確定刪除編號 ${id} 訂單？`,
+    positiveText: '確定',
+    negativeText: '再想想',
+    onPositiveClick: async () => {
+      try {
+        d.loading = true;
+        await delOrder(id);
+      }
+      finally {
+        d.loading = false;
+        d.destroy();
+      }
+    },
+  });
+}
+
+function openDelAllModal() {
+  const d = dialog.warning({
+    title: '警告',
+    content: '您確定刪除所有訂單嗎？',
+    positiveText: '確定',
+    negativeText: '再想想',
+    onPositiveClick: async () => {
+      try {
+        d.loading = true;
+        await delOrders();
+      }
+      finally {
+        d.loading = false;
+        d.destroy();
+      }
+    },
   });
 }
 
@@ -142,7 +191,7 @@ const getActionColumn = computed(() => ({
         },
         {
           label: '删除',
-          onClick: () => openDeleteModal(row.id),
+          onClick: () => openDelModal(row.id),
         },
       ],
     });
@@ -162,7 +211,18 @@ onMounted(() => {
       :action-column="getActionColumn"
       :data="getTableData"
       @reload="getOrders"
-    />
+    >
+      <template #tableTitle>
+        <NButton @click="openDelAllModal">
+          <template #icon>
+            <NIcon>
+              <DeleteSweepOutlined />
+            </NIcon>
+          </template>
+          清空訂單
+        </NButton>
+      </template>
+    </BasicTable>
     <OrderModal
       v-model:showModal="showModal"
       :is-loading="isLoading"

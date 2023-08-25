@@ -90,6 +90,7 @@ const api = {
     product: `api/${VITE_PATH}/admin/product`,
     upload: `api/${VITE_PATH}/admin/upload`,
     order: `api/${VITE_PATH}/admin/order`,
+    coupon: `api/${VITE_PATH}/admin/coupon`,
   },
 };
 
@@ -107,8 +108,8 @@ function apiUserGetProducts(category: string = '') {
 const apiUSerGetProduct = (id: string) => request.get(`${api.user.product}/${id}`);
 const apiUserGetCarts = () => request.get(api.user.cart);
 const apiUserPostCart = (data: any) => request.post(api.user.cart, data);
-const apiUserDeleteCart = (id: string) => request.delete(`${api.user.cart}/${id}`);
-const apiUserDeleteCarts = () => request.delete(`${api.user.cart}/s`);
+const apiUserDelCart = (id: string) => request.delete(`${api.user.cart}/${id}`);
+const apiUserDelCarts = () => request.delete(`${api.user.cart}/s`);
 const apiUserPostCoupon = (data: any) => request.post(api.user.coupon, data);
 const apiUserGetOrder = (id: string) => request.get(`${api.user.order}/${id}`);
 const apiUserPostOrder = (data: any) => request.post(api.user.order, data);
@@ -119,7 +120,7 @@ const apiAdminGetProducts = (page: number) => request.get(`${api.admin.product}s
 const apiAdminGetAllProducts = () => request.get(`${api.admin.product}s/all`);
 const apiAdminPostProduct = (data: Data) => request.post(api.admin.product, data);
 const apiAdminPutProduct = (id: string, data: Data) => request.put(`${api.admin.product}/${id}`, data);
-const apiAdminDeleteProduct = (id: string) => request.delete(`${api.admin.product}/${id}`);
+const apiAdminDelProduct = (id: string) => request.delete(`${api.admin.product}/${id}`);
 function apiAdminUploadImage(formData: FormData) {
   return request.post(api.admin.upload, formData, {
     headers: {
@@ -129,8 +130,12 @@ function apiAdminUploadImage(formData: FormData) {
 }
 const apiAdminGetOrders = () => request.get(`${api.admin.order}s`);
 const apiAdminPutOrder = (id: string, data: any) => request.put(`${api.admin.order}/${id}`, data);
-const apiAdminDeleteOrder = (id: string) => request.delete(`${api.admin.order}/${id}`);
-const apiAdminDeleteAllOrders = () => request.delete(`${api.admin.order}/all`);
+const apiAdminDelOrder = (id: string) => request.delete(`${api.admin.order}/${id}`);
+const apiAdminDelOrders = () => request.delete(`${api.admin.order}s/all`);
+const apiAdminGetCoupons = () => request.get(`${api.admin.coupon}s`);
+const apiAdminPostCoupon = (data: any) => request.post(`${api.admin.coupon}`, data);
+const apiAdminPutCoupon = (id: string, data: any) => request.put(`${api.admin.coupon}/${id}`, data);
+const apiAdminDelCoupon = (id: string) => request.delete(`${api.admin.coupon}/${id}`);
 
 export {
   api,
@@ -138,12 +143,16 @@ export {
   apiAdminGetProducts,
   apiAdminPostProduct,
   apiAdminPutProduct,
-  apiAdminDeleteProduct,
+  apiAdminDelProduct,
   apiAdminUploadImage,
   apiAdminGetOrders,
   apiAdminPutOrder,
-  apiAdminDeleteOrder,
-  apiAdminDeleteAllOrders,
+  apiAdminDelOrder,
+  apiAdminDelOrders,
+  apiAdminGetCoupons,
+  apiAdminPostCoupon,
+  apiAdminPutCoupon,
+  apiAdminDelCoupon,
   apiUserSignin,
   apiUserLogout,
   apiUserCheckSignin,
@@ -152,8 +161,8 @@ export {
   apiUSerGetProduct,
   apiUserGetProducts,
   apiUserPostCart,
-  apiUserDeleteCart,
-  apiUserDeleteCarts,
+  apiUserDelCart,
+  apiUserDelCarts,
   apiUserPostCoupon,
   apiUserGetOrder,
   apiUserPostOrder,

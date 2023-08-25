@@ -10,7 +10,7 @@ import { currency } from '@/utils/global';
 import { SwiperProduct } from '@/components/Swiper';
 
 import { useCartStore, useProductStore } from '@/stores';
-import { apiUserDeleteCarts } from '@/utils/api';
+import { apiUserDelCarts } from '@/utils/api';
 
 const productStore = useProductStore();
 const cartStore = useCartStore();
@@ -37,7 +37,7 @@ async function deleteCarts() {
   isLoading.value = true;
 
   try {
-    const res = await apiUserDeleteCarts();
+    const res = await apiUserDelCarts();
 
     const {
       data: { success },

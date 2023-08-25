@@ -3,7 +3,9 @@ import { DashboardOutlined, TableOutlined } from '@vicons/antd';
 import type { Component } from 'vue';
 import { NIcon, NMenu } from 'naive-ui';
 import { h } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
+
+const route = useRoute();
 
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -46,7 +48,7 @@ const menuOptions = [
             },
             { default: () => '產品列表' },
           ),
-        key: 'products',
+        key: 'AdminProducts',
       },
       {
         label: () =>
@@ -59,7 +61,20 @@ const menuOptions = [
             },
             { default: () => '訂單列表' },
           ),
-        key: 'orders',
+        key: 'AdminOrders',
+      },
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'AdminCoupons',
+              },
+            },
+            { default: () => '優惠卷列表' },
+          ),
+        key: 'AdminCoupons',
       },
     ],
   },
@@ -67,5 +82,11 @@ const menuOptions = [
 </script>
 
 <template>
-  <NMenu :collapsed-width="64" :collapsed-icon-size="20" :indent="24" :options="menuOptions" />
+  <NMenu
+    :collapsed-width="64"
+    :collapsed-icon-size="20"
+    :indent="24"
+    :options="menuOptions"
+    :default-value="route.name!.toString()"
+  />
 </template>

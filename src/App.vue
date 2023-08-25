@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {
-  NConfigProvider, NLoadingBarProvider,
+  NConfigProvider,
+  NDialogProvider,
+  NLoadingBarProvider,
   NMessageProvider,
 } from 'naive-ui';
 import { computed } from 'vue';
@@ -45,7 +47,9 @@ const getThemeOverrides = computed(() => {
   <NConfigProvider :theme-overrides="getThemeOverrides">
     <NLoadingBarProvider>
       <NMessageProvider>
-        <RouterView />
+        <NDialogProvider>
+          <RouterView />
+        </NDialogProvider>
       </NMessageProvider>
     </NLoadingBarProvider>
   </NConfigProvider>
