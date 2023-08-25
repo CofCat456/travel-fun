@@ -29,6 +29,9 @@
   button {
     @apply text-sm leading-normal disabled:cursor-not-allowed disabled:opacity-60 [&:disabled>*]:cursor-not-allowed;
   }
+  button, [type='button'], [type='reset'], [type='submit'] {
+    background-color: var(--n-color);
+  }
 }
 
 @layer components {
