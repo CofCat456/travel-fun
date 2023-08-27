@@ -100,3 +100,7 @@ body {
 #mobile .modal-window {
   @apply overflow-visible rounded-m;
 }
+
+.n-base-select-menu .n-base-select-menu__empty {
+  padding: 0px;
+}
