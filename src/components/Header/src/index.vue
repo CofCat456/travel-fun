@@ -7,7 +7,7 @@ import {
   PersonOutlineFilled,
   PersonOutlineOutlined,
 } from '@vicons/material';
-import { NIcon } from 'naive-ui';
+import { NButton, NIcon, NPopselect } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
@@ -16,6 +16,7 @@ import ShopCart from './shopCart.vue';
 import { websiteConfig } from '@/config/website.config';
 import { useFavoriteStore, useUserStore } from '@/stores';
 import Container from '@/layout/Container.vue';
+import { cityData, cityMap, cityPos } from '@/utils/context';
 
 const route = useRoute();
 
@@ -42,21 +43,47 @@ const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.na
           </RouterLink>
           <ul class="hidden h-full flex-1 items-center gap-1 md:flex">
             <li class="h-full flex-1">
-              <button type="button" class="h-full w-28 rounded-[100px] border border-white">
-                選地區
-              </button>
+              <NPopselect :width="350" size="small" placement="bottom-start" :options="[]">
+                <button type="button" class="h-full w-28 rounded-[100px] border border-white">
+                  選地區
+                </button>
+                <template #empty>
+                  <div class="flex flex-col gap-3">
+                    <template v-for="(citys, key) in cityData" :key="key">
+                      <div class="text-sm-content">
+                        <p class="w-full py-1 text-cc-accent border-b border-cc-accent">
+                          {{ cityPos.get(key) }}
+                        </p>
+                        <div class="my-2 flex items-center gap-4 flex-wrap">
+                          <template v-for="cityName in citys" :key="cityName">
+                            <RouterLink v-slot="{ navigate }" custom :to="{ name: 'City', params: { cityName } }">
+                              <NButton text @click="navigate">
+                                {{ cityMap.get(cityName) }}市
+                              </NButton>
+                            </RouterLink>
+                          </template>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </template>
+              </NPopselect>
             </li>
-            <li class="flex flex-1 items-center justify-center gap-2 text-sm">
-              <NIcon size="24">
-                <ConfirmationNumberOutlined />
-              </NIcon>
-              景點套票
+            <li class="flex-1 text-sm">
+              <RouterLink class="flex justify-center items-center gap-2" :to="{ name: 'CountryProducts', params: { countryName: 'taiwan', category: 'package' } }">
+                <NIcon size="24">
+                  <ConfirmationNumberOutlined />
+                </NIcon>
+                景點套票
+              </RouterLink>
             </li>
-            <li class="flex flex-1 items-center justify-center gap-2 text-sm">
-              <NIcon size="24">
-                <FlightTakeoffOutlined />
-              </NIcon>
-              觀光行程
+            <li class="flex-1 text-sm">
+              <RouterLink class="flex justify-center items-center gap-2" :to="{ name: 'Country', params: { countryName: 'taiwan' } }">
+                <NIcon size="24">
+                  <FlightTakeoffOutlined />
+                </NIcon>
+                觀光行程
+              </RouterLink>
             </li>
           </ul>
         </div>

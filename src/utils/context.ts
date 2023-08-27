@@ -2,6 +2,13 @@ import { Sort } from '../types';
 
 export const countryMap = new Map().set('taiwan', '台灣');
 
+export const cityPos = new Map()
+  .set('north', '北部')
+  .set('central', '中部')
+  .set('south', '南部')
+  .set('east', '東部')
+  .set('outlying', '離島');
+
 export const cityMap = new Map()
   .set('taipei', '台北')
   .set('keelung', '基隆')
@@ -21,6 +28,14 @@ export const cityMap = new Map()
   .set('hualien', '花蓮')
   .set('taitung', '台東')
   .set('penghu', '澎湖');
+
+export const cityData = {
+  north: ['taipei', 'keelung', 'new-taipei', 'taoyuan'],
+  central: ['hsinchu', 'miaoli', 'taichung', 'changhua'],
+  south: ['nantou', 'yunlin', 'chiayi', 'tainan', 'kaohsiung'],
+  east: ['yilan', 'hualien', 'taitung'],
+  outlying: ['pingtung', 'penghu'],
+};
 
 export const categoryMap = new Map().set('tickets', '門票').set('package', '套票');
 
