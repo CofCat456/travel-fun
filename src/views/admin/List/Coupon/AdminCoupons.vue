@@ -122,7 +122,7 @@ async function delCoupon(id: string) {
     getCoupons();
 }
 
-function openCouponModal(status: boolean, coupon = {
+function openCouponModal(status: boolean, coupon: Coupon = {
   code: '',
   due_date: Date.now(),
   id: '',

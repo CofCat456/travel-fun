@@ -112,6 +112,14 @@ const router = createRouter({
             },
           ],
         },
+        {
+          path: 'wishlist',
+          name: 'WishList',
+          component: () => import('../views/front/WishList/WishListView.vue'),
+          meta: {
+            title: '我的最愛 - Travel Fun',
+          },
+        },
       ],
     },
     {

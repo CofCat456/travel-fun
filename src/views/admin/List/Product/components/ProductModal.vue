@@ -17,7 +17,9 @@ import {
   NInputGroupLabel,
   NInputNumber,
   NModal,
-  NRate, NSelect, NSwitch,
+  NRate,
+  NSelect,
+  NSwitch,
   NTabPane,
   NTabs,
   NUpload,
@@ -425,13 +427,20 @@ watch(
                 />
               </NFormItemGi>
 
-              <NFormItemGi :span="2" label="啟用產品" path="is_enabled">
+              <NFormItemGi label="啟用產品" path="is_enabled">
                 <NSwitch v-model:value="productValue.is_enabled">
                   <template #checked>
                     啟用
                   </template>
                   <template #unchecked>
                     未啟用
+                  </template>
+                </NSwitch>
+              </NFormItemGi>
+              <NFormItemGi label="加入收藏" path="is_favorite">
+                <NSwitch>
+                  <template #icon>
+                    ❤️
                   </template>
                 </NSwitch>
               </NFormItemGi>

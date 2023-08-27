@@ -59,7 +59,7 @@ const getTableData = computed(() =>
   })),
 );
 
-function openProductModal(status: boolean, product = {
+function openProductModal(status: boolean, product: Product = {
   id: '',
   title: '',
   city: '',
@@ -68,7 +68,6 @@ function openProductModal(status: boolean, product = {
   unit: '',
   evaluate: 0,
   evaluateNum: 0,
-  collectStatus: undefined,
   price: 0,
   origin_price: 0,
   date: 0,

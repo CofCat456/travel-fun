@@ -2,6 +2,7 @@
 import {
   ConfirmationNumberOutlined,
   FavoriteBorderOutlined,
+  FavoriteOutlined,
   FlightTakeoffOutlined,
   PersonOutlineFilled,
   PersonOutlineOutlined,
@@ -13,14 +14,16 @@ import { RouterLink, useRoute } from 'vue-router';
 import HamburgerBtn from '../../HamburgerBtn.vue';
 import ShopCart from './shopCart.vue';
 import { websiteConfig } from '@/config/website.config';
-import { useUserStore } from '@/stores';
+import { useFavoriteStore, useUserStore } from '@/stores';
 import Container from '@/layout/Container.vue';
 
 const route = useRoute();
 
 const userStore = useUserStore();
+const favoriteStore = useFavoriteStore();
 
 const { loginStatus } = storeToRefs(userStore);
+const { favoriteList } = storeToRefs(favoriteStore);
 
 const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.name!.toString()));
 </script>
@@ -59,9 +62,14 @@ const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.na
         </div>
         <div class="flex items-center justify-between lg:w-[256px]">
           <div class="hidden place-content-center md:grid">
-            <NIcon size="24" class="icon-hover">
-              <FavoriteBorderOutlined />
-            </NIcon>
+            <RouterLink :to="{ name: 'WishList' }">
+              <NIcon v-if="favoriteList.length !== 0" size="24" color="#EE5220" class="icon-hover">
+                <FavoriteOutlined />
+              </NIcon>
+              <NIcon v-else class="icon-hover" size="24">
+                <FavoriteBorderOutlined />
+              </NIcon>
+            </RouterLink>
           </div>
           <RouterLink v-if="loginStatus" v-slot="{ navigate }" custom :to="{ name: 'AdminHome' }">
             <button

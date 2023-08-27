@@ -10,7 +10,6 @@ export interface Product {
   unit: string
   evaluate: number
   evaluateNum: number
-  collectStatus?: boolean
   price: number
   origin_price: number
   date: number

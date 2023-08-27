@@ -113,7 +113,7 @@ async function delOrders() {
     getOrders();
 }
 
-function openOrderModal(order = {
+function openOrderModal(order: Order = {
   create_at: Date.now(),
   id: '',
   is_paid: false,

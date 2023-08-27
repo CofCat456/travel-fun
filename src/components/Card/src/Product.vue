@@ -6,13 +6,16 @@ import { currency } from '@/utils/global';
 import { cityMap } from '@/utils/context';
 import { useGo } from '@/composables/go';
 import type { Product } from '@/types';
+import { useFavoriteStore } from '@/stores';
 
-defineProps<Product & {
-  notRanking?: boolean
+defineProps<Product & { notRanking?: boolean
   ranking?: number
 }>();
 
+const favoriteStore = useFavoriteStore();
+
 const { goProduct } = useGo();
+const { addFavorite, removeFavorite, checkFavorite } = favoriteStore;
 </script>
 
 <template>
@@ -27,11 +30,11 @@ const { goProduct } = useGo();
       {{ ranking }}
     </div>
     <div class="absolute top-[10px] right-[10px] text-white">
-      <NIcon v-if="collectStatus" size="24" class="icon-hover">
-        <FavoriteOutlined />
+      <NIcon v-if="checkFavorite(id)" size="24" color="#EE5220" class="icon-hover">
+        <FavoriteOutlined @click.stop="removeFavorite(id, title)" />
       </NIcon>
-      <NIcon v-else size="20" class="icon-hover">
-        <FavoriteBorderOutlined />
+      <NIcon v-else class="icon-hover" size="24">
+        <FavoriteBorderOutlined @click.stop="addFavorite(id, title)" />
       </NIcon>
     </div>
     <div

@@ -9,7 +9,6 @@ type SortFunction<T = Product> = (a: T, b: T) => number;
 
 const useProductStore = defineStore('product', () => {
   const productList = ref<Product[]>([]);
-  const product = ref<Product>();
 
   const sortByPreferred = () => Math.random() - 0.5;
   const sortByNewest: SortFunction = (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -67,15 +66,14 @@ const useProductStore = defineStore('product', () => {
     const res = await apiUSerGetProduct(productId);
 
     const {
-      data: { success, product: resProduct },
+      data: { success, product },
     } = res;
 
     if (success)
-      product.value = resProduct;
+      return product;
   };
 
   return {
-    product,
     productList,
     getProduct,
     getProducts,

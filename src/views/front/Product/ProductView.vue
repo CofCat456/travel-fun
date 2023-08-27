@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NBreadcrumb, NBreadcrumbItem, NSpace, useLoadingBar } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
 import Content from './components/Content.vue';
@@ -14,6 +14,7 @@ import { useCartStore, useProductStore } from '@/stores';
 import Container from '@/layout/Container.vue';
 import { SwiperBanner, SwiperProduct } from '@/components/Swiper';
 import { Map } from '@/components/Map';
+import type { Product } from '@/types';
 
 const loadingBar = useLoadingBar();
 
@@ -24,10 +25,35 @@ const cartStore = useCartStore();
 const productStore = useProductStore();
 
 const { isLoading } = storeToRefs(cartStore);
-const { product, getByRecommended } = storeToRefs(productStore);
+const { getByRecommended } = storeToRefs(productStore);
 
 const { addCart } = cartStore;
 const { getProduct, getFilterData } = productStore;
+
+const product: Product = reactive({
+  id: '',
+  title: '',
+  city: '',
+  address: '',
+  category: '',
+  unit: '',
+  evaluate: 0,
+  evaluateNum: 0,
+  origin_price: 0,
+  price: 0,
+  date: Date.now(),
+  description: '',
+  is_enabled: false,
+  imageUrl: '',
+  imagesUrl: [],
+  features: '',
+  plans: [],
+  content: '',
+  coordinates: {
+    lat: 0,
+    lng: 0,
+  },
+});
 
 const productId = route.params.productId as string;
 
@@ -42,12 +68,12 @@ const getBreadcrumbs = computed(() => [
     params: { countryName: 'taiwan' },
   },
   {
-    title: cityMap.get(product.value?.city),
+    title: cityMap.get(product?.city),
     pathName: 'City',
-    params: { cityName: product.value?.city },
+    params: { cityName: product?.city },
   },
   {
-    title: product.value?.title,
+    title: product?.title,
   },
 ]);
 
@@ -58,7 +84,7 @@ onBeforeRouteUpdate(async (to) => {
   const { productId } = to.params as { productId: string };
 
   try {
-    await getProduct(productId);
+    Object.assign(product, await getProduct(productId));
   }
   catch {
     loadingBar.error();
@@ -69,7 +95,9 @@ onBeforeRouteUpdate(async (to) => {
   }
 });
 
-onMounted(() => getProduct(productId));
+onMounted(async () => {
+  Object.assign(product, await getProduct(productId));
+});
 </script>
 
 <template>
@@ -93,6 +121,8 @@ onMounted(() => getProduct(productId));
         {{ product.title }}
       </h1>
       <TopWrapper
+        :id="product.id"
+        :title="product.title"
         :evaluate="product.evaluate"
         :evaluate-num="product.evaluateNum"
         :address="product.address"
