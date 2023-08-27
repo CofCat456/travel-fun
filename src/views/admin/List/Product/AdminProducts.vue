@@ -53,8 +53,8 @@ const getTableData = computed(() =>
     ...product,
     category: categoryMap.get(product.category),
     city: cityMap.get(product.city),
-    origin_price: currency(product.origin_price, 'NT$ '),
-    price: currency(product.price, 'NT$ '),
+    origin_price: currency(product.origin_price),
+    price: currency(product.price),
     date: formatDate2YMD(product.date),
   })),
 );

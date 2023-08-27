@@ -41,7 +41,7 @@ const getTableData = computed(() =>
   [...orders.value].map(order => ({
     ...order,
     create_at: formatUnix2YMD(order.create_at!),
-    total: currency(order.total!, 'NT$ '),
+    total: currency(order.total!),
   })),
 );
 

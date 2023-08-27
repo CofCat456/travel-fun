@@ -56,7 +56,7 @@ async function deleteCart(id: string) {
             <span>{{ formatDate2YMD(buy_date) }}</span>
           </h3>
           <h6 class="font-bold text-cc-primary w-2/12">
-            {{ currency(final_total!, 'NT$ ') }}
+            {{ currency(final_total!) }}
           </h6>
           <div class="w-1/12">
             <NTooltip trigger="hover">

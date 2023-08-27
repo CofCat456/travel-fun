@@ -62,7 +62,7 @@ const { addFavorite, removeFavorite, checkFavorite } = favoriteStore;
       </NSpace>
       <div class="inline-flex items-center gap-1">
         <h6>
-          {{ currency(price, 'NT$ ') }}
+          {{ currency(price) }}
         </h6>
         <p class="text-sm-content text-cc-other-4 line-through">
           {{ currency(origin_price, '$') }}

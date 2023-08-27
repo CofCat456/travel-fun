@@ -28,14 +28,14 @@ defineEmits<{
           價格
         </NGridItem>
         <NGridItem class="font-bold text-right">
-          {{ currency(total, 'NT$ ') }}
+          {{ currency(total) }}
         </NGridItem>
 
         <NGridItem>
           付款金額
         </NGridItem>
         <NGridItem class="font-bold text-right text-xl text-cc-primary">
-          {{ currency(finalTotal, 'NT$ ') }}
+          {{ currency(finalTotal) }}
         </NGridItem>
 
         <NGridItem v-if="total !== finalTotal" :span="2">

@@ -88,7 +88,7 @@ async function deleteCarts() {
               <div class="inline-flex items-end gap-1">
                 <span>{{ cartList.length }} 件商品合計</span>
                 <h4 class="text-cc-primry font-bold">
-                  {{ currency(finalTotal, 'NT$ ') }}
+                  {{ currency(finalTotal) }}
                 </h4>
               </div>
               <RouterLink :to="{ name: 'Order' }" class="btn ml-2">

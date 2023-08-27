@@ -77,10 +77,10 @@ function disablePreviousDate(ts: number) {
           <div class="flex items-end">
             <div class="mr-4 whitespace-nowrap text-right">
               <h5 class="font-bold">
-                {{ currency(price, 'NT$ ') }}
+                {{ currency(price) }}
               </h5>
               <span class="text-sm text-cc-other-4 line-through">
-                {{ currency(origin_price, 'NT$ ') }}
+                {{ currency(origin_price) }}
               </span>
             </div>
             <Button @click="toggleShowDetail">
@@ -161,7 +161,7 @@ function disablePreviousDate(ts: number) {
                 <div class="flex items-center">
                   <span class="flex-1 whitespace-nowrap text-sm text-cc-other-9"> 總金額 </span>
                   <h5 class="font-bold">
-                    {{ currency(qty * price, 'NT$ ') }}
+                    {{ currency(qty * price) }}
                   </h5>
                 </div>
               </div>

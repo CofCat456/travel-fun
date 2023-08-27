@@ -70,7 +70,7 @@ const { goProduct } = useGo();
                   {{ product?.description }}
                 </NEllipsis>
                 <p class="text-cc-primary font-bold">
-                  {{ currency(product?.price!, 'NT$ ') }}
+                  {{ currency(product?.price!) }}
                 </p>
               </div>
               <div />

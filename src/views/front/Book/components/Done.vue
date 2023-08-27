@@ -125,7 +125,7 @@ onMounted(() => {
                 人數 1 人
               </div>
               <p class="flex-1 text-cc-primary text-right font-bold">
-                {{ currency(final_total, 'NT$ ') }}
+                {{ currency(final_total) }}
               </p>
             </div>
           </div>
@@ -139,7 +139,7 @@ onMounted(() => {
           付款金額
         </h6>
         <h5 class="font-bold text-cc-primary">
-          {{ currency(orderValue.total!, 'NT$ ') }}
+          {{ currency(orderValue.total!) }}
         </h5>
       </div>
     </template>

@@ -49,7 +49,7 @@ const { checkFavorite, addFavorite, removeFavorite } = favoriteStore;
             </p>
           </NSpace>
           <h5 class="font-bold">
-            {{ currency(price, 'NT$ ') }}
+            {{ currency(price) }}
           </h5>
         </div>
         <div class="absolute top-[10px] right-[10px] text-white">
