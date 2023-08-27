@@ -80,12 +80,8 @@ const options = computed(() =>
 
 function onSubmit() {
   formRef.value?.validate((errors) => {
-    if (!errors) {
-      // eslint-disable-next-line no-console
-      console.log(orderValue);
-
+    if (!errors)
       emit('updateOrder', orderValue);
-    }
   });
 }
 

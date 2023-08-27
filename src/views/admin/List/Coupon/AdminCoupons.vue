@@ -48,9 +48,6 @@ async function getCoupons() {
       data: { success },
     } = res;
 
-    // eslint-disable-next-line no-console
-    console.log(res);
-
     if (success)
       coupons.value = res.data.coupons;
   }

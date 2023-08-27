@@ -212,9 +212,6 @@ function handleRemoveUploadFile({ file }: { file: UploadFileInfo }) {
 function onSubmit() {
   formRef.value?.validate((errors) => {
     if (!errors) {
-      // eslint-disable-next-line no-console
-      console.log(productValue);
-
       if (isNew)
         emit('addProduct', productValue);
       else

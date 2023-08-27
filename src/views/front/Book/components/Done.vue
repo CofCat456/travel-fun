@@ -57,12 +57,8 @@ async function getOrder() {
       data: { order, success },
     } = res;
 
-    if (success) {
+    if (success)
       Object.assign(orderValue, order);
-
-      // eslint-disable-next-line no-console
-      console.log(res);
-    }
   }
   catch {
     loadingBar.error();

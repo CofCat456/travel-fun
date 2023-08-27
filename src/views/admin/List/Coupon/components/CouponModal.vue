@@ -75,9 +75,6 @@ function disablePreviousDate(ts: number) {
 function onSubmit() {
   formRef.value?.validate((errors) => {
     if (!errors) {
-      // eslint-disable-next-line no-console
-      console.log(couponValue);
-
       if (isNew)
         emit('addCoupon', couponValue);
       else

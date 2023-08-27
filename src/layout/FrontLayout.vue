@@ -35,9 +35,6 @@ async function getInitialProducts() {
     cartList.value = getCartsRes?.data?.data?.carts ?? [];
     total.value = getCartsRes?.data?.data?.total;
     finalTotal.value = getCartsRes?.data?.data?.final_total;
-
-    // eslint-disable-next-line no-console
-    console.log(productList.value, cartList.value);
   }
   catch {
     loadingBar.error();
