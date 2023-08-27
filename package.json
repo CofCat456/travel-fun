@@ -10,6 +10,12 @@
     "lint": "eslint './src/**/*.{ts,vue}' --cache .",
     "lint:fix": "pnpm run lint --fix --ignore-path .gitignore"
   },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^38.1.1",
     "@ckeditor/ckeditor5-vue": "^5.1.0",
@@ -27,9 +33,7 @@
     "swiper": "^9.4.1",
     "uuid": "^9.0.0",
     "vfonts": "^0.0.3",
-    "vite-plugin-eslint": "^1.8.1",
     "vue": "^3.3.4",
-    "vue-loading-overlay": "^6.0.3",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
@@ -39,7 +43,9 @@
     "@types/uuid": "^9.0.2",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.14",
+    "lint-staged": "^14.0.1",
     "postcss": "^8.4.27",
+    "simple-git-hooks": "^2.9.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6",
     "vite": "^4.4.9",
