@@ -20,6 +20,7 @@ Demo : [旅遊趣](https://travel-fun.vercel.app/#/)
 
 ## **專案說明**
 > * 使用 `Vue.js` 和 `Vite` 進行開發
+> * 使用 `Composition API` 和 `TypeScript` 進行編程
 > * 使用 `Vue Router` 路由設定
 > * 使用 `Axios` 串接後台 API 資料
 > * 使用 `props` `emit` `pinia` 進行元件間資料的傳遞
@@ -32,6 +33,7 @@ Demo : [旅遊趣](https://travel-fun.vercel.app/#/)
 * [Vite](https://vitejs.dev/)
 * [Vue Router](https://router.vuejs.org/zh/)`4`
 * [Pinia](https://pinia.vuejs.org/)
+* [Typescript](https://www.typescriptlang.org/)
 * [Axios](https://axios-http.com/)
 * [Sweetalert2](https://sweetalert2.github.io/#icons)
 * [Tailwind CSS](https://tailwindcss.com/)
@@ -108,6 +110,7 @@ Demo : [旅遊趣](https://travel-fun.vercel.app/#/)
 <br><br>
 
 ## 後台頁面介紹
+* 後台設計參考 [Naive Ui Admin](https://github.com/jekip/naive-ui-admin)
 
 ### 登入頁面
 <img width="80%" alt="登入頁面" src="./.screenshots/12.login.png">
