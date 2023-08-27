@@ -96,7 +96,9 @@ onBeforeRouteUpdate(async (to) => {
 });
 
 onMounted(async () => {
-  Object.assign(product, await getProduct(productId));
+  loadingBar.start();
+  await Object.assign(product, await getProduct(productId));
+  loadingBar.finish();
 });
 </script>
 

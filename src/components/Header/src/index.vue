@@ -12,7 +12,7 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import HamburgerBtn from '../../HamburgerBtn.vue';
-import ShopCart from './shopCart.vue';
+import ShopCart from './ShopCart.vue';
 import Area from './Area.vue';
 import { websiteConfig } from '@/config/website.config';
 import { useFavoriteStore, useUserStore } from '@/stores';
