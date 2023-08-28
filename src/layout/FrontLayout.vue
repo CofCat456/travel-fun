@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { useLoadingBar } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { onMounted, ref } from 'vue';
-import { RouterView, useRouter } from 'vue-router';
+import { computed, onMounted, ref } from 'vue';
+import { RouterView, useRoute, useRouter } from 'vue-router';
 
 import Footer from '../components/Footer.vue';
 import Header from '../components/Header';
 import { useCartStore, useProductStore } from '../stores';
 import { apiUserCheckSignin, apiUserGetAllProducts, apiUserGetCarts } from '../utils/api';
 
+const route = useRoute();
 const router = useRouter();
 
 const loadingBar = useLoadingBar();
@@ -21,8 +22,12 @@ const productStore = useProductStore();
 const { cartList, total, finalTotal } = storeToRefs(cartStore);
 const { productList } = storeToRefs(productStore);
 
+const canLoadingBar = computed(() => route.name !== 'Product');
+
 async function getInitialProducts() {
-  loadingBar.start();
+  if (canLoadingBar.value)
+    loadingBar.start();
+
   isDone.value = false;
 
   try {
