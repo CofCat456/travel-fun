@@ -31,8 +31,9 @@ onBeforeRouteUpdate(() => {
   <NDrawer
     id="drawer"
     v-model:show="activate.active"
+    style="top: 64px"
     show-mask="transparent"
-    height="calc(100vh - 64px)"
+    height="undefined"
     :placement="activate.placement"
   >
     <NCollapse arrow-placement="right" accordion @item-header-click="handleItemHeaderClick">
