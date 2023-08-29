@@ -16,7 +16,7 @@ const getFilterList = computed(() => productList.value.filter(({ title, city }) 
 </script>
 
 <template>
-  <NPopselect trigger="click" :options="[]" :width="640">
+  <NPopselect trigger="click" :options="[]" width="trigger">
     <div
       class="search-shadow relative flex w-full items-center gap-2 rounded-m bg-white py-3 px-3 md:absolute md:left-1/2 md:bottom-0 md:max-w-[640px] md:-translate-x-1/2 md:translate-y-1/2 md:px-5"
     >

@@ -46,6 +46,7 @@ function generator(routerList: Array<any>) {
   });
 }
 
+/** [TODO:env] */
 const iconList = [
   {
     icon: GithubOutlined,

@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import {
-  ConfirmationNumberOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  FlightTakeoffOutlined,
   PersonOutlineFilled,
   PersonOutlineOutlined,
 } from '@vicons/material';
@@ -11,18 +9,20 @@ import { NIcon } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
-import HamburgerBtn from '../../HamburgerBtn.vue';
 import ShopCart from './ShopCart.vue';
-import Area from './Area.vue';
+import { navList } from './navList.ts';
+import { HamburgerMenu } from './Hamburger';
 import { websiteConfig } from '@/config/website.config';
-import { useFavoriteStore, useUserStore } from '@/stores';
+import { useDeviceStore, useFavoriteStore, useUserStore } from '@/stores';
 import Container from '@/layout/Container.vue';
 
 const route = useRoute();
 
+const deviceStore = useDeviceStore();
 const userStore = useUserStore();
 const favoriteStore = useFavoriteStore();
 
+const { isMobile } = storeToRefs(deviceStore);
 const { loginStatus } = storeToRefs(userStore);
 const { favoriteList } = storeToRefs(favoriteStore);
 
@@ -31,36 +31,23 @@ const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.na
 
 <template>
   <header
+    id="header"
     class="top-0 z-20 flex h-16 justify-center bg-black/30 px-6 py-3 text-white backdrop-blur-[25px]"
     :class="isFixed ? 'fixed left-0 right-0' : 'sticky'"
   >
     <Container>
       <div class="flex w-full justify-between">
-        <HamburgerBtn />
+        <HamburgerMenu v-if="isMobile" />
         <div class="flex items-center gap-8 lg:w-[526px]">
           <RouterLink :to="{ name: 'Home' }">
             <img class="h-10 object-cover" :src="websiteConfig.logoImage" alt="logo">
           </RouterLink>
           <ul class="hidden h-full flex-1 items-center gap-1 md:flex">
-            <li class="h-full flex-1">
-              <Area />
-            </li>
-            <li class="flex-1 text-sm">
-              <RouterLink class="flex justify-center items-center gap-2" :to="{ name: 'CountryProducts', params: { countryName: 'taiwan', category: 'package' } }">
-                <NIcon size="24">
-                  <ConfirmationNumberOutlined />
-                </NIcon>
-                景點套票
-              </RouterLink>
-            </li>
-            <li class="flex-1 text-sm">
-              <RouterLink class="flex justify-center items-center gap-2" :to="{ name: 'Country', params: { countryName: 'taiwan' } }">
-                <NIcon size="24">
-                  <FlightTakeoffOutlined />
-                </NIcon>
-                觀光行程
-              </RouterLink>
-            </li>
+            <template v-for="nav in navList" :key="nav.id">
+              <li class="flex-1 text-center text-sm">
+                <component :is="nav.component" />
+              </li>
+            </template>
           </ul>
         </div>
         <div class="flex items-center justify-between lg:w-[256px]">

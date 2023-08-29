@@ -37,7 +37,7 @@ const getDropdownList = computed(() => {
       </NButton>
     </template>
     <NDropdown
-      v-if="dropDownActions && getDropdownList.length"
+      v-if="dropDownActions && getDropdownList?.length"
       trigger="hover"
       :options="getDropdownList"
       @select="select"
