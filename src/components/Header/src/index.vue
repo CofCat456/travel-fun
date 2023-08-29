@@ -52,7 +52,7 @@ const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.na
         </div>
         <div class="flex items-center justify-between lg:w-[256px]">
           <div class="hidden place-content-center md:grid">
-            <RouterLink :to="{ name: 'WishList' }">
+            <RouterLink class="leading-none" :to="{ name: 'WishList' }">
               <NIcon v-if="favoriteList.length !== 0" size="24" color="#EE5220" class="icon-hover">
                 <FavoriteOutlined />
               </NIcon>
