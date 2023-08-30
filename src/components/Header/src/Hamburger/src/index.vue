@@ -49,7 +49,6 @@ defineExpose({
   <template v-if="isMobile">
     <HamburgerBtn @click="toggleActive" />
     <NDrawer
-      id="drawer"
       v-model:show="activate.active"
       style="top: 64px"
       height="undefined"
@@ -57,7 +56,16 @@ defineExpose({
       :mask-closable="false"
       :placement="activate.placement"
     >
-      <NCollapse arrow-placement="right" accordion @item-header-click="handleItemHeaderClick">
+      <NCollapse
+        :theme-overrides="{
+          itemMargin: '0',
+          titlePadding: '0',
+        }"
+        accordion
+        arrow-placement="right"
+        @item-header-click="handleItemHeaderClick
+        "
+      >
         <template #arrow>
           <NIcon size="24">
             <KeyboardArrowRightRound />
@@ -91,31 +99,23 @@ defineExpose({
 </template>
 
 <style scoped>
-:global(.n-collapse .n-collapse-item) {
-  margin-top: 0;
+:deep(.n-collapse-item .n-collapse-item__content-wrapper .n-collapse-item__content-inner) {
+  padding-top: 0;
 }
 
-:global(.n-collapse .n-collapse-item .n-collapse-item__header) {
-  padding: 0;
-}
-
-:global(.n-collapse .n-collapse-item .n-collapse-item__header .n-collapse-item__header-main) {
+:deep(.n-collapse-item__header-main) {
   padding: 16px;
   background-color: #E9E9E9;
   font-weight: 700;
 }
 
-:global(.n-collapse .n-collapse-item .n-collapse-item__header.n-collapse-item__header--active > .n-collapse-item__header-main),
-:global(.n-collapse .n-collapse-item .n-collapse-item__header.n-collapse-item__header--active .n-collapse-item-arrow)
+:deep(.n-collapse-item__header.n-collapse-item__header--active > .n-collapse-item__header-main),
+:deep(.n-collapse-item__header.n-collapse-item__header--active .n-collapse-item-arrow)
 {
   @apply text-cc-accent
 }
 
-:global(.n-collapse .n-collapse-item .n-collapse-item__content-wrapper .n-collapse-item__content-inner) {
-  padding-top: 0;
-}
-
-:global(.n-collapse .n-collapse-item .n-collapse-item__content-wrapper .n-collapse-item__content-inner > div) {
+:deep(.n-collapse-item__content-inner > div) {
   @apply px-4 py-3 bg-cc-other-7 border-t border-cc-other-1 cursor-pointer
 }
 </style>
