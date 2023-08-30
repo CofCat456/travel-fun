@@ -9,14 +9,17 @@ import { currency } from '@/utils/global';
 
 import { SwiperProduct } from '@/components/Swiper';
 
-import { useCartStore, useProductStore } from '@/stores';
+import { useCartStore, useDeviceStore, useProductStore } from '@/stores';
 import { apiUserDelCarts } from '@/utils/api';
+import Button from '@/components/Base/Button.vue';
 
-const productStore = useProductStore();
 const cartStore = useCartStore();
+const deviceStore = useDeviceStore();
+const productStore = useProductStore();
 
-const { getByRecommended } = storeToRefs(productStore);
 const { cartList, finalTotal } = storeToRefs(cartStore);
+const { isMobile } = storeToRefs(deviceStore);
+const { getByRecommended } = storeToRefs(productStore);
 
 const { getFilterData } = productStore;
 const { getCarts } = cartStore;
@@ -32,6 +35,8 @@ const getBreadcrumbs = computed(() => [
     title: '購物車',
   },
 ]);
+
+const getCardSize = computed(() => isMobile.value ? 'small' : 'medium');
 
 async function deleteCarts() {
   isLoading.value = true;
@@ -70,7 +75,7 @@ async function deleteCarts() {
       <NCard
         class="my-5"
         title="購物車"
-        size="medium"
+        :size="getCardSize"
         :bordered="false"
         :segmented="{
           content: true,
@@ -81,28 +86,34 @@ async function deleteCarts() {
         <NEmpty v-else class="py-5" description="您的購物車是空的" />
         <template v-if="cartList?.length !== 0" #footer>
           <div class="flex flex-col items-baseline gap-2">
-            <NButton text :loading="isLoading" @click="deleteCarts">
+            <NButton quaternary type="primary" :loading="isLoading" @click="deleteCarts">
               清空購物車
             </NButton>
-            <div class="w-full inline-flex items-center justify-end">
-              <div class="inline-flex items-end gap-1">
+            <div class="w-full inline-flex justify-between items-center">
+              <div class="flex items-end gap-2">
                 <span>{{ cartList.length }} 件商品合計</span>
                 <h4 class="text-cc-primry font-bold">
                   {{ currency(finalTotal) }}
                 </h4>
               </div>
-              <RouterLink :to="{ name: 'Order' }" class="btn ml-2">
-                前往結賬
+              <RouterLink v-slot="{ navigate }" custom :to="{ name: 'Order' }">
+                <Button @click="navigate">
+                  前往結賬
+                </Button>
               </RouterLink>
             </div>
           </div>
         </template>
       </NCard>
       <RouterLink class="text-right font-bold justify-end text-cc-primary hover:opacity-80 flex items-center" :to="{ name: 'CountryProducts', params: { countryName: 'taiwan' } }">
-        繼續購物
-        <NIcon size="24">
-          <KeyboardArrowRightOutlined />
-        </NIcon>
+        <NButton text type="primary" icon-placement="right">
+          繼續購物
+          <template #icon>
+            <NIcon size="24">
+              <KeyboardArrowRightOutlined />
+            </NIcon>
+          </template>
+        </NButton>
       </RouterLink>
     </Container>
     <SwiperProduct
