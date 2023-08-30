@@ -20,7 +20,7 @@ export const handleItemHeaderClick: CollapseProps['onItemHeaderClick'] = ({
   else if (name === 'tours')
     router.push(tourRouterTo);
 
-  else
+  else if (name === 'favorite')
     router.push(favoriteRouterTo);
 };
 
