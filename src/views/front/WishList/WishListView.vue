@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { NBreadcrumb, NBreadcrumbItem, NCard, NEmpty } from 'naive-ui';
+import { NBreadcrumb, NBreadcrumbItem, NCard, NEmpty, NList, NListItem } from 'naive-ui';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import WishCard from '@/views/front/WishList/components/WishCard.vue';
 import Container from '@/layout/Container.vue';
-import { useFavoriteStore, useProductStore } from '@/stores';
+import { useDeviceStore, useFavoriteStore, useProductStore } from '@/stores';
 
-const productStore = useProductStore();
+const deviceStore = useDeviceStore();
 const favoriteStore = useFavoriteStore();
+const productStore = useProductStore();
 
-const { productList } = storeToRefs(productStore);
+const { isMobile } = storeToRefs(deviceStore);
 const { favoriteList } = storeToRefs(favoriteStore);
+const { productList } = storeToRefs(productStore);
 
 const getBreadcrumbs = computed(() => [
   {
@@ -50,11 +52,23 @@ const getFavoriteProductList = computed(() => productList.value.filter(({ id }) 
           footer: true,
         }"
       >
-        <div v-if="favoriteList.length !== 0" class="flex flex-col gap-4">
-          <template v-for="product in getFavoriteProductList" :key="product.id">
-            <WishCard v-bind="product" />
-          </template>
-        </div>
+        <template v-if="favoriteList.length !== 0">
+          <NList hoverable clickable>
+            <template v-for="product in getFavoriteProductList" :key="product.id">
+              <NListItem>
+                <template v-if="!isMobile" #prefix>
+                  <div class="w-[200px] aspect-[4/3] rounded-m overflow-hidden">
+                    <img class="img" :src="product?.imageUrl">
+                  </div>
+                </template>
+                <div v-if="isMobile" class="w-full aspect-video mb-4 rounded-m overflow-hidden">
+                  <img class="img" :src="product?.imageUrl">
+                </div>
+                <WishCard v-bind="product" />
+              </NListItem>
+            </template>
+          </NList>
+        </template>
         <NEmpty v-else size="huge" description="您目前沒有最愛清單" />
       </NCard>
     </Container>

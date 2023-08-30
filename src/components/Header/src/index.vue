@@ -33,6 +33,8 @@ const hamBurRef = ref<InstanceType<typeof HamburgerMenu>>();
 
 const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.name!.toString()));
 
+const navListComponent = computed(() => navList.filter(({ component }) => component));
+
 function handleClick(target: string) {
   if (target === 'cart')
     hamBurRef.value?.closeActive();
@@ -55,7 +57,7 @@ function handleClick(target: string) {
             <img class="h-10 object-cover" :src="websiteConfig.logoImage" alt="logo">
           </RouterLink>
           <ul class="hidden h-full flex-1 items-center gap-1 md:flex">
-            <template v-for="nav in navList" :key="nav.id">
+            <template v-for="nav in navListComponent" :key="nav.id">
               <li class="flex-1 text-center text-sm">
                 <component :is="nav.component" />
               </li>

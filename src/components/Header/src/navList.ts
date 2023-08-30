@@ -9,6 +9,7 @@ import router from '@/router/';
 const routerlinkClass = 'flex justify-center items-center gap-2';
 const packageRouterTo = { name: 'CountryProducts', params: { countryName: 'taiwan', category: 'package' } };
 const tourRouterTo = { name: 'Country', params: { countryName: 'taiwan' } };
+const favoriteRouterTo = { name: 'WishList' };
 
 export const handleItemHeaderClick: CollapseProps['onItemHeaderClick'] = ({
   name,
@@ -18,6 +19,9 @@ export const handleItemHeaderClick: CollapseProps['onItemHeaderClick'] = ({
 
   else if (name === 'tours')
     router.push(tourRouterTo);
+
+  else
+    router.push(favoriteRouterTo);
 };
 
 export const navList = [
@@ -100,6 +104,25 @@ export const navList = [
             class: 'flex-1',
           },
           '觀光行程',
+        ),
+      },
+    ),
+  },
+  {
+    id: 'favorite',
+    title: '我的最愛',
+    component: null,
+    mobileComponent: h(NCollapseItem,
+      {
+        name: 'favorite',
+      },
+      {
+        arrow: () => '',
+        header: () => h('div',
+          {
+            class: 'flex-1',
+          },
+          '我的最愛',
         ),
       },
     ),
