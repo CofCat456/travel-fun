@@ -14,58 +14,80 @@ interface DrawerActive {
   placement: DrawerPlacement
 }
 
+defineProps<{
+  isMobile: boolean
+}>();
+
+const emit = defineEmits<{
+  (e: 'active', target: string): void
+}>();
+
 const activate: DrawerActive = reactive({
   active: false,
   placement: 'bottom',
 });
 
-const toggleActive = () => activate.active = !activate.active;
+function toggleActive() {
+  if (!activate.active)
+    emit('active', 'humburger');
+
+  activate.active = !activate.active;
+};
+
+const closeActive = () => activate.active = false;
 
 onBeforeRouteUpdate(() => {
-  activate.active = false;
+  closeActive();
+});
+
+defineExpose({
+  closeActive,
 });
 </script>
 
 <template>
-  <HamburgerBtn @click="toggleActive" />
-  <NDrawer
-    id="drawer"
-    v-model:show="activate.active"
-    style="top: 64px"
-    show-mask="transparent"
-    height="undefined"
-    :placement="activate.placement"
-  >
-    <NCollapse arrow-placement="right" accordion @item-header-click="handleItemHeaderClick">
-      <template #arrow>
-        <NIcon size="24">
-          <KeyboardArrowRightRound />
-        </NIcon>
-      </template>
-
-      <template v-for="nav in navList" :key="nav.id">
-        <component :is="nav.mobileComponent" />
-      </template>
-
-      <NCollapseItem name="user">
-        <template #header>
-          <div class="flex-1">
-            會員專區
-          </div>
+  <template v-if="isMobile">
+    <HamburgerBtn @click="toggleActive" />
+    <NDrawer
+      id="drawer"
+      v-model:show="activate.active"
+      style="top: 64px"
+      height="undefined"
+      :show-mask="false"
+      :mask-closable="false"
+      :placement="activate.placement"
+    >
+      <NCollapse arrow-placement="right" accordion @item-header-click="handleItemHeaderClick">
+        <template #arrow>
+          <NIcon size="24">
+            <KeyboardArrowRightRound />
+          </NIcon>
         </template>
-        <RouterLink v-slot="{ navigate }" :to="{ name: 'Login' }" custom>
-          <div @click="navigate">
-            登入/註冊
-          </div>
-        </RouterLink>
-        <RouterLink v-slot="{ navigate }" :to="{ name: 'WishList' }" custom>
-          <div @click="navigate">
-            我的最愛
-          </div>
-        </RouterLink>
-      </NCollapseItem>
-    </NCollapse>
-  </NDrawer>
+
+        <template v-for="nav in navList" :key="nav.id">
+          <component :is="nav.mobileComponent" />
+        </template>
+
+        <NCollapseItem name="user">
+          <template #header>
+            <div class="flex-1">
+              會員專區
+            </div>
+          </template>
+          <RouterLink v-slot="{ navigate }" :to="{ name: 'Login' }" custom>
+            <div @click="navigate">
+              登入/註冊
+            </div>
+          </RouterLink>
+          <RouterLink v-slot="{ navigate }" :to="{ name: 'WishList' }" custom>
+            <div @click="navigate">
+              我的最愛
+            </div>
+          </RouterLink>
+        </NCollapseItem>
+      </NCollapse>
+    </NDrawer>
+  </template>
 </template>
 
 <style scoped>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { TableRowsRound } from '@vicons/material';
-import { NIcon } from 'naive-ui';
+import { NButton, NIcon } from 'naive-ui';
 </script>
 
 <template>
-  <button type="button" class="block md:hidden">
-    <NIcon size="24">
+  <NButton text>
+    <NIcon size="24" color="#fff">
       <TableRowsRound />
     </NIcon>
-  </button>
+  </NButton>
 </template>

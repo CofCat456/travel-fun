@@ -7,26 +7,38 @@ import {
 } from '@vicons/material';
 import { NIcon } from 'naive-ui';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import ShopCart from './ShopCart.vue';
 import { navList } from './navList.ts';
 import { HamburgerMenu } from './Hamburger';
 import { websiteConfig } from '@/config/website.config';
-import { useDeviceStore, useFavoriteStore, useUserStore } from '@/stores';
+import { useCartStore, useDeviceStore, useFavoriteStore, useUserStore } from '@/stores';
 import Container from '@/layout/Container.vue';
 
 const route = useRoute();
 
+const cartStore = useCartStore();
 const deviceStore = useDeviceStore();
-const userStore = useUserStore();
 const favoriteStore = useFavoriteStore();
+const userStore = useUserStore();
 
+const { totalNum, cartList } = storeToRefs(cartStore);
 const { isMobile } = storeToRefs(deviceStore);
-const { loginStatus } = storeToRefs(userStore);
 const { favoriteList } = storeToRefs(favoriteStore);
+const { loginStatus } = storeToRefs(userStore);
+
+const cartRef = ref<InstanceType<typeof ShopCart>>();
+const hamBurRef = ref<InstanceType<typeof HamburgerMenu>>();
 
 const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.name!.toString()));
+
+function handleClick(target: string) {
+  if (target === 'cart')
+    hamBurRef.value?.closeActive();
+
+  cartRef.value?.closeActive();
+};
 </script>
 
 <template>
@@ -37,7 +49,7 @@ const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.na
   >
     <Container>
       <div class="flex w-full justify-between">
-        <HamburgerMenu v-if="isMobile" />
+        <HamburgerMenu ref="hamBurRef" :is-mobile="isMobile" @active="handleClick" />
         <div class="flex items-center gap-8 lg:w-[526px]">
           <RouterLink :to="{ name: 'Home' }">
             <img class="h-10 object-cover" :src="websiteConfig.logoImage" alt="logo">
@@ -85,7 +97,13 @@ const isFixed = computed(() => new Set(['Home', 'City', 'Country']).has(route.na
               登入 / 註冊
             </button>
           </RouterLink>
-          <ShopCart />
+          <ShopCart
+            ref="cartRef"
+            :is-mobile="isMobile"
+            :total-num="totalNum"
+            :cart-list="cartList"
+            @active="handleClick"
+          />
         </div>
       </div>
     </Container>
