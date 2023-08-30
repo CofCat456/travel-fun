@@ -2,7 +2,7 @@ import { h } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { CollapseProps } from 'naive-ui';
 import { NCollapseItem, NIcon } from 'naive-ui';
-import { ConfirmationNumberOutlined } from '@vicons/material';
+import { ConfirmationNumberOutlined, FlightTakeoffOutlined } from '@vicons/material';
 import { Area, Menu } from './Area';
 import router from '@/router/';
 
@@ -88,7 +88,7 @@ export const navList = [
         {
           size: 24,
         },
-        () => h(ConfirmationNumberOutlined),
+        () => h(FlightTakeoffOutlined),
       ),
       '觀光行程',
       ],
