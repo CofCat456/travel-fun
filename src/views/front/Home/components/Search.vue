@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { NButton, NCard, NEllipsis, NEmpty, NPopselect, NScrollbar } from 'naive-ui';
+import { NButton, NEmpty, NIcon, NList, NListItem, NPopselect, NScrollbar, NThing } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
+import { LocationOnOutlined } from '@vicons/material';
 import { useProductStore } from '@/stores';
 import { cityMap } from '@/utils/context';
+
+const router = useRouter();
 
 const productStore = useProductStore();
 
@@ -13,6 +16,15 @@ const { productList } = storeToRefs(productStore);
 const searchText = ref('');
 
 const getFilterList = computed(() => productList.value.filter(({ title, city }) => title.match(searchText.value) || (cityMap.get(city)).match(searchText.value)));
+
+function handleSearch() {
+  if (getFilterList.value.length === 0)
+    return;
+
+  const { id: productId } = getFilterList.value[0];
+
+  router.push({ name: 'Product', params: { productId } });
+};
 </script>
 
 <template>
@@ -26,33 +38,37 @@ const getFilterList = computed(() => productList.value.filter(({ title, city }) 
         class="w-0 flex-1 border-0 ring-0 focus:outline-0 focus:ring-0 focus-visible:outline-none"
         placeholder="搜尋你想去的目的地 / 城市"
       >
-      <button type="button" class="rounded-m bg-cc-accent px-6 py-[10.5px] text-white">
+      <button type="button" class="rounded-m bg-cc-accent px-6 py-[10.5px] text-white" @click.stop="handleSearch">
         搜尋
       </button>
     </div>
     <template #empty>
       <NScrollbar v-if="getFilterList.length !== 0" style="max-height: 300px">
-        <div class="flex flex-col p-4">
-          <template v-for="{ id, title, city, imageUrl } in getFilterList" :key="title">
-            <NCard size="small" content-style="padding: 0px" :bordered="false">
-              <RouterLink v-slot="{ navigate }" custom :to="{ name: 'Product', params: { productId: id } }">
-                <div class="flex items-start gap-2 p-2 rounded-m hover:bg-cc-primary/10 transition-colors cursor-pointer" @click="navigate">
-                  <div class="rounded-m overflow-hidden">
-                    <img class="img w-10 aspect-square" :src="imageUrl">
+        <NList hoverable clickable>
+          <template v-for="{ id, title, city, imageUrl } in getFilterList" :key="id">
+            <RouterLink v-slot="{ navigate }" :to="{ name: 'Product', params: { productId: id } }" custom>
+              <NListItem @click="navigate">
+                <template #prefix>
+                  <div class="w-10 aspect-square rounded-m overflow-hidden">
+                    <img class="img" :src="imageUrl">
                   </div>
-                  <div class="flex flex-col justify-between">
-                    <NEllipsis style="max-width: 400px">
-                      {{ title }}
-                    </NEllipsis>
-                    <p class="text-[12px] text-cc-other-4">
-                      {{ cityMap.get(city) }}
-                    </p>
-                  </div>
-                </div>
-              </RouterLink>
-            </NCard>
+                </template>
+                <NThing :title="title">
+                  <template #description>
+                    <div class="flex items-center gap-1 text-cc-other-4">
+                      <NIcon size="16">
+                        <LocationOnOutlined />
+                      </NIcon>
+                      <p class="text-[12px]">
+                        <span>{{ cityMap.get(city) }}</span>
+                      </p>
+                    </div>
+                  </template>
+                </NThing>
+              </NListItem>
+            </RouterLink>
           </template>
-        </div>
+        </NList>
       </NScrollbar>
       <div v-else class="p-4">
         <NEmpty description="眼睛業障重">
