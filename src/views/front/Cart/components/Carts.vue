@@ -36,7 +36,7 @@ async function deleteCart(id: string) {
 </script>
 
 <template>
-  <NGrid x-gap="16" y-gap="8" responsive="screen" item-responsive :cols="7">
+  <NGrid x-gap="16" y-gap="8" responsive="screen" item-responsive :cols="8">
     <template
       v-for="{ id, product, buy_date, final_total } in cartList"
       :key="id"
@@ -46,7 +46,7 @@ async function deleteCart(id: string) {
           <img class="img w-full rounded-m aspect-[4/3]" :src="product?.imageUrl">
         </RouterLink>
       </NGi>
-      <NGi span="4">
+      <NGi span="4 m:5">
         <NThing>
           <template #header>
             <RouterLink class="font-bold hover:underline" :to="{ name: 'Product', params: { productId: product?.id } }">
@@ -63,7 +63,7 @@ async function deleteCart(id: string) {
           </template>
         </NThing>
       </NGi>
-      <NGi class="place-self-center" span="2 m:1">
+      <NGi class="place-self-center" span="3 m:1">
         <h6 class="font-bold text-cc-primary">
           {{ currency(final_total!) }}
         </h6>

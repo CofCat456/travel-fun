@@ -90,11 +90,11 @@ async function deleteCarts() {
               清空購物車
             </NButton>
             <div class="w-full inline-flex justify-between items-center">
-              <div class="flex items-end gap-2">
-                <span>{{ cartList.length }} 件商品合計</span>
-                <h4 class="text-cc-primry font-bold">
+              <div class="inline-flex items-end gap-2">
+                <span class="text-sm-content">{{ cartList.length }} 件商品合計</span>
+                <p class="text-area-title text-cc-primry font-bold">
                   {{ currency(finalTotal) }}
-                </h4>
+                </p>
               </div>
               <RouterLink v-slot="{ navigate }" custom :to="{ name: 'Order' }">
                 <Button @click="navigate">
