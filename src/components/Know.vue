@@ -7,6 +7,7 @@ import Container from '@/layout/Container.vue';
 
 defineProps<{
   name: string
+  isMobile: boolean
   products: Product[]
 }>();
 
@@ -63,6 +64,6 @@ const productMap = ref<InstanceType<typeof ProductMap>>();
         </div>
       </div>
     </Container>
-    <ProductMap ref="productMap" :products="products || []" />
+    <ProductMap ref="productMap" :is-mobile="isMobile" :products="products || []" />
   </div>
 </template>

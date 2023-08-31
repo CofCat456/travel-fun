@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import type { Product } from '@/types';
+import { Toast } from '@/utils/global';
 
 interface Data {
   data: Product
@@ -15,12 +15,7 @@ const request = axios.create({
 });
 
 export function successMsg(title: string, text?: string) {
-  return Swal.fire({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
+  return Toast.fire({
     icon: 'success',
     title,
     text,
@@ -28,12 +23,7 @@ export function successMsg(title: string, text?: string) {
 }
 
 export function errorMsg(title: string, text?: string) {
-  return Swal.fire({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 1500,
-    timerProgressBar: true,
+  return Toast.fire({
     icon: 'error',
     title,
     text,

@@ -8,7 +8,7 @@ import type { Coordinates, Product } from '@/types';
 import { currency } from '@/utils/global';
 
 const { products } = defineProps<{
-  isMobile?: boolean
+  isMobile: boolean
   products: Product[]
 }>();
 

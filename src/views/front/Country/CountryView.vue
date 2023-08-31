@@ -8,14 +8,16 @@ import Banner from '@/components/Banner.vue';
 import Know from '@/components/Know.vue';
 import { SwiperCity, SwiperProduct } from '@/components/Swiper';
 import Container from '@/layout/Container.vue';
-import { useProductStore } from '@/stores';
+import { useDeviceStore, useProductStore } from '@/stores';
 import { countryMap } from '@/utils/context';
 
 const route = useRoute();
 const router = useRouter();
 
+const deviceStore = useDeviceStore();
 const productStore = useProductStore();
 
+const { isMobile } = storeToRefs(deviceStore);
 const { productList, getByNewest, getByPopular, getByRecommended, getByPreferred }
   = storeToRefs(productStore);
 
@@ -76,6 +78,6 @@ const goProducts = () => router.push({ name: 'CountryProducts' });
     :products="getFilterData(getByNewest)"
     @btn-click="goProducts"
   />
-  <Know :name="getCountryName" :products="getFilterData(productList)" />
+  <Know :is-mobile="isMobile" :name="getCountryName" :products="getFilterData(productList)" />
   <SwiperCity :title="`${getCountryName}熱門城市`" />
 </template>

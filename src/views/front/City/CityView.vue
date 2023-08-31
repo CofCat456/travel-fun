@@ -8,14 +8,16 @@ import Banner from '@/components/Banner.vue';
 import Know from '@/components/Know.vue';
 import { SwiperCity, SwiperProduct } from '@/components/Swiper';
 import Container from '@/layout/Container.vue';
-import { useProductStore } from '@/stores';
+import { useDeviceStore, useProductStore } from '@/stores';
 import { cityMap } from '@/utils/context';
 
 const route = useRoute();
 const router = useRouter();
 
+const deviceStore = useDeviceStore();
 const productStore = useProductStore();
 
+const { isMobile } = storeToRefs(deviceStore);
 const { productList, getByNewest, getByPopular, getByRecommended, getByPreferred }
   = storeToRefs(productStore);
 
@@ -85,6 +87,6 @@ const goProducts = () => router.push({ name: 'CityProducts' });
     :products="getFilterData(getByNewest, route.params.cityName as string)"
     @btn-click="goProducts"
   />
-  <Know :name="getCityName" :products="getFilterData(productList, route.params.cityName as string)" />
+  <Know :is-mobile="isMobile" :name="getCityName" :products="getFilterData(productList, route.params.cityName as string)" />
   <SwiperCity title="探索其他城市" :curr-city="getCityName" />
 </template>
