@@ -103,7 +103,7 @@ const getProductList = computed(() =>
 );
 
 function updateCity(city: string) {
-  const routerOption = createRouterOption(city, category.value, sort);
+  const routerOption = createRouterOption(city, category.value, sort, isCity.value);
 
   return router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -112,7 +112,7 @@ function updateCity(city: string) {
 }
 
 function updateCategory(category: string) {
-  const routerOption = createRouterOption(cityName.value, category, sort);
+  const routerOption = createRouterOption(cityName.value, category, sort, isCity.value);
 
   router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -121,7 +121,7 @@ function updateCategory(category: string) {
 }
 
 function updateSort(item: Sort) {
-  const routerOption = createRouterOption(cityName.value, category.value, item);
+  const routerOption = createRouterOption(cityName.value, category.value, item, isCity.value);
 
   return router.push({
     name: isCity.value ? 'CityProducts' : 'CountryProducts',
@@ -172,8 +172,8 @@ onMounted(() => getProducts());
     :array="isCity ? getEnCitys : getEnCountrys"
     :curr-sort="sort"
     :sort-array="getFilterList"
-    @update-params="updateCity"
-    @update-sort="updateSort"
+    @update:params="updateCity"
+    @update:sort="updateSort"
     @open-map="productMap?.openMap"
   />
   <Container>
@@ -250,7 +250,7 @@ onMounted(() => getProducts());
       </main>
     </div>
   </Container>
-  <ProductMap ref="productMap" :products="getProductList" />
+  <ProductMap ref="productMap" :is-mobile="isMobile" :products="getProductList" />
 </template>
 
 <style scoped>

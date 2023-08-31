@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NListItem, NThing } from 'naive-ui';
 import FilterMenu from '@/components/Base/Menu/FilterMenu.vue';
 import type { Sort } from '@/types';
 
@@ -10,8 +11,8 @@ defineProps<{
   sortArray: Record<string, Sort>[] }>();
 
 defineEmits<{
-  (e: 'update:params'): void
-  (e: 'update:sort'): void
+  (e: 'update:params', city: string): void
+  (e: 'update:sort', item: Sort): void
   (e: 'openMap'): void
 }>();
 </script>
@@ -21,45 +22,56 @@ defineEmits<{
     <div class="flex h-12 items-center">
       <div class="mx-5 inline-flex flex-1 items-center gap-2 overflow-x-auto">
         <FilterMenu :title="isCity ? '城市' : '國家'">
-          <li
+          <NListItem
             v-for="{ label, key } in array || []"
             :key="key"
             class="flex cursor-pointer items-center justify-between border-b border-cc-other-5/50 px-4 py-2"
             @click="$emit('update:params', key)"
           >
-            {{ label }}
-            <svg
-              v-if="key === currEnTarget"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="h-5 w-5 text-cc-accent"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-          </li>
+            <NThing content-indented>
+              <template #avatar>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-5 w-5 text-cc-accent"
+                  :class="key === currEnTarget ? 'opacity-100' : 'opacity-0'"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </template>
+              <template #description>
+                {{ label }}
+              </template>
+            </NThing>
+          </NListItem>
         </FilterMenu>
         <FilterMenu title="排列">
-          <li
+          <NListItem
             v-for="{ label, value } in sortArray || []"
             :key="value"
             class="flex cursor-pointer items-center justify-between border-b border-cc-other-5/50 px-4 py-2"
             @click="$emit('update:sort', value)"
           >
-            {{ label }}
-            <svg
-              v-if="value === currSort"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor"
-              class="h-5 w-5 text-cc-accent"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-          </li>
+            <NThing content-indented>
+              <template #avatar>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-5 w-5 text-cc-accent"
+                  :class="value === currSort ? 'opacity-100' : 'opacity-0'"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </template>
+              <template #description>
+                {{ label }}
+              </template>
+            </NThing>
+          </NListItem>
         </FilterMenu>
       </div>
       <div class="p-3 shadow-[-5px_0_5px_-5px_rgba(50,48,44,.3)]">

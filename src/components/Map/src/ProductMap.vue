@@ -8,6 +8,7 @@ import type { Coordinates, Product } from '@/types';
 import { currency } from '@/utils/global';
 
 const { products } = defineProps<{
+  isMobile?: boolean
   products: Product[]
 }>();
 
@@ -42,6 +43,7 @@ defineExpose({
   <NModal v-model:show="showMap" block-scroll mask-closable>
     <div class="flex h-screen w-full md:p-8 p-0">
       <div
+        v-if="!isMobile"
         class="z-10 w-[400px] overflow-y-auto bg-cc-other-1 shadow-[6px_0_5px_-3px_rgba(0,0,0,.2)]"
       >
         <ul class="flex flex-col p-[10px]">

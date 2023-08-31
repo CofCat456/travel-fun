@@ -1,3 +1,15 @@
+import Swal from 'sweetalert2';
+import type { Sort } from '@/types';
+
+interface RouterOption {
+  query?: { sort: Sort }
+  params: {
+    category: string
+    cityName?: string
+    countryName?: string
+  }
+}
+
 // 換算金錢
 export function currency(val: number, symbol: string = 'NT$ '): string {
   if (!val)
@@ -32,16 +44,17 @@ export function formatUnix2YMD(unix: number): string {
 }
 
 // 生成 routerOption
-export function createRouterOption(cityName: string, category: string, sort = '') {
-  const routerOption = {
+export function createRouterOption(name: string, category: string, sort: Sort, isCity = true) {
+  const routerOption: RouterOption = {
     params: { category },
   };
 
-  if (cityName)
-    routerOption.params.cityName = cityName;
+  if (isCity && name)
+    routerOption.params.cityName = name;
+  else
+    routerOption.params.countryName = name;
 
-  if (sort)
-    routerOption.query = { sort };
+  routerOption.query = { sort };
 
   return routerOption;
 }
@@ -76,3 +89,15 @@ export function checkToken() {
 
   return token === '';
 }
+
+export const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 1500,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
