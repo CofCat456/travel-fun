@@ -3,6 +3,7 @@ import { NBreadcrumb, NBreadcrumbItem, NSpace, useLoadingBar } from 'naive-ui';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, reactive } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
+import { Embed } from '@voomap/map';
 
 import Content from './components/Content.vue';
 import LeftSidebar from './components/LeftSidebar.vue';
@@ -14,8 +15,9 @@ import { cityMap } from '@/utils/context';
 import { useCartStore, useDeviceStore, useProductStore } from '@/stores';
 import Container from '@/layout/Container.vue';
 import { SwiperBanner, SwiperProduct } from '@/components/Swiper';
-import { Map } from '@/components/Map';
 import type { Product } from '@/types';
+
+const { VITE_GOOGLE_MAP_API_KEY } = import.meta.env;
 
 const loadingBar = useLoadingBar();
 
@@ -183,7 +185,7 @@ onMounted(async () => {
     <Container class="py-5 md:py-10">
       <NSpace class="w-full md:w-8/12 md:pr-8" vertical :size="getResponsiveSpaceSize">
         <Content v-if="product.content" :content="product.content" />
-        <Map v-if="product.coordinates" :title="product.title" :coordinates="product.coordinates" />
+        <Embed v-if="product.address" map-mode="place" :width="isMobile ? '100%' : '80%'" height="400px" :api-key="VITE_GOOGLE_MAP_API_KEY" :address="product.address" />
       </NSpace>
     </Container>
     <div class="bg-cc-other-7/80">
