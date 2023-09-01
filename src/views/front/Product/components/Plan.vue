@@ -115,15 +115,57 @@ function disablePreviousDate(ts: number) {
         </NDrawer>
       </div>
       <div v-else class="list" v-html="content" />
+      <template #footer>
+        <div class="flex items-center gap-5">
+          <span class="text-sm text-cc-other-4 line-through">
+            {{ currency(originPrice) }}
+          </span>
+          <h5 class="font-bold">
+            {{ currency(price) }}
+          </h5>
+        </div>
+      </template>
       <template #action>
-        <div class="flex justify-between items-end">
-          <div class="mr-4 whitespace-nowrap text-left">
-            <span class="text-sm text-cc-other-4 line-through">
-              {{ currency(originPrice) }}
-            </span>
-            <h5 class="font-bold">
-              {{ currency(price) }}
-            </h5>
+        <div class="flex justify-between items-center">
+          <div class="inline-flex items-center">
+            <button type="button" :disabled="qty <= 1" @click="decrement">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="h-8 w-8 text-cc-primary"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </button>
+            <input
+              v-model="qty"
+              type="text"
+              readonly
+              class="w-11 border-none bg-transparent text-center text-lg outline-none"
+            >
+            <button type="button" @click="increment">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="h-8 w-8 text-cc-primary"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </button>
           </div>
           <Button v-if="isMobile" :is-loading="isLoading" @click="addCart">
             加入購物車
