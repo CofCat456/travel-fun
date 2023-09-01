@@ -42,7 +42,6 @@ const orderValue: Order = reactive({
     address: '',
   },
   message: '',
-
 });
 
 const rules = computed<FormRules>(() => ({
@@ -149,7 +148,7 @@ onMounted(() => {
       <NCollapse default-expanded-names="1" accordion>
         <NCollapseItem title="訂購人資料" name="1">
           <NForm ref="formRef" :model="orderValue" :rules="rules">
-            <NGrid :cols="2" :x-gap="24">
+            <NGrid :cols="2" :x-gap="24" item-responsive responsive="screen">
               <NFormItemGi :span="2" label="姓名" path="user.name">
                 <NInput
                   v-model:value="orderValue.user.name"
@@ -158,7 +157,7 @@ onMounted(() => {
                 />
               </NFormItemGi>
 
-              <NFormItemGi label="Email" path="user.email">
+              <NFormItemGi span="2 m:1" label="Email" path="user.email">
                 <NAutoComplete
                   v-model:value="orderValue.user.email"
                   :options="options"
@@ -166,7 +165,7 @@ onMounted(() => {
                 />
               </NFormItemGi>
 
-              <NFormItemGi label="電話" path="user.tel">
+              <NFormItemGi span="2 m:1" label="電話" path="user.tel">
                 <NInput
                   v-model:value="orderValue.user.tel"
                   type="text"

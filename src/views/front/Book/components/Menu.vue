@@ -21,7 +21,7 @@ defineEmits<{
 </script>
 
 <template>
-  <article class="w-80">
+  <article class="w-full md:w-80">
     <NCard :bordered="false">
       <NGrid :x-gap="50" :y-gap="12" :cols="2">
         <NGridItem>

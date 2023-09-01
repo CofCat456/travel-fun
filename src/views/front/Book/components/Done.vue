@@ -3,29 +3,38 @@ import {
   NCard,
   NEllipsis,
   NIcon,
+  NList,
+  NListItem,
   NResult,
+  NSkeleton,
+  NThing,
+  NTime,
   useLoadingBar,
 } from 'naive-ui';
 
-import { computed, onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { DateRangeOutlined, PeopleOutlineFilled } from '@vicons/material';
 import { storeToRefs } from 'pinia';
 import { apiUserGetOrder } from '@/utils/api';
 import type { Order } from '@/types';
 import { currency } from '@/utils/global';
-import { useProductStore } from '@/stores';
+import { useDeviceStore, useProductStore } from '@/stores';
 import { SwiperProduct } from '@/components/Swiper';
 
 const route = useRoute();
 
+const deviceStore = useDeviceStore();
 const productStore = useProductStore();
 
 const loadingBar = useLoadingBar();
 
+const { isMobile } = storeToRefs(deviceStore);
 const { getByRecommended } = storeToRefs(productStore);
 
 const { getFilterData } = productStore;
+
+const isLoading = ref(false);
 
 const orderValue: Order = reactive({
   create_at: 0,
@@ -47,6 +56,7 @@ const getResultDesc = computed(() => `訂單明細將寄至： ${orderValue.user
 
 async function getOrder() {
   loadingBar.start();
+  isLoading.value = true;
 
   const { orderId } = route.params;
 
@@ -65,6 +75,7 @@ async function getOrder() {
   }
   finally {
     loadingBar.finish();
+    isLoading.value = false;
   }
 }
 
@@ -75,6 +86,7 @@ onMounted(() => {
 
 <template>
   <NCard
+    size="small"
     :bordered="false"
     :segmented="{
       content: true,
@@ -82,52 +94,65 @@ onMounted(() => {
     }"
   >
     <NResult class="mb-8" status="success" size="small" title="訂購成功" :description="getResultDesc" />
-    <template v-for="({ final_total, product }, id) in orderValue.products" :key="id">
-      <NCard
-        size="small"
-        hoverable
-        :segmented="{
-          content: true,
-        }"
-      >
-        <template #header>
-          <p class="text-sm-content text-cc-other-4">
-            訂單編號：#{{ id }}
-          </p>
-        </template>
-        <div class="flex items-start gap-x-4">
-          <div class="w-20 aspect-[4/3] rounded-m overflow-hidden">
-            <img class="img" :src="product.imageUrl">
-          </div>
-          <div class="flex-1 flex flex-col justify-start space-y-2">
-            <h6 class="font-bold">
-              {{ product.title }}
-            </h6>
-            <NEllipsis style="max-width: 240px">
-              {{ product.description }}
-            </NEllipsis>
-            <div class="flex gap-6 items-center">
-              <div class="inline-flex items-center gap-2">
-                <NIcon size="20">
-                  <DateRangeOutlined />
-                </NIcon>
-                可預訂時間：<NTime :time="product.date" format="yyyy 年 MM 月 dd 日" />
-              </div>
-              <div class="inline-flex items-center gap-2">
-                <NIcon size="20">
-                  <PeopleOutlineFilled />
-                </NIcon>
-                <!-- TODO: product 人數 -->
-                人數 1 人
-              </div>
-              <p class="flex-1 text-cc-primary text-right font-bold">
-                {{ currency(final_total) }}
-              </p>
-            </div>
+    <NList hoverable bordered>
+      <template #header>
+        <NSkeleton v-if="isLoading" text :width="isMobile ? '100%' : '30%'" />
+        <p v-else class="text-sm-content text-cc-other-4">
+          訂單編號：#{{ orderValue.id }}
+        </p>
+      </template>
+      <template v-if="isLoading">
+        <div class="flex items-center gap-3 p-3">
+          <NSkeleton v-if="!isMobile" width="160px" height="120px" :sharp="false" />
+          <div class="flex-1">
+            <NSkeleton text :repeat="5" />
           </div>
         </div>
-      </NCard>
-    </template>
+      </template>
+      <template v-else>
+        <template v-for="({ final_total, product }, id) in orderValue.products" :key="id">
+          <NListItem>
+            <template v-if="!isMobile" #prefix>
+              <div class="w-40 aspect-[4/3] rounded-m overflow-hidden">
+                <img class="img" :src="product?.imageUrl">
+              </div>
+            </template>
+            <NThing :title="product?.title">
+              <template #description>
+                <p class="text-sm-content text-cc-other-4">
+                  產品編號：#{{ id }}
+                </p>
+              </template>
+              <NEllipsis style="max-width: 240px">
+                {{ product.description }}
+              </NEllipsis>
+              <template #footer>
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+                  <div class="inline-flex items-center gap-2">
+                    <NIcon size="20">
+                      <DateRangeOutlined />
+                    </NIcon>
+                    可預訂時間：<NTime :time="product.date" format="yyyy 年 MM 月 dd 日" />
+                  </div>
+                  <div class="inline-flex items-center gap-2">
+                    <NIcon size="20">
+                      <PeopleOutlineFilled />
+                    </NIcon>
+                    <!-- TODO: product 人數 -->
+                    人數 1 人
+                  </div>
+                </div>
+              </template>
+              <template #action>
+                <p class="flex-1 text-cc-primary text-right font-bold">
+                  {{ currency(final_total) }}
+                </p>
+              </template>
+            </NThing>
+          </NListItem>
+        </template>
+      </template>
+    </NList>
 
     <template #footer>
       <div class="flex justify-between item-center">

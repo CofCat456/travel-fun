@@ -69,7 +69,7 @@ const getBreadcrumbs = computed(() => {
           </NBreadcrumbItem>
         </template>
       </NBreadcrumb>
-      <div class="flex items-baseline gap-6 pt-4" :class="getStep === 'Done' ? 'flex-col' : 'flex-row'">
+      <div class="flex md:items-baseline gap-6 pt-4" :class="getStep === 'Done' ? 'flex-col' : 'flex-col md:flex-row'">
         <RouterView />
       </div>
     </Container>

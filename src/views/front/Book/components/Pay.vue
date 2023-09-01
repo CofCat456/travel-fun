@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import type { FormRules } from 'naive-ui';
 import {
   NCard,
   NCollapse,
   NCollapseItem,
+  NForm,
+  NFormItem,
   NRadio,
-  NRadioGroup,
-  NSpace,
+  NRadioGroup, NSpace,
   useLoadingBar,
 } from 'naive-ui';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { apiUserGetOrder, apiUserPostPay, errorMsg } from '@/utils/api';
 import Menu from '@/views/front/Book/components/Menu.vue';
@@ -18,10 +20,14 @@ const router = useRouter();
 
 const loadingBar = useLoadingBar();
 
-const pay = ref('');
 const total = ref(0);
 const finalTotal = ref(0);
 const isLoading = ref(false);
+const formRef = ref<InstanceType<typeof NForm>>();
+
+const payValue = reactive({
+  way: '',
+});
 
 const payWays = [
   {
@@ -37,6 +43,14 @@ const payWays = [
     value: '超商付款／銀行轉帳',
   },
 ];
+
+const rules = computed<FormRules>(() => ({
+  way: {
+    required: true,
+    trigger: 'change',
+    message: '請選擇付款方式',
+  },
+}));
 
 async function getOrder() {
   loadingBar.start();
@@ -90,6 +104,13 @@ async function payHandler() {
   }
 }
 
+function onSubmit() {
+  formRef.value?.validate((errors) => {
+    if (!errors)
+      payHandler();
+  });
+}
+
 onMounted(() => {
   getOrder();
 });
@@ -100,15 +121,19 @@ onMounted(() => {
     <NCard :bordered="false">
       <NCollapse default-expanded-names="1" accordion>
         <NCollapseItem title="付款方式" name="1">
-          <NRadioGroup v-model:value="pay" name="radiogroup">
-            <NSpace vertical size="large">
-              <template v-for="way in payWays" :key="way.value">
-                <NRadio size="large" :value="way.value">
-                  {{ way.value }}
-                </NRadio>
-              </template>
-            </NSpace>
-          </NRadioGroup>
+          <NForm ref="formRef" :model="payValue" :rules="rules">
+            <NFormItem :span="2" label="請至少選擇一種付款方式" path="way">
+              <NRadioGroup v-model:value="payValue.way" name="radiogroup">
+                <NSpace vertical size="large">
+                  <template v-for="way in payWays" :key="way.value">
+                    <NRadio size="large" :value="way.value">
+                      {{ way.value }}
+                    </NRadio>
+                  </template>
+                </NSpace>
+              </NRadioGroup>
+            </NFormItem>
+          </NForm>
         </NCollapseItem>
       </NCollapse>
     </NCard>
@@ -118,6 +143,6 @@ onMounted(() => {
     :total="total"
     :final-total="finalTotal"
     :is-loading="isLoading"
-    @submit="() => payHandler()"
+    @submit="onSubmit"
   />
 </template>
