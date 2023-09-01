@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { NButton, NEllipsis, NIcon, NRate, NSpace, NThing } from 'naive-ui';
+import { NButton, NEllipsis, NIcon, NRate, NSpace, NThing, NTime } from 'naive-ui';
 
 import { DateRangeOutlined, FavoriteOutlined, LocationOnOutlined } from '@vicons/material';
 import type { Product } from '@/types';
 import { cityMap } from '@/utils/context';
-import { currency, formatDate2YMD } from '@/utils/global';
+import { currency } from '@/utils/global';
 import { useFavoriteStore } from '@/stores';
 
 defineProps<Product>();
@@ -53,7 +53,7 @@ const { removeFavorite } = favoriteStore;
           <NIcon :size="20">
             <DateRangeOutlined />
           </NIcon>
-          可預訂時間：{{ formatDate2YMD(date) }}
+          可預訂時間：<NTime :time="date" format="yyyy 年 MM 月 dd 日" />
         </div>
       </div>
     </div>

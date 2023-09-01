@@ -13,7 +13,7 @@ import { DateRangeOutlined, PeopleOutlineFilled } from '@vicons/material';
 import { storeToRefs } from 'pinia';
 import { apiUserGetOrder } from '@/utils/api';
 import type { Order } from '@/types';
-import { currency, formatDate2YMD } from '@/utils/global';
+import { currency } from '@/utils/global';
 import { useProductStore } from '@/stores';
 import { SwiperProduct } from '@/components/Swiper';
 
@@ -111,7 +111,7 @@ onMounted(() => {
                 <NIcon size="20">
                   <DateRangeOutlined />
                 </NIcon>
-                {{ formatDate2YMD(product.date) }}
+                可預訂時間：<NTime :time="product.date" format="yyyy 年 MM 月 dd 日" />
               </div>
               <div class="inline-flex items-center gap-2">
                 <NIcon size="20">

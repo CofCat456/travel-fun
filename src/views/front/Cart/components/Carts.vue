@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { NButton, NEllipsis, NGi, NGrid, NIcon, NThing, NTooltip } from 'naive-ui';
+import { NButton, NEllipsis, NGi, NGrid, NIcon, NThing, NTime, NTooltip } from 'naive-ui';
 import { DeleteOutlineOutlined } from '@vicons/material';
 import { ref } from 'vue';
-import { currency, formatDate2YMD } from '@/utils/global';
+import { currency } from '@/utils/global';
 import { apiUserDelCart } from '@/utils/api';
 import type { Cart } from '@/types';
 
@@ -59,7 +59,7 @@ async function deleteCart(id: string) {
             </NEllipsis>
           </template>
           <template #footer>
-            <span>{{ formatDate2YMD(buy_date) }}</span>
+            <NTime :time="buy_date" format="yyyy 年 MM 月 dd 日" />
           </template>
         </NThing>
       </NGi>
