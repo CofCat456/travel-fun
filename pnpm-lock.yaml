@@ -27,11 +27,11 @@ dependencies:
     specifier: ^0.12.0
     version: 0.12.0
   '@voomap/core':
-    specifier: 0.0.1-beta.24
-    version: 0.0.1-beta.24
+    specifier: 0.0.1-beta.25
+    version: 0.0.1-beta.25
   '@voomap/map':
-    specifier: 0.0.1-beta.24
-    version: 0.0.1-beta.24(vue@3.3.4)
+    specifier: 0.0.1-beta.25
+    version: 0.0.1-beta.25(vue@3.3.4)
   axios:
     specifier: ^1.4.0
     version: 1.4.0
@@ -817,8 +817,8 @@ packages:
       supercluster: 8.0.1
     dev: false
 
-  /@humanwhocodes/config-array@0.11.10:
-    resolution: {integrity: sha512-KVVjQmNUepDVGXNuoRRdmmEjruj0KfiGSbS8LVc12LMsWDQzRXJ0qdhN8L8uUigKpfEHRhlaQFY0ib1tnUbNeQ==}
+  /@humanwhocodes/config-array@0.11.11:
+    resolution: {integrity: sha512-N2brEuAadi0CcdeMXUkhbZB84eskAc8MEX1By6qEchoVywSgXPIjou4rYsl0V3Hj0ZnuGycGCjdNgockbzeWNA==}
     engines: {node: '>=10.10.0'}
     dependencies:
       '@humanwhocodes/object-schema': 1.2.1
@@ -1183,19 +1183,19 @@ packages:
       '@volar/language-core': 1.10.0
     dev: true
 
-  /@voomap/core@0.0.1-beta.24:
-    resolution: {integrity: sha512-KQYM9PZHTkUNWKFoTkZqG/t23vDADvwDkG4emeX/8QFUoY17m1zmuRFu9a4JnftIW+g3RN5Q1pUD+WxVeYd00A==}
+  /@voomap/core@0.0.1-beta.25:
+    resolution: {integrity: sha512-m1rbFyHKnaxVaZT7nUfmSR1eOXDs40qqdxLCcoCmI7UqSOvN4ZOeOYu/nkp4GHdx260F4rFctEmnhUBHZCZeHQ==}
     dependencies:
       '@googlemaps/js-api-loader': 1.16.2
     dev: false
 
-  /@voomap/map@0.0.1-beta.24(vue@3.3.4):
-    resolution: {integrity: sha512-YWxFuakumnAr16ELzUihCoNTq6udFmftwELI4rT7NkcPfQTPtFIykoC+buLOmtSgyvSuJppty99zJWf1GZ297g==}
+  /@voomap/map@0.0.1-beta.25(vue@3.3.4):
+    resolution: {integrity: sha512-i5GC+oz7dtzRssQ+H42yK9U4I7SpymMVvvP/gZRe7xeKJalMbibokJ99leuy2MlK0HLnynesc5a/ZNYtsbRkZA==}
     peerDependencies:
       vue: ^3.3.0
     dependencies:
       '@googlemaps/markerclusterer': 2.4.0
-      '@voomap/core': 0.0.1-beta.24
+      '@voomap/core': 0.0.1-beta.25
       vue: 3.3.4
     dev: false
 
@@ -2109,7 +2109,7 @@ packages:
       '@eslint-community/regexpp': 4.8.0
       '@eslint/eslintrc': 2.1.2
       '@eslint/js': 8.48.0
-      '@humanwhocodes/config-array': 0.11.10
+      '@humanwhocodes/config-array': 0.11.11
       '@humanwhocodes/module-importer': 1.0.1
       '@nodelib/fs.walk': 1.2.8
       ajv: 6.12.6
