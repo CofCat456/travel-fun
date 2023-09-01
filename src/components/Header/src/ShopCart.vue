@@ -2,20 +2,15 @@
 import {
   ShoppingCartOutlined,
 } from '@vicons/material';
-import type { DrawerPlacement, TooltipProps } from 'naive-ui';
+import type { TooltipProps } from 'naive-ui';
 import { NBadge, NButton, NCard, NDrawer, NDrawerContent, NEllipsis, NEmpty, NIcon, NList, NListItem, NScrollbar, NThing, NTooltip } from 'naive-ui';
 import { RouterLink, onBeforeRouteUpdate } from 'vue-router';
 import { reactive } from 'vue';
 import { currency } from '@/utils/global';
 
-import type { Cart } from '@/types';
+import type { Cart, DrawerActive } from '@/types';
 
 type TooltipThemeOverrides = NonNullable<TooltipProps['themeOverrides']>
-
-interface DrawerActive {
-  active: boolean
-  placement: DrawerPlacement
-}
 
 defineProps<{
   totalNum: number

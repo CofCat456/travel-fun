@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import { NDatePicker } from 'naive-ui';
-import { computed, ref } from 'vue';
+import { NButton, NDatePicker, NDivider, NDrawer, NDrawerContent, NIcon, NListItem, NThing } from 'naive-ui';
+import { computed, reactive, ref } from 'vue';
 
+import { DateRangeOutlined } from '@vicons/material';
 import Button from '@/components/Base/Button.vue';
-import Title from '@/components/Title.vue';
-import Container from '@/layout/Container.vue';
 import { currency } from '@/utils/global';
-import type { Cart, Plan } from '@/types';
+import type { Cart, DrawerActive } from '@/types';
 
 const { id } = defineProps<{
+  isMobile: boolean
   id: string
+  title: string
   unit: string
-  plans: Plan[]
-  adding: boolean
+  price: number
+  originPrice: number
+  content: string
+  isLoading: boolean
 }>();
 
 const emit = defineEmits<{
@@ -23,7 +26,14 @@ const date = ref(Date.now());
 const qty = ref(1);
 const showDetail = ref(false);
 
+const activate: DrawerActive = reactive({
+  active: false,
+  placement: 'bottom',
+});
+
 const getSelectBtnText = computed(() => (showDetail.value ? '取消選擇' : '選擇'));
+
+const toggleActive = () => activate.active = !activate.active;
 
 function toggleShowDetail() {
   showDetail.value = !showDetail.value;
@@ -58,122 +68,164 @@ function disablePreviousDate(ts: number) {
 </script>
 
 <template>
-  <div v-if="plans && plans?.length >= 0" id="plan">
-    <Container>
-      <Title page title="選擇方案" />
-      <div
-        v-for="{ content, origin_price, price } in plans || []"
-        :key="content"
-        class="bordr mb-4 rounded-m border-cc-other-5/50 bg-cc-other-1"
-        :class="showDetail && 'shadow-xl'"
-      >
-        <div class="flex gap-4 px-5 py-4">
-          <div class="flex-1">
-            <h4 class="mb-5 font-bold">
-              方案名稱
-            </h4>
-            <div id="list" v-html="content" />
-          </div>
-          <div class="flex items-end">
-            <div class="mr-4 whitespace-nowrap text-right">
-              <h5 class="font-bold">
-                {{ currency(price) }}
-              </h5>
-              <span class="text-sm text-cc-other-4 line-through">
-                {{ currency(origin_price) }}
-              </span>
+  <NListItem>
+    <NThing title="方案名稱">
+      <template #description>
+        <p v-if="isMobile" class="text-cc-primary">
+          最早可預定日：2022 年 3 月2 日
+        </p>
+      </template>
+      <div v-if="isMobile">
+        <NButton text @click="toggleActive">
+          查看方案詳情
+        </NButton>
+        <NDrawer
+          v-model:show="activate.active"
+          closable
+          height="500"
+          :placement="activate.placement"
+        >
+          <NDrawerContent title="方案名稱" closable>
+            <NThing :title="title">
+              <template #description>
+                <div class="flex items-center gap-3">
+                  <h6 class="font-bold">
+                    {{ currency(price) }}
+                  </h6>
+                  <span class="text-sm text-cc-other-4 line-through">
+                    {{ currency(originPrice) }}
+                  </span>
+                </div>
+              </template>
+            </NThing>
+            <NDivider />
+            <div class="inline-flex items-center gap-3">
+              <NIcon :size="20">
+                <DateRangeOutlined />
+              </NIcon>
+              最早可預定日：2022 年 3 月2 日
             </div>
-            <Button @click="toggleShowDetail">
-              {{ getSelectBtnText }}
+            <NDivider />
+            <NThing title="方案描述">
+              <template #description>
+                <div class="list" v-html="content" />
+              </template>
+            </NThing>
+          </NDrawerContent>
+        </NDrawer>
+      </div>
+      <div v-else class="list" v-html="content" />
+      <template #action>
+        <div class="flex justify-between items-end">
+          <div class="mr-4 whitespace-nowrap text-left">
+            <span class="text-sm text-cc-other-4 line-through">
+              {{ currency(originPrice) }}
+            </span>
+            <h5 class="font-bold">
+              {{ currency(price) }}
+            </h5>
+          </div>
+          <Button v-if="isMobile" :is-loading="isLoading" @click="addCart">
+            加入購物車
+          </Button>
+          <Button v-else @click="toggleShowDetail">
+            {{ getSelectBtnText }}
+          </Button>
+        </div>
+      </template>
+    </NThing>
+    <template v-if="showDetail && !isMobile">
+      <NDivider dashed>
+        選擇日期、選項
+      </NDivider>
+      <div class="flex gap-8">
+        <div class="w-auto">
+          <span class="mb-2 block text-sm text-cc-other-9">請選擇出發日期</span>
+          <NDatePicker
+            v-model:value="date"
+            type="date"
+            panel
+            :is-date-disabled="disablePreviousDate"
+          />
+        </div>
+        <div class="flex-1">
+          <div class="mb-5">
+            <span class="mb-2 block text-sm text-cc-other-9">選擇數量</span>
+            <div class="flex items-center">
+              <h6 class="flex-1 font-bold">
+                票數
+              </h6>
+              <span class="mr-2 whitespace-nowrap text-sm text-cc-other-9">
+                {{ currency(price, 'NT$ ') }}/{{ `每${unit}` }}
+              </span>
+              <div class="inline-flex items-center">
+                <button type="button" :disabled="qty <= 1" @click="decrement">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="h-8 w-8 text-cc-primary"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </button>
+                <input
+                  v-model="qty"
+                  type="text"
+                  readonly
+                  class="w-11 border-none bg-transparent text-center text-lg outline-none"
+                >
+                <button type="button" @click="increment">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="h-8 w-8 text-cc-primary"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="mt-5">
+            <div class="flex items-center">
+              <span class="flex-1 whitespace-nowrap text-sm text-cc-other-9"> 總金額 </span>
+              <h5 class="font-bold">
+                {{ currency(qty * price) }}
+              </h5>
+            </div>
+          </div>
+          <div class="mt-4 text-right">
+            <Button :is-loading="isLoading" @click="addCart">
+              加入購物車
             </Button>
           </div>
         </div>
-        <div v-if="showDetail" class="border-cc-5/50 border-t p-5">
-          <div class="my-3">
-            <h5 class="text-base font-bold">
-              選擇日期、選項
-            </h5>
-          </div>
-          <div class="flex gap-8">
-            <div class="w-auto">
-              <span class="mb-2 block text-sm text-cc-other-9">請選擇出發日期</span>
-              <NDatePicker
-                v-model:value="date"
-                type="date"
-                panel
-                :is-date-disabled="disablePreviousDate"
-              />
-            </div>
-            <div class="flex-1">
-              <div class="mb-5">
-                <span class="mb-2 block text-sm text-cc-other-9">選擇數量</span>
-                <div class="flex items-center">
-                  <h6 class="flex-1 font-bold">
-                    票數
-                  </h6>
-                  <span class="mr-2 whitespace-nowrap text-sm text-cc-other-9">
-                    {{ currency(price, 'NT$ ') }}/{{ `每${unit}` }}
-                  </span>
-                  <div class="inline-flex items-center">
-                    <button type="button" :disabled="qty <= 1" @click="decrement">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="h-8 w-8 text-cc-primary"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </button>
-                    <input
-                      v-model="qty"
-                      type="text"
-                      readonly
-                      class="w-11 border-none bg-transparent text-center text-lg outline-none"
-                    >
-                    <button type="button" @click="increment">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="h-8 w-8 text-cc-primary"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <div class="mt-5">
-                <div class="flex items-center">
-                  <span class="flex-1 whitespace-nowrap text-sm text-cc-other-9"> 總金額 </span>
-                  <h5 class="font-bold">
-                    {{ currency(qty * price) }}
-                  </h5>
-                </div>
-              </div>
-              <div class="mt-4 text-right">
-                <Button :is-loading="adding" @click="addCart">
-                  加入購物車
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </Container>
-  </div>
+    </template>
+  </NListItem>
 </template>
+
+<style scoped>
+:deep(.list) > ul {
+  @apply list-disc pl-6 text-base tracking-wide;
+}
+
+:deep(.list li) {
+  @apply py-1;
+}
+</style>

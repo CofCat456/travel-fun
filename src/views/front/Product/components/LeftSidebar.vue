@@ -8,5 +8,5 @@ defineProps<{
 
 <template>
   <Title page title="活動特色" />
-  <div id="list" v-html="features" />
+  <div class="list" v-html="features" />
 </template>

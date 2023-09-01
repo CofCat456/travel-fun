@@ -8,9 +8,10 @@ import Content from './components/Content.vue';
 import LeftSidebar from './components/LeftSidebar.vue';
 import RightSidebar from './components/RightSidebar.vue';
 import TopWrapper from './components/TopWrapper.vue';
+import Plans from './components/Plans.vue';
 import Plan from './components/Plan.vue';
 import { cityMap } from '@/utils/context';
-import { useCartStore, useProductStore } from '@/stores';
+import { useCartStore, useDeviceStore, useProductStore } from '@/stores';
 import Container from '@/layout/Container.vue';
 import { SwiperBanner, SwiperProduct } from '@/components/Swiper';
 import { Map } from '@/components/Map';
@@ -22,9 +23,11 @@ const route = useRoute();
 const router = useRouter();
 
 const cartStore = useCartStore();
+const deviceStore = useDeviceStore();
 const productStore = useProductStore();
 
 const { isLoading } = storeToRefs(cartStore);
+const { isMobile } = storeToRefs(deviceStore);
 const { getByRecommended } = storeToRefs(productStore);
 
 const { addCart } = cartStore;
@@ -77,6 +80,8 @@ const getBreadcrumbs = computed(() => [
   },
 ]);
 
+const getResponsiveSpaceSize = computed(() => isMobile ? 20 : 40);
+
 // 確定路由變更時但組件被複用，能重新獲取產品
 onBeforeRouteUpdate(async (to) => {
   loadingBar.start();
@@ -103,61 +108,80 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div id="banner" />
   <template v-if="product && product.id">
-    <Container class="py-5">
-      <div class="my-4">
-        <NBreadcrumb separator=">">
-          <template v-for="{ title, pathName, params } in getBreadcrumbs" :key="title">
-            <NBreadcrumbItem v-if="pathName">
-              <RouterLink :to="{ name: pathName, params }">
-                {{ title }}
-              </RouterLink>
-            </NBreadcrumbItem>
-            <NBreadcrumbItem v-else>
+    <Container class="pb-5 md:py-5">
+      <NBreadcrumb class="mt-2" separator=">">
+        <template v-for="{ title, pathName, params } in getBreadcrumbs" :key="title">
+          <NBreadcrumbItem v-if="pathName">
+            <RouterLink :to="{ name: pathName, params }">
               {{ title }}
-            </NBreadcrumbItem>
-          </template>
-        </NBreadcrumb>
-      </div>
-      <h1 class="text-3xl font-bold">
+            </RouterLink>
+          </NBreadcrumbItem>
+          <NBreadcrumbItem v-else>
+            {{ title }}
+          </NBreadcrumbItem>
+        </template>
+      </NBreadcrumb>
+      <h1 class="text-2xl md:text-3xl font-bold">
         {{ product.title }}
       </h1>
       <TopWrapper
         :id="product.id"
+        :is-mobile="isMobile"
         :title="product.title"
         :evaluate="product.evaluate"
         :evaluate-num="product.evaluateNum"
         :address="product.address"
       />
-      <SwiperBanner
-        loop
-        centered-slides
-        :slides-per-view="1.75"
-        :slides-per-group="1"
-        :space-between="10"
-        :speed="600"
-        :images-url="product.imagesUrl || []"
-      />
-      <div class="flex gap-8">
-        <div v-if="product.features" class="w-8/12">
+      <teleport to="#banner" :disabled="!isMobile">
+        <SwiperBanner
+          loop
+          centered-slides
+          :slides-per-view="1.75"
+          :slides-per-group="1"
+          :space-between="10"
+          :speed="600"
+          :images-url="product.imagesUrl || []"
+        />
+      </teleport>
+      <div class="flex flex-col md:flex-row gap-8">
+        <div v-if="product.features" class="w-full md:w-8/12 order-1">
           <LeftSidebar :features="product.features" />
         </div>
-        <div class="flex-1">
-          <RightSidebar :price="product.price" :origin-price="product.origin_price" />
-        </div>
+        <aside :class="isMobile ? 'order-first' : 'order-2'">
+          <RightSidebar
+            :id="product.id"
+            :is-mobile="isMobile"
+            :title="product.title"
+            :price="product.price"
+            :origin-price="product.origin_price"
+          />
+        </aside>
       </div>
     </Container>
-    <div v-if="product.plans" class="bg-cc-other-7/80 py-10 mb-10">
-      <Plan
-        :id="product.id"
-        :unit="product.unit"
-        :plans="product.plans"
-        :adding="isLoading"
-        @add-cart="addCart"
-      />
+    <div v-if="product.plans && product.plans?.length !== 0" class="bg-cc-other-7/80 py-5 md:py-10">
+      <Plans>
+        <template
+          v-for="plan in product.plans || []"
+          :key="plan.content"
+        >
+          <Plan
+            :id="product.id"
+            :title="product.title"
+            :is-mobile="isMobile"
+            :unit="product.unit"
+            :content="plan.content"
+            :price="plan.price"
+            :origin-price="plan.origin_price"
+            :is-loading="isLoading"
+            @add-cart="addCart"
+          />
+        </template>
+      </Plans>
     </div>
-    <Container>
-      <NSpace class="w-8/12 py-10 pr-8" vertical :size="40">
+    <Container class="py-5 md:py-10">
+      <NSpace class="w-full md:w-8/12 md:pr-8" vertical :size="getResponsiveSpaceSize">
         <Content v-if="product.content" :content="product.content" />
         <Map v-if="product.coordinates" :title="product.title" :coordinates="product.coordinates" />
       </NSpace>
@@ -172,11 +196,11 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-:deep(#list) > ul {
+:deep(.list) > ul {
   @apply list-disc pl-6 text-base tracking-wide;
 }
 
-:deep(li) {
+:deep(.li) {
   @apply py-1;
 }
 </style>

@@ -5,6 +5,7 @@ import { scrollTo } from '@/utils/global';
 import { useFavoriteStore } from '@/stores';
 
 defineProps<{
+  isMobile: boolean
   id: string
   title: string
   evaluate: number
@@ -37,13 +38,13 @@ function toggleFavoriteHandler(id: string, title: string) {
         <span class="underline">({{ evaluateNum }} 則評價)</span>
       </div>
     </div>
-    <div class="flex flex-1 cursor-pointer items-center whitespace-nowrap underline">
+    <div v-if="!isMobile" class="flex flex-1 cursor-pointer items-center whitespace-nowrap underline">
       <NIcon size="24">
         <LocationOnOutlined />
       </NIcon>
       <span class="ml-2" @click="scrollTo('map')">{{ address }}</span>
     </div>
-    <div class="flex cursor-pointer items-center transition-colors" :class="checkFavorite(id) ? 'text-cc-accent' : 'hover:text-cc-accent'" @click="toggleFavoriteHandler(id, title)">
+    <div v-if="!isMobile" class="flex cursor-pointer items-center transition-colors" :class="checkFavorite(id) ? 'text-cc-accent' : 'hover:text-cc-accent'" @click="toggleFavoriteHandler(id, title)">
       <NIcon v-if="checkFavorite(id)" size="24" class="icon-hover">
         <FavoriteOutlined />
       </NIcon>

@@ -5,6 +5,7 @@ import 'swiper/css/pagination';
 
 defineProps<{
   isNormal?: boolean
+  isBanner?: boolean
   noPadding?: boolean
 }>();
 </script>
@@ -15,6 +16,7 @@ defineProps<{
     :class="[
       isNormal ? ' lg:max-w-cc-width' : ' lg:max-w-cc-big-width',
       noPadding ? 'p-0' : 'px-3 py-6 md:px-4 xl:px-0',
+      isBanner ? 'md:py-6' : '',
     ]"
   >
     <slot />

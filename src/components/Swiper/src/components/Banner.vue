@@ -22,13 +22,25 @@ const {
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();
 
 const getBindValues = computed(() => ({
-  slidesPerView,
-  slidesPerGroup,
-  spaceBetween,
-  speed,
-  loop,
-  centeredSlides,
   modules: [Navigation, Pagination],
+  breakpoints: {
+    '@0.00': {
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+      spaceBetween,
+      speed,
+      loop,
+      centeredSlides,
+    },
+    '@0.75': {
+      slidesPerView: Number(slidesPerView),
+      slidesPerGroup: Number(slidesPerGroup),
+      spaceBetween,
+      speed,
+      loop,
+      centeredSlides,
+    },
+  },
   navigation: {
     prevEl: '.swiper-banner-custom-prev',
     nextEl: '.swiper-banner-custom-next',
@@ -46,7 +58,7 @@ function pagination() {
 </script>
 
 <template>
-  <SwiperLayout is-normal>
+  <SwiperLayout is-banner no-padding>
     <template #swiper>
       <Swiper
         :pagination="pagination()"

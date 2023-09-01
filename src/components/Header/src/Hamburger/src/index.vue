@@ -2,17 +2,12 @@
 import {
   KeyboardArrowRightRound,
 } from '@vicons/material';
-import type { DrawerPlacement } from 'naive-ui';
 import { NCollapse, NCollapseItem, NDrawer, NIcon } from 'naive-ui';
 import { reactive } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 import { handleItemHeaderClick, navList } from '../../navList.ts';
 import HamburgerBtn from './Btn.vue';
-
-interface DrawerActive {
-  active: boolean
-  placement: DrawerPlacement
-}
+import type { DrawerActive } from '@/types';
 
 defineProps<{
   isMobile: boolean

@@ -41,30 +41,35 @@ const btnUUID = v4();
 
 const getBindValues = computed(() => {
   return {
-    slidesPerView,
-    slidesPerGroup,
-    spaceBetween,
-    speed,
-    loop,
     modules: [Navigation],
     breakpoints: {
       '@0.00': {
         slidesPerView: 1.5,
         slidesPerGroup: 1,
+        spaceBetween,
         speed: 300,
+        loop,
       },
       '@0.75': {
         slidesPerView: Number(slidesPerView) - 2,
-        slidesPerGroup: Number(slidesPerView) - 2,
+        slidesPerGroup: Number(slidesPerGroup) - 2,
+        spaceBetween,
         speed: 800,
+        loop,
       },
       '@1.00': {
         slidesPerView: Number(slidesPerView) - 1,
         slidesPerGroup: slidesPerGroup - 1,
+        spaceBetween,
         speed: 1000,
+        loop,
       },
       '@1.50': {
         slidesPerView,
+        slidesPerGroup,
+        spaceBetween,
+        speed,
+        loop,
       },
     },
     navigation: {
