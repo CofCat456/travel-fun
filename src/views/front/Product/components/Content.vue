@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <Title page title="活動特色" />
+  <Title page title="活動內容" />
   <div class="content" v-html="content" />
 </template>
 

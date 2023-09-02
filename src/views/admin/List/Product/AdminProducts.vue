@@ -59,7 +59,7 @@ const getTableData = computed(() =>
   })),
 );
 
-function openProductModal(status: boolean, product: Product) {
+function openProductModal(status: boolean, product?: Product) {
   const initialProdudct: Product = {
     id: '',
     title: '',

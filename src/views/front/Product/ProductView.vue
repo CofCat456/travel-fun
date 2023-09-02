@@ -14,6 +14,7 @@ import Plan from './components/Plan.vue';
 import { cityMap } from '@/utils/context';
 import { useCartStore, useDeviceStore, useProductStore } from '@/stores';
 import Container from '@/layout/Container.vue';
+import Title from '@/components/Title.vue';
 import { SwiperBanner, SwiperProduct } from '@/components/Swiper';
 import type { Product } from '@/types';
 
@@ -113,7 +114,7 @@ onMounted(async () => {
   <div id="banner" />
   <template v-if="product && product.id">
     <Container class="pb-5 md:py-5">
-      <NBreadcrumb class="mt-2" separator=">">
+      <NBreadcrumb class="my-2" separator=">">
         <template v-for="{ title, pathName, params } in getBreadcrumbs" :key="title">
           <NBreadcrumbItem v-if="pathName">
             <RouterLink :to="{ name: pathName, params }">
@@ -170,9 +171,11 @@ onMounted(async () => {
         >
           <Plan
             :id="product.id"
-            :title="product.title"
             :is-mobile="isMobile"
+            :product-title="product.title"
+            :date="product.date"
             :unit="product.unit"
+            :title="plan.title"
             :content="plan.content"
             :price="plan.price"
             :origin-price="plan.origin_price"
@@ -185,7 +188,17 @@ onMounted(async () => {
     <Container class="py-5 md:py-10">
       <NSpace class="w-full md:w-8/12 md:pr-8" vertical :size="getResponsiveSpaceSize">
         <Content v-if="product.content" :content="product.content" />
-        <Embed v-if="product.address" map-mode="place" :width="isMobile ? '100%' : '80%'" height="400px" :api-key="VITE_GOOGLE_MAP_API_KEY" :address="product.address" />
+        <div :class="isMobile ? 'w-full' : 'w-4/5'">
+          <Title page title="景點地圖" />
+          <Embed
+            v-if="product.address"
+            map-mode="place"
+            width="100%"
+            height="400px"
+            :api-key="VITE_GOOGLE_MAP_API_KEY"
+            :address="product.address"
+          />
+        </div>
       </NSpace>
     </Container>
     <div class="bg-cc-other-7/80">
@@ -198,11 +211,12 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-:deep(.list) > ul {
+:deep(.list) > ul,
+:deep(.list) > ol{
   @apply list-disc pl-6 text-base tracking-wide;
 }
 
-:deep(.li) {
+:deep(.list) li {
   @apply py-1;
 }
 </style>

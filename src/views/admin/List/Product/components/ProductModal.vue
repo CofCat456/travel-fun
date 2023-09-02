@@ -454,7 +454,7 @@ watch(
               @remove="handleRemoveUploadFile"
             />
           </NTabPane>
-          <NTabPane v-if="productValue.features" name="活動特色" display-directive="show" tab="產品特色">
+          <NTabPane v-if="typeof productValue.features !== 'undefined'" name="活動特色" display-directive="show" tab="產品特色">
             <Ckeditor v-model:value="productValue.features" />
           </NTabPane>
           <NTabPane name="活動方案" display-directive="show" tab="產品方案">
@@ -464,18 +464,25 @@ watch(
               </template>
               <template #default="{ value }">
                 <div class="flex max-w-xl flex-col gap-4">
+                  <NInput
+                    v-model:value="value.title"
+                    type="text"
+                    placeholder="方案名稱"
+                    :loading="isLoading"
+                    :disabled="isLoading"
+                  />
                   <div class="flex items-center gap-8">
                     <NInputNumber
                       v-model:value="value.origin_price"
                       placeholder="輸入原價"
-                      :disabled="isLoading"
                       :loading="isLoading"
+                      :disabled="isLoading"
                     />
                     <NInputNumber
                       v-model:value="value.price"
                       placeholder="輸入售價"
-                      :disabled="isLoading"
                       :loading="isLoading"
+                      :disabled="isLoading"
                     />
                   </div>
                   <Ckeditor v-model:value="value.content" />
@@ -483,7 +490,7 @@ watch(
               </template>
             </NDynamicInput>
           </NTabPane>
-          <NTabPane v-if="productValue.content" name="活動內容" display-directive="show" tab="產品內容">
+          <NTabPane v-if="typeof productValue.content !== 'undefined'" name="活動內容" display-directive="show" tab="產品內容">
             <Ckeditor v-model:value="productValue.content" />
           </NTabPane>
         </NTabs>

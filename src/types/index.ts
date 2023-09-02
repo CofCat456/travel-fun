@@ -93,6 +93,7 @@ export interface City {
 }
 
 export interface Plan {
+  title: string
   content: string
   origin_price: number
   price: number

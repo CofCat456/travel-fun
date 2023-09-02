@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NButton, NDatePicker, NDivider, NDrawer, NDrawerContent, NIcon, NListItem, NThing } from 'naive-ui';
+import { NButton, NDatePicker, NDivider, NDrawer, NDrawerContent, NIcon, NListItem, NThing, NTime } from 'naive-ui';
 import { computed, reactive, ref } from 'vue';
 
 import { DateRangeOutlined } from '@vicons/material';
@@ -8,10 +8,12 @@ import { currency } from '@/utils/global';
 import type { Cart, DrawerActive } from '@/types';
 
 const { id } = defineProps<{
-  isMobile: boolean
   id: string
-  title: string
+  isMobile: boolean
+  productTitle: string
+  date: number
   unit: string
+  title: string
   price: number
   originPrice: number
   content: string
@@ -69,10 +71,15 @@ function disablePreviousDate(ts: number) {
 
 <template>
   <NListItem>
-    <NThing title="方案名稱">
+    <NThing>
+      <template #header>
+        <p class="text-area-title font-bold">
+          {{ title }}
+        </p>
+      </template>
       <template #description>
         <p v-if="isMobile" class="text-cc-primary">
-          最早可預定日：2022 年 3 月2 日
+          最早可預定日： <NTime :time="date" format="yyyy 年 MM 月 dd 日" />
         </p>
       </template>
       <div v-if="isMobile">
@@ -85,8 +92,13 @@ function disablePreviousDate(ts: number) {
           height="500"
           :placement="activate.placement"
         >
-          <NDrawerContent title="方案名稱" closable>
-            <NThing :title="title">
+          <NDrawerContent closable>
+            <template #header>
+              <p class="text-area-title font-bold">
+                {{ title }}
+              </p>
+            </template>
+            <NThing :title="productTitle">
               <template #description>
                 <div class="flex items-center gap-3">
                   <h6 class="font-bold">
@@ -103,7 +115,7 @@ function disablePreviousDate(ts: number) {
               <NIcon :size="20">
                 <DateRangeOutlined />
               </NIcon>
-              最早可預定日：2022 年 3 月2 日
+              最早可預定日：<NTime :time="date" format="yyyy 年 MM 月 dd 日" />
             </div>
             <NDivider />
             <NThing title="方案描述">
@@ -127,7 +139,7 @@ function disablePreviousDate(ts: number) {
       </template>
       <template #action>
         <div class="flex justify-between items-center">
-          <div class="inline-flex items-center">
+          <div v-if="isMobile" class="inline-flex items-center">
             <button type="button" :disabled="qty <= 1" @click="decrement">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +182,7 @@ function disablePreviousDate(ts: number) {
           <Button v-if="isMobile" :is-loading="isLoading" @click="addCart">
             加入購物車
           </Button>
-          <Button v-else @click="toggleShowDetail">
+          <Button v-else class="ml-auto" @click="toggleShowDetail">
             {{ getSelectBtnText }}
           </Button>
         </div>
