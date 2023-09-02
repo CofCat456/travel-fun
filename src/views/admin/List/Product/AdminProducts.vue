@@ -59,33 +59,34 @@ const getTableData = computed(() =>
   })),
 );
 
-function openProductModal(status: boolean, product: Product = {
-  id: '',
-  title: '',
-  city: '',
-  address: '',
-  category: '',
-  unit: '',
-  evaluate: 0,
-  evaluateNum: 0,
-  price: 0,
-  origin_price: 0,
-  date: 0,
-  coordinates: {
-    lat: 0,
-    lng: 0,
-  },
-  description: undefined,
-  is_enabled: false,
-  imageUrl: '',
-  imagesUrl: [],
-  features: '',
-  content: '',
-  plans: [],
-}) {
+function openProductModal(status: boolean, product: Product) {
+  const initialProdudct: Product = {
+    id: '',
+    title: '',
+    city: '',
+    address: '',
+    category: '',
+    unit: '',
+    evaluate: 0,
+    evaluateNum: 0,
+    price: 0,
+    origin_price: 0,
+    date: 0,
+    coordinates: {
+      lat: 0,
+      lng: 0,
+    },
+    description: undefined,
+    is_enabled: false,
+    imageUrl: '',
+    imagesUrl: [],
+    features: '',
+    content: '',
+    plans: [],
+  };
   showModal.value = true;
   isNew.value = status;
-  Object.assign(tempProduct, { ...product });
+  Object.assign(tempProduct, { ...initialProdudct, ...product });
 }
 
 function closeProductModal() {
