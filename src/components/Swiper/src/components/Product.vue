@@ -32,7 +32,7 @@ const {
 }>();
 
 defineEmits<{
-  (e: 'btnClick'): void
+  btnClick: []
 }>();
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiper();

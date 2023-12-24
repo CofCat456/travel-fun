@@ -43,10 +43,9 @@ const { isNew, tempProduct } = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'addProduct', product: Product): void
-  (e: 'updateProduct', product: Product): void
-  (e: 'uploadImage'): void
-  (e: 'update:showModal'): void
+  addProduct: [product: Product]
+  updateProduct: [product: Product]
+  'update:showModal': [status: boolean]
 }>();
 
 const { VITE_GOOGLE_MAP_API_KEY } = import.meta.env;
@@ -234,7 +233,7 @@ watch(
       evaluateNum: curr?.evaluateNum ?? 0,
       origin_price: curr?.origin_price ?? 0,
       price: curr?.price ?? 0,
-      date: Date.now(),
+      date: isNew ? Date.now() : curr?.date,
       description: curr?.description ?? '',
       is_enabled: curr?.is_enabled ?? false,
       features: curr.features ?? [],
@@ -247,6 +246,9 @@ watch(
         lng: 0,
       },
     });
+
+    if (Array.isArray(productValue.imagesUrl) && productValue.imageUrl === '')
+      productValue.imageUrl = productValue.imagesUrl[0];
   },
   { deep: true },
 );
