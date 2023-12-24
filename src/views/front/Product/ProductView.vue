@@ -83,8 +83,6 @@ const getBreadcrumbs = computed(() => [
   },
 ]);
 
-const getResponsiveSpaceSize = computed(() => isMobile ? 20 : 40);
-
 // 確定路由變更時但組件被複用，能重新獲取產品
 onBeforeRouteUpdate(async (to) => {
   loadingBar.start();
@@ -186,7 +184,7 @@ onMounted(async () => {
       </Plans>
     </div>
     <Container class="py-5 md:py-10">
-      <NSpace class="w-full md:w-8/12 md:pr-8" vertical :size="getResponsiveSpaceSize">
+      <NSpace class="w-full md:w-8/12 md:pr-8" vertical :size="60">
         <Content v-if="product.content" :content="product.content" />
         <div :class="isMobile ? 'w-full' : 'w-4/5'">
           <Title page title="景點地圖" />
