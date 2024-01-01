@@ -190,6 +190,7 @@ onMounted(async () => {
           <Title page title="景點地圖" />
           <Embed
             v-if="product.address"
+            id="map"
             map-mode="place"
             width="100%"
             height="400px"

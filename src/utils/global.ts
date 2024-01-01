@@ -62,8 +62,16 @@ export function createRouterOption(name: string, category: string, sort: Sort, i
 // JS 錨點
 export function scrollTo(id: string) {
   const element = document.getElementById(id);
-  const top = element?.offsetTop;
-  window.scroll({ top, behavior: 'smooth' });
+
+  if (element) {
+    const elementHeight = element.offsetHeight;
+    const windowHeight = window.innerHeight;
+
+    // 計算捲動位置，使元素中間位於視窗中央
+    const top = element.offsetTop - (windowHeight - elementHeight) / 2;
+
+    window.scroll({ behavior: 'smooth', top });
+  }
 }
 
 // 轉換照片格式
